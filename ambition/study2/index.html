@@ -1,0 +1,1730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Study 2 draft</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f4f5f7; color: #222; }
+  header { background: #2b2b2b; color: #fff; padding: 12px 20px; }
+  header h1 { margin: 0; font-size: 17px; font-weight: 600; }
+  header .sub { font-size: 12px; color: #bbb; margin-top: 3px; }
+  .row { display: flex; gap: 18px; align-items: flex-start; padding: 18px; flex-wrap: wrap; }
+  .left { flex: 1 1 600px; min-width: 340px; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 22px; }
+  #stage { min-height: 360px; }
+  .side { flex: 0 0 280px; }
+  .picker button { display: block; width: 100%; text-align: left; margin: 5px 0; padding: 9px 11px;
+    border: 1px solid #ccc; background: #fafafa; border-radius: 4px; cursor: pointer; font-size: 14px; }
+  .picker button:hover { background: #eef4ff; border-color: #9bbcf0; }
+  .picker button.active { background: #1f6feb; color: #fff; border-color: #1f6feb; font-weight: 600; }
+  .navbar { margin: 18px 0 4px; }
+  .navbar button { padding: 8px 18px; font-size: 14px; border-radius: 4px; border: 1px solid #888;
+    background: #f0f0f0; cursor: pointer; }
+  #MockNextButton { background: #1f6feb; color: #fff; border-color: #1f6feb; font-weight: 600; }
+  #MockAdvanceMsg { display: none; margin-top: 8px; color: #147a2b; font-weight: 600; }
+  h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: #555; }
+  #MockDataPanel { font: 13px monospace; }
+  /* overview document */
+  .doc { line-height: 1.55; }
+  .doc h1 { font-size: 22px; margin: 0 0 6px; }
+  .doc .lede { font-size: 15px; color: #444; background: #f3f7ff; border-left: 4px solid #1f6feb;
+    padding: 10px 14px; border-radius: 0 4px 4px 0; }
+  .doc h2 { font-size: 16px; margin: 22px 0 6px; color: #1a3a5c; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+  .doc p { font-size: 14.5px; margin: 8px 0; }
+  .doc ul { font-size: 14.5px; margin: 8px 0; padding-left: 22px; }
+  .doc ol { font-size: 14.5px; margin: 8px 0; padding-left: 24px; }
+  .doc ol li { margin: 9px 0; }
+  .doc li { margin: 5px 0; }
+</style>
+</head>
+<body>
+<header><h1>Study 2 draft: task gender-typing in humans</h1><div class="sub">An interactive draft of the survey for review. Read the overview, then test each section.</div></header>
+<div class="row">
+  <div class="left">
+
+<div id="overview" class="card doc">
+  <h1>Study 2: How gender-typed are everyday performance tasks?</h1>
+  <p class="lede">A draft instrument for review. This page is a working mock-up: every task runs exactly
+  as a participant would see it. Use the buttons on the right to read this overview, then try each
+  section yourself.</p>
+
+  <h2>What this study does</h2>
+  <p>This is a standalone study with two goals. First, it measures how <strong>gender-typed</strong> a
+  range of cognitive and physical tasks are perceived to be: for each task, do people think men or women
+  tend to do better, and in what proportion. Second, for a few of those tasks it measures <strong>actual
+  performance</strong> and the <strong>gender gap</strong> in performance. Putting the two together lets
+  us ask where perceptions of gender-typing match real performance differences and where they diverge.</p>
+
+  <h2>Why we are running it</h2>
+  <p>The main ambition project uses incentivized search tasks (a word search and a number search) to study
+  goal-setting and re-attempt behavior by gender. A natural question is whether those tasks, and related
+  ones, are perceived as gender-typed, and whether any perceived typing lines up with actual performance
+  gaps. Mental rotation is included as a task with a well-documented male advantage, and a number-grid
+  counting task is included as a candidate that leaned slightly male in the synthetic data.</p>
+
+  <h2>The survey, in order</h2>
+  <p>A participant moves through these sections:</p>
+  <ol>
+    <li><strong>Consent and introduction.</strong> The UT consent form with a short description of the
+    study, how long it takes, and how the bonus works.</li>
+    <li><strong>Agreement to work without help.</strong> A brief pledge to complete the tasks using only
+    one's own effort.</li>
+    <li><strong>Performance tasks.</strong> For each task: instructions with a worked example, then three
+    short timed attempts with a new board each time. A quick comprehension check follows the first set of
+    instructions. The best of the three attempts determines the bonus.</li>
+    <li><strong>Perception questions.</strong> Rate 13 tasks on two questions each: the share of the top
+    10% who are men (0 to 100), and who performs better on average (a 1 to 7 scale). Each task is shown
+    with a small image of itself. Task order and question order are randomized.</li>
+    <li><strong>Demographic questions.</strong> Including the participant's own gender. These come last, so
+    the performance tasks come before any questions about gender. A short attention check sits here.</li>
+    <li><strong>Debrief and payment.</strong> A closing note and how the bonus is paid.</li>
+  </ol>
+  <p>We can randomize the order of these sections if we want.</p>
+
+  <h2>The performance tasks</h2>
+  <ul>
+    <li><strong>ZIP-code search</strong> (primary): find five-digit codes hidden in a grid of digits.</li>
+    <li><strong>Word search</strong> (the anchor from the main study): find five-letter words in a grid.</li>
+    <li><strong>Mental rotation</strong>: decide whether two shapes are the same shape rotated, or mirror
+    images.</li>
+    <li><strong>Number-grid counting</strong> (optional): count how many numbers in a grid exceed a stated
+    value.</li>
+  </ul>
+
+  <h2>Participants and incentives</h2>
+  <ul>
+    <li><strong>Sample:</strong> about 250 participants on Prolific, balanced by sex (about 125 men and 125
+    women), on desktop or laptop only, so screen size and controls are the same for everyone.</li>
+    <li><strong>Length and pay:</strong> about 20 minutes, paid at roughly $12 per hour, with a budget near
+    $1,500.</li>
+    <li><strong>Bonus:</strong> on each task, the top 10% of participants (by their best of three attempts)
+    earn a flat $1 bonus, set after data collection. Only the performance tasks carry a bonus.</li>
+  </ul>
+
+  <h2>Other design choices</h2>
+  <ul>
+    <li>Mental rotation is scored as the number correct minus the number wrong, so accuracy matters more
+    than speed.</li>
+    <li>Each perception question shows a small image of the task itself, drawn with objects and shapes.</li>
+  </ul>
+
+  <h2>What we expect to learn</h2>
+  <ul>
+    <li>A ranking of tasks by perceived gender-typing, with confidence intervals.</li>
+    <li>The gender gap in actual performance on the tasks participants complete (word search, ZIP-code
+    search, mental rotation, and number-grid counting).</li>
+    <li>For each of those tasks, the gap between perceived typing and the actual performance difference
+    (the perceived-versus-actual map).</li>
+  </ul>
+
+  <h2>How to test this page</h2>
+  <p>Use the buttons on the right to run the performance tasks and the perception module exactly as a
+  participant will see them. Each task runs live with its real timer and scoring, and the panel on the
+  right shows the data the survey records. Reload the page to start a section over.</p>
+  <p>The buttons cover the two hands-on parts of the survey. The remaining sections in the list above
+  (consent, the AI-free pledge, the checks, demographics, and the debrief) are standard survey pages.</p>
+
+  <h2>Open questions for you</h2>
+  <ul>
+    <li>Mental rotation: keep the fixed-time format (consistent with the other tasks), or switch to a fixed
+    number of trials (the classic mental-rotation test format)?</li>
+    <li>Include the number-grid counting task, or hold it in reserve?</li>
+    <li>Anything to add, drop, or reword in the perception task list?</li>
+  </ul>
+</div>
+    <div id="stage" class="card" style="display:none">
+      <div id="MockQuestionBody"></div>
+      <div class="navbar">
+        <button id="MockPrevButton">&lsaquo; Previous</button>
+        <button id="MockNextButton">Next &rsaquo;</button>
+        <div id="MockAdvanceMsg">Next clicked: responses recorded (see the panel on the right).</div>
+      </div>
+    </div>
+  </div>
+  <div class="side card">
+    <h3>Sections</h3>
+    <div class="picker">
+      <button data-view="overview">Survey overview</button>
+      <button data-view="zip">Try: ZIP-code search</button>
+      <button data-view="word">Try: Word search</button>
+      <button data-view="count">Try: Number-grid counting</button>
+      <button data-view="rotation">Try: Mental rotation</button>
+      <button data-view="perception">Try: Perception module</button>
+    </div>
+    <h3 style="margin-top:22px;">Recorded data</h3>
+    <div id="MockDataPanel"><em style="color:#888">runs when you test a section</em></div>
+  </div>
+</div>
+<script>
+/* ============================================================================
+ * qualtrics-mock.js  — LOCAL DEVELOPMENT ONLY (never pasted into Qualtrics)
+ * ----------------------------------------------------------------------------
+ * Defines a stand-in for the parts of the Qualtrics JS API that our task code
+ * uses, so the EXACT SAME task JavaScript runs in a plain browser (with
+ * devtools / live reload) and, unchanged, inside Qualtrics.
+ *
+ * Load order in local-test.html:
+ *     <script src="lib/qualtrics-mock.js"><\/script>   <-- this file, FIRST
+ *     <script src="lib/grid_search.js"><\/script>      <-- the real engine
+ *     <script> ...the question JS that calls Qualtrics.SurveyEngine.addOnload... <\/script>
+ *
+ * In real Qualtrics this file is ABSENT; the genuine Qualtrics.SurveyEngine is
+ * already on the page, so the task JS binds to it instead. Nothing here ships.
+ * ==========================================================================*/
+(function () {
+  "use strict";
+  if (window.Qualtrics && window.Qualtrics.__real) return; // never shadow the real API
+
+  // Embedded-data store the mock writes to; inspect it from the console as __QDATA.
+  var QDATA = (window.__QDATA = window.__QDATA || {});
+
+  // A fake "question instance" — `this` inside addOnload/addOnReady in Qualtrics.
+  function makeQuestion(container) {
+    var pageSubmitFns = [];
+    var unloadFns = [];
+    return {
+      getQuestionContainer: function () { return container; },
+
+      // Newer Qualtrics API (preferred): write a named embedded-data field.
+      setJSEmbeddedData: function (name, value) {
+        QDATA[name] = value;
+        renderDebug();
+      },
+
+      // addOnPageSubmit(fn) — fn runs when the participant clicks Next.
+      addOnPageSubmit: function (fn) { pageSubmitFns.push(fn); },
+      addOnUnload: function (fn) { unloadFns.push(fn); },
+
+      // Next / Previous button controls (mock equivalents).
+      hideNextButton: function () { toggleBtn("MockNextButton", false); },
+      showNextButton: function () { toggleBtn("MockNextButton", true); },
+      disableNextButton: function () { setDisabled("MockNextButton", true); },
+      enableNextButton: function () { setDisabled("MockNextButton", false); },
+      hidePreviousButton: function () { toggleBtn("MockPrevButton", false); },
+      clickNextButton: function () {
+        // Simulate Next: fire page-submit handlers, then show what was recorded.
+        pageSubmitFns.forEach(function (f) { try { f(); } catch (e) { console.error(e); } });
+        renderDebug();
+        var msg = document.getElementById("MockAdvanceMsg");
+        if (msg) msg.style.display = "block";
+      },
+
+      // Expose so the harness can fire page-submit manually via a button.
+      __firePageSubmit: function () { this.clickNextButton(); }
+    };
+  }
+
+  function toggleBtn(id, show) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = show ? "inline-block" : "none";
+  }
+  function setDisabled(id, dis) {
+    var el = document.getElementById(id);
+    if (el) el.disabled = dis;
+  }
+
+  function renderDebug() {
+    var panel = document.getElementById("MockDataPanel");
+    if (!panel) return;
+    var rows = Object.keys(QDATA).sort().map(function (k) {
+      return '<tr><td style="padding:2px 10px 2px 0;color:#555">' + k +
+        '</td><td style="font-weight:600">' + QDATA[k] + "</td></tr>";
+    }).join("");
+    panel.innerHTML = rows
+      ? '<table style="border-collapse:collapse;font:13px monospace">' + rows + "</table>"
+      : '<em style="color:#888">no embedded data written yet</em>';
+  }
+
+  // The single mock question on the page; the harness sets its container.
+  var mockQuestion = null;
+
+  window.Qualtrics = {
+    __mock: true,
+    SurveyEngine: {
+      // addOnload(fn): in Qualtrics, runs at load with `this` = the question.
+      addOnload: function (fn) {
+        // Defer to next tick so local-test.html can set the container first.
+        setTimeout(function () {
+          if (!mockQuestion) {
+            mockQuestion = makeQuestion(
+              document.getElementById("MockQuestionBody") || document.body
+            );
+          }
+          fn.call(mockQuestion);
+        }, 0);
+      },
+      // addOnReady(fn): runs after the DOM is ready; same `this`.
+      addOnReady: function (fn) {
+        setTimeout(function () {
+          if (mockQuestion) fn.call(mockQuestion);
+        }, 5);
+      },
+      // Deprecated static setter — supported so legacy code paths still work locally.
+      setEmbeddedData: function (name, value) {
+        QDATA[name] = value;
+        renderDebug();
+        console.warn("setEmbeddedData is deprecated; use this.setJSEmbeddedData in task code.");
+      }
+    }
+  };
+
+  // Let the harness register its container/question explicitly.
+  window.__mockSetContainer = function (el) {
+    mockQuestion = makeQuestion(el);
+    return mockQuestion;
+  };
+  // Harness "Next" button calls this to fire the live question's page-submit handlers.
+  window.__mockFireSubmit = function () {
+    if (mockQuestion) mockQuestion.clickNextButton();
+  };
+  window.__mockRenderDebug = renderDebug;
+})();
+
+</script>
+<script>
+/* ============================================================================
+ * grid_search.js — robust grid drag-select search task (ZIP codes / words).
+ * ----------------------------------------------------------------------------
+ * One engine drives both the number-string (ZIP) search and the word search.
+ * The participant drags across a straight line of cells; on release the line
+ * is read in both directions and matched against the remaining targets.
+ *
+ * Design notes (fixes for the old build's bugs):
+ *   - Hit-detection works on explicit cell COORDINATES and the underlying grid
+ *     data, never by scanning CSS class strings (old bug: some targets, e.g.
+ *     LA, failed to register because className equality was brittle).
+ *   - Matches BOTH directions, so dragging end-to-start also counts.
+ *   - mouseup is bound to the document, so releasing off-grid still finalizes.
+ *   - Found cells carry a separate class and are never disturbed by later drags.
+ *   - Results are written with the question instance's setJSEmbeddedData to
+ *     explicit, clearly named fields (no read-modify-write append, no -1
+ *     default that sticks). Each attempt is its own question -> its own fields.
+ *
+ * Pure functions (generateGrid / pathCells / readPath / matchTarget) take an
+ * injectable RNG and touch no DOM, so they are unit-tested under node. The DOM
+ * wiring lives in run().
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.GridSearch = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  /* ---------------------------------------------------------------- pure ---- */
+
+  // Deterministic RNG (mulberry32) for reproducible tests / grids.
+  function makeRng(seed) {
+    var s = seed >>> 0;
+    return function () {
+      s |= 0; s = (s + 0x6d2b79f5) | 0;
+      var t = Math.imul(s ^ (s >>> 15), 1 | s);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  var DIRS = [
+    [0, 1], [0, -1], [1, 0], [-1, 0],
+    [1, 1], [1, -1], [-1, 1], [-1, -1]
+  ];
+
+  function shuffle(arr, rng) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(rng() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  // Place every target string into an n x n grid (random cell + direction).
+  // Overlap is allowed only where the shared cell holds the same character.
+  // Returns {grid: char[][], placements:[{target,r,c,dr,dc}]}.
+  function generateGrid(targets, n, fillFn, rng) {
+    rng = rng || Math.random;
+    for (var attempt = 0; attempt < 300; attempt++) {
+      var grid = [];
+      for (var r = 0; r < n; r++) grid.push(new Array(n).fill(null));
+      var placements = [];
+      var allPlaced = true;
+
+      for (var ti = 0; ti < targets.length; ti++) {
+        var s = String(targets[ti]);
+        var L = s.length;
+        var starts = [];
+        for (var rr = 0; rr < n; rr++) for (var cc = 0; cc < n; cc++) starts.push([rr, cc]);
+        shuffle(starts, rng);
+
+        var placed = false;
+        for (var si = 0; si < starts.length && !placed; si++) {
+          var r0 = starts[si][0], c0 = starts[si][1];
+          var dirs = shuffle(DIRS.slice(), rng);
+          for (var di = 0; di < dirs.length && !placed; di++) {
+            var dr = dirs[di][0], dc = dirs[di][1];
+            var rEnd = r0 + dr * (L - 1), cEnd = c0 + dc * (L - 1);
+            if (rEnd < 0 || rEnd >= n || cEnd < 0 || cEnd >= n) continue;
+            var fits = true;
+            for (var k = 0; k < L; k++) {
+              var g = grid[r0 + dr * k][c0 + dc * k];
+              if (g !== null && g !== s.charAt(k)) { fits = false; break; }
+            }
+            if (!fits) continue;
+            for (var k2 = 0; k2 < L; k2++) grid[r0 + dr * k2][c0 + dc * k2] = s.charAt(k2);
+            placements.push({ target: s, r: r0, c: c0, dr: dr, dc: dc });
+            placed = true;
+          }
+        }
+        if (!placed) { allPlaced = false; break; }
+      }
+      if (!allPlaced) continue;
+
+      for (var r2 = 0; r2 < n; r2++) for (var c2 = 0; c2 < n; c2++) {
+        if (grid[r2][c2] === null) grid[r2][c2] = fillFn(rng);
+      }
+      return { grid: grid, placements: placements };
+    }
+    throw new Error("generateGrid: could not place all targets in " + n + "x" + n);
+  }
+
+  // Cells on the straight line start->end (inclusive), or null if not a
+  // horizontal / vertical / 45-degree-diagonal line.
+  function pathCells(start, end) {
+    var dr = end.r - start.r, dc = end.c - start.c;
+    var adr = Math.abs(dr), adc = Math.abs(dc);
+    if (!(dr === 0 || dc === 0 || adr === adc)) return null;
+    var len = Math.max(adr, adc);
+    var sr = dr === 0 ? 0 : dr / adr;
+    var sc = dc === 0 ? 0 : dc / adc;
+    var out = [];
+    for (var k = 0; k <= len; k++) out.push({ r: start.r + sr * k, c: start.c + sc * k });
+    return out;
+  }
+
+  function readPath(grid, cells) {
+    var s = "";
+    for (var i = 0; i < cells.length; i++) s += grid[cells[i].r][cells[i].c];
+    return s;
+  }
+
+  // Match str (in either direction) against remaining targets; return it or null.
+  function matchTarget(str, remaining) {
+    var rev = str.split("").reverse().join("");
+    for (var i = 0; i < remaining.length; i++) {
+      if (remaining[i] === str || remaining[i] === rev) return remaining[i];
+    }
+    return null;
+  }
+
+  function digitFill(rng) { return String(Math.floor(rng() * 10)); }
+  var LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  function letterFill(rng) { return LETTERS.charAt(Math.floor(rng() * 26)); }
+
+  /* ----------------------------------------------------------------- CSS ---- */
+
+  var CSS_ID = "gs-style";
+  var CSS = [
+    ".gs-wrap{font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;}",
+    ".gs-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}",
+    ".gs-timer{font-size:20px;font-weight:700;color:#b00;min-width:90px;}",
+    ".gs-timer.low{color:#d00;animation:gsblink 1s steps(2,start) infinite;}",
+    "@keyframes gsblink{50%{opacity:.35;}}",
+    ".gs-progress{font-size:15px;color:#333;}",
+    ".gs-targets{list-style:none;padding:0;margin:0 0 12px 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:15px;}",
+    ".gs-targets li{font-weight:600;letter-spacing:1px;}",
+    ".gs-targets li .lbl{font-weight:400;color:#666;letter-spacing:0;}",
+    ".gs-targets li.done{color:#999;text-decoration:line-through;}",
+    "table.gs-grid{border-collapse:collapse;margin:0 auto;user-select:none;-webkit-user-select:none;-ms-user-select:none;touch-action:none;}",
+    "table.gs-grid td{width:38px;height:38px;text-align:center;vertical-align:middle;border:1px solid #ccc;",
+    "font-size:20px;font-weight:600;cursor:pointer;color:#222;background:#fff;}",
+    "table.gs-grid td.gs-selecting{background:#cfe3ff;}",
+    "table.gs-grid td.gs-found{background:#c9f3cf;color:#147a2b;}",
+    ".gs-msg{margin-top:12px;min-height:22px;font-size:15px;color:#444;text-align:center;}",
+    ".gs-cur{margin-top:6px;height:20px;font:15px monospace;color:#555;text-align:center;letter-spacing:2px;}"
+  ].join("\n");
+
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement("style");
+    st.id = CSS_ID; st.type = "text/css";
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  /* ------------------------------------------------------------- DOM run ---- */
+
+  // q        : the Qualtrics question instance (`this` inside addOnload)
+  // container: the question container element
+  // config   : {
+  //   taskId:"zip", attempt:1, fill:"digits"|"letters", gridSize:7,
+  //   timeLimitSec:45,
+  //   targets:[{code:"10001", label:"New York, NY"}, ...],
+  //   fields:{score:"zip_a1_score", time:"zip_a1_time", found:"zip_a1_found"},
+  //   showLabels:true
+  // }
+  function run(q, container, config) {
+    ensureCss();
+    var now = (typeof performance !== "undefined" && performance.now)
+      ? function () { return performance.now(); } : function () { return Date.now(); };
+
+    var n = config.gridSize;
+    var fillFn = config.fill === "letters" ? letterFill : digitFill;
+    var codes = config.targets.map(function (t) { return String(t.code); });
+    var gen = generateGrid(codes, n, fillFn, Math.random);
+    var grid = gen.grid;
+
+    var remaining = codes.slice();
+    var foundByCode = {};
+    var foundCells = {};            // "r,c" -> true
+    var score = 0;
+    var finished = false;
+    var startT = now();
+    var deadline = startT + config.timeLimitSec * 1000;
+    var timerId = null;
+    var resultsWritten = false;
+
+    /* ---- build DOM ---- */
+    // Mount into #gs-mount if the question provides one (keeps any heading
+    // above it); otherwise take over the whole container.
+    var mount = (container.querySelector && container.querySelector("#gs-mount")) || container;
+    mount.innerHTML = "";
+    var wrap = el("div", "gs-wrap");
+
+    var top = el("div", "gs-top");
+    var prog = el("div", "gs-progress");
+    prog.innerHTML = "Found <strong><span id='gs-score'>0</span></strong> of " + codes.length;
+    var timer = el("div", "gs-timer");
+    timer.id = "gs-timer";
+    top.appendChild(prog); top.appendChild(timer);
+    wrap.appendChild(top);
+
+    var list = el("ul", "gs-targets");
+    var liByCode = {};
+    codes.forEach(function (code, i) {
+      var li = el("li");
+      var lbl = config.showLabels && config.targets[i].label
+        ? " <span class='lbl'>(" + config.targets[i].label + ")</span>" : "";
+      li.innerHTML = spaced(code) + lbl;
+      list.appendChild(li);
+      liByCode[code] = li;
+    });
+    wrap.appendChild(list);
+
+    var tbl = document.createElement("table");
+    tbl.className = "gs-grid";
+    for (var r = 0; r < n; r++) {
+      var tr = tbl.insertRow(-1);
+      for (var c = 0; c < n; c++) {
+        var td = tr.insertCell(-1);
+        td.textContent = grid[r][c];
+        td.setAttribute("data-r", r);
+        td.setAttribute("data-c", c);
+      }
+    }
+    wrap.appendChild(tbl);
+
+    var cur = el("div", "gs-cur"); cur.id = "gs-cur";
+    wrap.appendChild(cur);
+    var msg = el("div", "gs-msg"); msg.id = "gs-msg";
+    wrap.appendChild(msg);
+
+    mount.appendChild(wrap);
+
+    /* ---- selection ----
+       Supports BOTH click-and-drag AND click-first-cell / click-last-cell
+       (two-click). The two-click mode is touchpad- and touch-friendly; the drag
+       mode is natural with a mouse. Hit-detection uses explicit cell
+       coordinates, never CSS-class scanning. */
+    var anchor = null;     // first cell of the in-progress selection
+    var armed = false;     // anchor was set by a click; awaiting the second click
+    var mouseDown = false;
+    var didDrag = false;
+    var lastCell = null;   // most recent cell under the pointer
+    var curPath = [];
+
+    function cellEl(r, c) { return tbl.rows[r].cells[c]; }
+    function key(p) { return p.r + "," + p.c; }
+    function same(a, b) { return a && b && a.r === b.r && a.c === b.c; }
+
+    function clearSelecting() {
+      for (var i = 0; i < curPath.length; i++) {
+        var p = curPath[i];
+        if (!foundCells[key(p)]) cellEl(p.r, p.c).classList.remove("gs-selecting");
+      }
+      curPath = [];
+    }
+    function renderPath(cells) {
+      clearSelecting();
+      if (!cells || !cells.length) { cur.textContent = ""; return; }
+      for (var i = 0; i < cells.length; i++) {
+        var p = cells[i];
+        if (!foundCells[key(p)]) cellEl(p.r, p.c).classList.add("gs-selecting");
+      }
+      curPath = cells;
+      cur.textContent = spaced(readPath(grid, cells));
+    }
+
+    function cellFromEvent(ev) {
+      var t = ev.target;
+      var td = t && t.closest ? t.closest("td") : t;
+      if (!td || !tbl.contains(td)) return null;   // tbody-safe membership test
+      return { r: +td.getAttribute("data-r"), c: +td.getAttribute("data-c") };
+    }
+    function reset() { anchor = null; armed = false; didDrag = false; clearSelecting(); cur.textContent = ""; }
+    function commit(endCell) {
+      var p = pathCells(anchor, endCell);
+      if (p) { renderPath(p); finalizeSelection(); }
+      reset();
+    }
+
+    function onDown(ev) {
+      if (finished) return;
+      var cell = cellFromEvent(ev); if (!cell) return;
+      if (ev.preventDefault) ev.preventDefault();
+      mouseDown = true;
+      if (!anchor) { anchor = cell; lastCell = cell; didDrag = false; renderPath([cell]); }
+      else { lastCell = cell; didDrag = false; }   // press for the second click
+    }
+    function onMove(ev) {
+      if (finished || !anchor) return;
+      var cell = cellFromEvent(ev); if (!cell) return;
+      lastCell = cell;
+      if (mouseDown) {                       // dragging
+        if (!same(cell, anchor)) didDrag = true;
+        var p = pathCells(anchor, cell); if (p) renderPath(p);
+      } else if (armed) {                    // two-click: preview line to hovered cell
+        var p2 = pathCells(anchor, cell); if (p2) renderPath(p2);
+      }
+    }
+    function onUp(ev) {
+      if (finished || !mouseDown) return;
+      mouseDown = false;
+      if (!anchor) return;
+      var cell = (ev && cellFromEvent(ev)) || lastCell;
+      if (didDrag) { commit(cell || lastCell); }   // drag selection
+      else if (!armed) { armed = true; }           // first click: arm, keep anchor lit
+      else if (same(cell, anchor)) { reset(); }    // click anchor again: cancel
+      else { commit(cell); }                       // second click elsewhere: select line
+    }
+
+    function finalizeSelection() {
+      if (curPath.length >= 2) {
+        var str = readPath(grid, curPath);
+        var hit = matchTarget(str, remaining);
+        if (hit) {
+          foundByCode[hit] = true;
+          remaining.splice(remaining.indexOf(hit), 1);
+          score++;
+          for (var i = 0; i < curPath.length; i++) {
+            var p = curPath[i];
+            foundCells[key(p)] = true;
+            var c = cellEl(p.r, p.c);
+            c.classList.remove("gs-selecting");
+            c.classList.add("gs-found");
+          }
+          if (liByCode[hit]) liByCode[hit].classList.add("done");
+          document.getElementById("gs-score").textContent = score;
+          flash(msg, "Found " + spaced(hit) + "  (" + score + " of " + codes.length + ")");
+          if (score >= codes.length) return finish(true);
+        }
+      }
+      clearSelecting();
+      cur.textContent = "";
+    }
+
+    // Mouse: down on grid, move over cells (for drag + two-click preview), up on document.
+    tbl.addEventListener("mousedown", onDown);
+    tbl.addEventListener("mouseover", onMove);
+    document.addEventListener("mouseup", onUp);
+    // Touch / pen via pointer events (tap-first / tap-last, or drag).
+    tbl.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") onDown(e); });
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "mouse" || !mouseDown) return;
+      var t = document.elementFromPoint(e.clientX, e.clientY);
+      onMove({ target: t });
+    });
+    document.addEventListener("pointerup", function (e) { if (e.pointerType !== "mouse") onUp(e); });
+
+    /* ---- timer ---- */
+    function fmt(ms) { return Math.max(0, Math.ceil(ms / 1000)); }
+    function tick() {
+      var rem = deadline - now();
+      var secs = fmt(rem);
+      timer.textContent = secs + "s";
+      if (secs <= 5) timer.classList.add("low"); else timer.classList.remove("low");
+      if (rem <= 0) finish(false);
+    }
+    tick();
+    timerId = setInterval(tick, 200);
+
+    /* ---- finish + record ---- */
+    function writeResults() {
+      if (resultsWritten) return;
+      resultsWritten = true;
+      var elapsed = Math.min(config.timeLimitSec, (now() - startT) / 1000);
+      q.setJSEmbeddedData(config.fields.score, score);
+      q.setJSEmbeddedData(config.fields.time, elapsed.toFixed(2));
+      if (config.fields.found) {
+        q.setJSEmbeddedData(config.fields.found, Object.keys(foundByCode).join("|"));
+      }
+    }
+
+    function finish(allFound) {
+      if (finished) return;
+      finished = true;
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      timer.textContent = "0s"; timer.classList.remove("low");
+      clearSelecting();
+      writeResults();
+      msg.innerHTML = allFound
+        ? "<strong>You found all " + codes.length + "!</strong> Click <em>Next</em> to continue."
+        : "Time is up. You found <strong>" + score + " of " + codes.length +
+          "</strong>. Click <em>Next</em> to continue.";
+      showNext();
+    }
+
+    // Record again at page submit as a backstop (handoff: write at submit, not load).
+    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+
+    /* ---- Next/Prev button handling ---- */
+    function hideNav() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (q.hidePreviousButton) q.hidePreviousButton();
+      if (window.jQuery) { jQuery("#NextButton").hide(); jQuery("#PreviousButton").hide(); }
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery("#NextButton").show();
+    }
+    hideNav();
+  }
+
+  /* ----------------------------------------------------------- helpers ---- */
+  function el(tag, cls) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    return e;
+  }
+  function spaced(s) { return String(s).split("").join(" "); } // thin-space between chars
+  function flash(node, text) { node.textContent = text; }
+
+  return {
+    makeRng: makeRng,
+    generateGrid: generateGrid,
+    pathCells: pathCells,
+    readPath: readPath,
+    matchTarget: matchTarget,
+    digitFill: digitFill,
+    letterFill: letterFill,
+    run: run
+  };
+});
+
+</script>
+<script>
+/* ============================================================================
+ * number_count.js — speeded number-grid counting task.
+ * ----------------------------------------------------------------------------
+ * Each round shows a grid of two-digit numbers and asks "How many numbers are
+ * greater than N?" The participant types the count and submits; a fresh grid
+ * (and a fresh threshold) appears immediately. As many rounds as possible in a
+ * fixed time. Score = number answered CORRECTLY; we also record how many were
+ * attempted, so speed and accuracy are separable.
+ *
+ * This was the male-leaning focal task in the synthetic perception study
+ * (number_grid_count). It is built as a self-contained module with its own
+ * field namespace so it can be added, removed, or swapped in for the ZIP task
+ * by including/excluding one survey block — no other task depends on it.
+ *
+ * Pure logic (genNumberGrid / countAbove) takes an injectable RNG and touches
+ * no DOM; the DOM wiring is in run().
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.NumberCount = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  /* ---------------------------------------------------------------- pure ---- */
+  function genNumberGrid(rows, cols, minV, maxV, rng) {
+    rng = rng || Math.random;
+    var g = [];
+    for (var r = 0; r < rows; r++) {
+      var row = [];
+      for (var c = 0; c < cols; c++) row.push(minV + Math.floor(rng() * (maxV - minV + 1)));
+      g.push(row);
+    }
+    return g;
+  }
+  function countAbove(grid, threshold) {
+    var k = 0;
+    for (var r = 0; r < grid.length; r++)
+      for (var c = 0; c < grid[r].length; c++) if (grid[r][c] > threshold) k++;
+    return k;
+  }
+
+  /* ----------------------------------------------------------------- CSS ---- */
+  var CSS_ID = "nc-style";
+  var CSS = [
+    ".nc-wrap{font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;}",
+    ".nc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}",
+    ".nc-timer{font-size:20px;font-weight:700;color:#b00;min-width:90px;text-align:right;}",
+    ".nc-timer.low{color:#d00;animation:ncblink 1s steps(2,start) infinite;}",
+    "@keyframes ncblink{50%{opacity:.35;}}",
+    ".nc-progress{font-size:15px;color:#333;}",
+    ".nc-question{font-size:18px;font-weight:600;margin:6px 0 12px;text-align:center;}",
+    ".nc-question .thr{color:#1f6feb;}",
+    "table.nc-grid{border-collapse:collapse;margin:0 auto 14px;}",
+    "table.nc-grid td{width:46px;height:40px;text-align:center;vertical-align:middle;",
+    "border:1px solid #ddd;font:18px 'Courier New',monospace;color:#222;background:#fff;}",
+    ".nc-answer{display:flex;gap:10px;justify-content:center;align-items:center;}",
+    ".nc-answer input{width:90px;font-size:18px;padding:6px 8px;text-align:center;border:2px solid #bbb;border-radius:4px;}",
+    ".nc-answer input.miss{border-color:#d00;}",
+    ".nc-answer button{font-size:16px;padding:7px 18px;border:1px solid #1f6feb;background:#1f6feb;color:#fff;border-radius:4px;cursor:pointer;}",
+    ".nc-msg{margin-top:14px;min-height:22px;font-size:15px;color:#444;text-align:center;}"
+  ].join("\n");
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement("style");
+    st.id = CSS_ID; st.type = "text/css";
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  /* ------------------------------------------------------------- DOM run ---- */
+  // config: { taskId:"count", attempt:1, timeLimitSec:45, rows:5, cols:5,
+  //           minVal:10, maxVal:99, thresholdMin:35, thresholdMax:75,
+  //           fields:{ score:"count_a1_score", attempted:"count_a1_attempted", time:"count_a1_time" } }
+  function run(q, container, config) {
+    ensureCss();
+    var now = (typeof performance !== "undefined" && performance.now)
+      ? function () { return performance.now(); } : function () { return Date.now(); };
+    var rng = Math.random;
+
+    var rows = config.rows || 5, cols = config.cols || 5;
+    var minV = config.minVal || 10, maxV = config.maxVal || 99;
+    var tMin = config.thresholdMin || 35, tMax = config.thresholdMax || 75;
+
+    var correct = 0, attempted = 0, finished = false, resultsWritten = false;
+    var startT = now(), deadline = startT + config.timeLimitSec * 1000, timerId = null;
+    var grid = null, threshold = 0, answer = 0;
+
+    var mount = (container.querySelector && container.querySelector("#nc-mount")) || container;
+    mount.innerHTML = "";
+    var wrap = el("div", "nc-wrap");
+
+    var top = el("div", "nc-top");
+    var prog = el("div", "nc-progress");
+    prog.innerHTML = "Correct: <strong><span id='nc-correct'>0</span></strong>";
+    var timer = el("div", "nc-timer"); timer.id = "nc-timer";
+    top.appendChild(prog); top.appendChild(timer);
+    wrap.appendChild(top);
+
+    var qline = el("div", "nc-question"); qline.id = "nc-question";
+    wrap.appendChild(qline);
+
+    var tblWrap = el("div"); tblWrap.id = "nc-tbl"; wrap.appendChild(tblWrap);
+
+    var ans = el("div", "nc-answer");
+    var input = document.createElement("input");
+    input.type = "number"; input.id = "nc-input"; input.setAttribute("inputmode", "numeric");
+    input.setAttribute("autocomplete", "off");
+    var submit = document.createElement("button"); submit.type = "button"; submit.textContent = "Submit";
+    ans.appendChild(input); ans.appendChild(submit);
+    wrap.appendChild(ans);
+
+    var msg = el("div", "nc-msg"); msg.id = "nc-msg"; wrap.appendChild(msg);
+    mount.appendChild(wrap);
+
+    function renderGrid() {
+      var tbl = document.createElement("table"); tbl.className = "nc-grid";
+      for (var r = 0; r < rows; r++) {
+        var tr = tbl.insertRow(-1);
+        for (var c = 0; c < cols; c++) { tr.insertCell(-1).textContent = grid[r][c]; }
+      }
+      tblWrap.innerHTML = ""; tblWrap.appendChild(tbl);
+    }
+    function newRound() {
+      threshold = tMin + Math.floor(rng() * (tMax - tMin + 1));
+      grid = genNumberGrid(rows, cols, minV, maxV, rng);
+      answer = countAbove(grid, threshold);
+      qline.innerHTML = "How many numbers are greater than <span class='thr'>" + threshold + "</span>?";
+      renderGrid();
+      input.value = ""; input.classList.remove("miss");
+      if (!finished) input.focus();
+    }
+    function doSubmit() {
+      if (finished) return;
+      var v = parseInt(input.value, 10);
+      if (isNaN(v)) { input.classList.add("miss"); input.focus(); return; }
+      attempted++;
+      if (v === answer) correct++;
+      document.getElementById("nc-correct").textContent = correct;
+      newRound();
+    }
+
+    submit.addEventListener("click", doSubmit);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); doSubmit(); } });
+
+    /* timer */
+    function tick() {
+      var rem = deadline - now();
+      var secs = Math.max(0, Math.ceil(rem / 1000));
+      timer.textContent = secs + "s";
+      if (secs <= 5) timer.classList.add("low"); else timer.classList.remove("low");
+      if (rem <= 0) finish();
+    }
+
+    function writeResults() {
+      if (resultsWritten) return;
+      resultsWritten = true;
+      q.setJSEmbeddedData(config.fields.score, correct);
+      q.setJSEmbeddedData(config.fields.attempted, attempted);
+      q.setJSEmbeddedData(config.fields.time, config.timeLimitSec.toFixed
+        ? config.timeLimitSec.toFixed(2) : String(config.timeLimitSec));
+    }
+    function finish() {
+      if (finished) return;
+      finished = true;
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      timer.textContent = "0s"; timer.classList.remove("low");
+      input.disabled = true; submit.disabled = true;
+      writeResults();
+      msg.innerHTML = "Time is up. You answered <strong>" + correct +
+        "</strong> correctly. Click <em>Next</em> to continue.";
+      showNext();
+    }
+    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+
+    function hideNav() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (q.hidePreviousButton) q.hidePreviousButton();
+      if (window.jQuery) { jQuery("#NextButton").hide(); jQuery("#PreviousButton").hide(); }
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery("#NextButton").show();
+    }
+
+    hideNav();
+    newRound();
+    tick();
+    timerId = setInterval(tick, 200);
+  }
+
+  function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+
+  return { genNumberGrid: genNumberGrid, countAbove: countAbove, run: run };
+});
+
+</script>
+<script>
+/* ============================================================================
+ * rotation.js — mental-rotation task (same-vs-mirror judgement).
+ * ----------------------------------------------------------------------------
+ * Each trial shows two shapes side by side. The right shape is the left shape
+ * either ROTATED (a "same" trial) or MIRRORED and rotated (a "mirror" trial).
+ * The participant clicks "Same" or "Mirror." As many as possible in a fixed
+ * time; score = number correct (we also record attempts).
+ *
+ * Stimuli are random polyominoes generated on the fly (license-clean, no
+ * external assets, fully self-contained). Reference shapes are constrained to
+ * be CHIRAL — i.e. their mirror image is not equal to any of their own
+ * rotations — so "same" vs "mirror" is always unambiguous. "Same" trials use a
+ * non-zero rotation, so a genuine mental rotation is required.
+ *
+ * Note: this is a 2-D polyomino implementation. If a stronger, more classic
+ * 3-D Shepard-Metzler male-advantage stimulus is preferred, that is a separate
+ * stimulus generator; the task scaffolding here (timer, scoring, fields) is
+ * reusable either way.
+ *
+ * Pure logic (normalize / rotate / mirror / chirality / makeTrial) takes an
+ * injectable RNG and touches no DOM; DOM wiring is in run().
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.Rotation = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  /* ---------------------------------------------------------------- pure ---- */
+  function normalize(cells) {
+    var minR = Infinity, minC = Infinity;
+    cells.forEach(function (p) { if (p[0] < minR) minR = p[0]; if (p[1] < minC) minC = p[1]; });
+    return cells.map(function (p) { return [p[0] - minR, p[1] - minC]; })
+      .sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+  }
+  function key(cells) { return normalize(cells).map(function (p) { return p[0] + ":" + p[1]; }).join(","); }
+  // 90-degree rotation: (r,c) -> (c, -r), then renormalize.
+  function rotate(cells) { return normalize(cells.map(function (p) { return [p[1], -p[0]]; })); }
+  // reflection across a vertical axis: (r,c) -> (r, -c).
+  function mirror(cells) { return normalize(cells.map(function (p) { return [p[0], -p[1]]; })); }
+
+  function rotations(cells) {
+    var out = [cells], cur = cells;
+    for (var i = 0; i < 3; i++) { cur = rotate(cur); out.push(cur); }
+    return out;
+  }
+  // chiral = mirror image is not congruent to any rotation of the shape.
+  function isChiral(cells) {
+    var rotKeys = {};
+    rotations(cells).forEach(function (r) { rotKeys[key(r)] = true; });
+    return !rotKeys[key(mirror(cells))];
+  }
+
+  // Random polyomino of `size` connected cells via random growth.
+  function genPolyomino(size, rng) {
+    rng = rng || Math.random;
+    var occ = { "0:0": true }, cells = [[0, 0]];
+    var DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    var guard = 0;
+    while (cells.length < size && guard++ < 5000) {
+      var base = cells[Math.floor(rng() * cells.length)];
+      var d = DIRS[Math.floor(rng() * 4)];
+      var nr = base[0] + d[0], nc = base[1] + d[1], k = nr + ":" + nc;
+      if (!occ[k]) { occ[k] = true; cells.push([nr, nc]); }
+    }
+    return normalize(cells);
+  }
+  function genChiral(size, rng) {
+    for (var i = 0; i < 200; i++) {
+      var p = genPolyomino(size, rng);
+      if (isChiral(p)) return p;
+    }
+    return genPolyomino(size, rng); // fallback (rare)
+  }
+
+  // makeTrial -> { reference, comparison, answer:"same"|"mirror" }
+  function makeTrial(size, rng, forceSame) {
+    rng = rng || Math.random;
+    var ref = genChiral(size, rng);
+    var same = (typeof forceSame === "boolean") ? forceSame : rng() < 0.5;
+    var base = same ? ref : mirror(ref);
+    // rotate by k*90; for "same" trials require a non-zero rotation.
+    var k = same ? 1 + Math.floor(rng() * 3) : Math.floor(rng() * 4);
+    var comp = base;
+    for (var i = 0; i < k; i++) comp = rotate(comp);
+    return { reference: ref, comparison: comp, answer: same ? "same" : "mirror" };
+  }
+
+  /* ----------------------------------------------------------------- CSS ---- */
+  var CSS_ID = "rot-style";
+  var CSS = [
+    ".rot-wrap{font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;}",
+    ".rot-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}",
+    ".rot-timer{font-size:20px;font-weight:700;color:#b00;min-width:90px;text-align:right;}",
+    ".rot-timer.low{color:#d00;animation:rotblink 1s steps(2,start) infinite;}",
+    "@keyframes rotblink{50%{opacity:.35;}}",
+    ".rot-progress{font-size:15px;color:#333;}",
+    ".rot-stims{display:flex;gap:28px;justify-content:center;align-items:center;margin:10px 0 18px;}",
+    ".rot-stims svg{background:#fff;border:1px solid #e2e2e2;border-radius:6px;}",
+    ".rot-vs{font-size:15px;color:#888;}",
+    ".rot-btns{display:flex;gap:16px;justify-content:center;}",
+    ".rot-btns button{font-size:17px;padding:10px 26px;border-radius:6px;border:2px solid #1f6feb;",
+    "background:#fff;color:#1f6feb;cursor:pointer;min-width:120px;}",
+    ".rot-btns button:hover{background:#eef4ff;}",
+    ".rot-msg{margin-top:14px;min-height:22px;font-size:15px;color:#444;text-align:center;}"
+  ].join("\n");
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement("style");
+    st.id = CSS_ID; st.type = "text/css";
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  function svgFor(cells, px) {
+    var maxR = 0, maxC = 0;
+    cells.forEach(function (p) { if (p[0] > maxR) maxR = p[0]; if (p[1] > maxC) maxC = p[1]; });
+    var W = (maxC + 1) * px, H = (maxR + 1) * px, pad = 8;
+    var rects = cells.map(function (p) {
+      return "<rect x='" + (p[1] * px) + "' y='" + (p[0] * px) + "' width='" + px + "' height='" + px +
+        "' fill='#3b6fb0' stroke='#1c3c63' stroke-width='2'/>";
+    }).join("");
+    return "<svg width='" + (W + 2 * pad) + "' height='" + (H + 2 * pad) +
+      "' viewBox='" + (-pad) + " " + (-pad) + " " + (W + 2 * pad) + " " + (H + 2 * pad) + "'>" + rects + "</svg>";
+  }
+
+  /* ------------------------------------------------------------- DOM run ---- */
+  // config: { taskId:"rotation", attempt:1, timeLimitSec:45, shapeSize:6, cellPx:30,
+  //           fields:{ score:"rot_a1_score", attempted:"rot_a1_attempted", time:"rot_a1_time" } }
+  function run(q, container, config) {
+    ensureCss();
+    var now = (typeof performance !== "undefined" && performance.now)
+      ? function () { return performance.now(); } : function () { return Date.now(); };
+    var rng = Math.random;
+    var size = config.shapeSize || 6, px = config.cellPx || 30;
+
+    var correct = 0, incorrect = 0, attempted = 0, finished = false, resultsWritten = false;
+    var startT = now(), deadline = startT + config.timeLimitSec * 1000, timerId = null;
+    var trial = null;
+
+    var mount = (container.querySelector && container.querySelector("#rot-mount")) || container;
+    mount.innerHTML = "";
+    var wrap = el("div", "rot-wrap");
+
+    var top = el("div", "rot-top");
+    var prog = el("div", "rot-progress");
+    prog.innerHTML = "Completed: <strong><span id='rot-answered'>0</span></strong>";
+    var timer = el("div", "rot-timer"); timer.id = "rot-timer";
+    top.appendChild(prog); top.appendChild(timer);
+    wrap.appendChild(top);
+
+    var stims = el("div", "rot-stims"); stims.id = "rot-stims"; wrap.appendChild(stims);
+
+    var btns = el("div", "rot-btns");
+    var bSame = document.createElement("button"); bSame.type = "button"; bSame.textContent = "Same";
+    var bMir = document.createElement("button"); bMir.type = "button"; bMir.textContent = "Mirror image";
+    btns.appendChild(bSame); btns.appendChild(bMir);
+    wrap.appendChild(btns);
+
+    var msg = el("div", "rot-msg"); msg.id = "rot-msg"; wrap.appendChild(msg);
+    mount.appendChild(wrap);
+
+    function newTrial() {
+      trial = makeTrial(size, rng);
+      stims.innerHTML = svgFor(trial.reference, px) +
+        "<span class='rot-vs'>vs</span>" + svgFor(trial.comparison, px);
+    }
+    // No per-trial feedback and no error-contingent delay: guessing is handled
+    // purely by net scoring (correct - incorrect) at the end. This keeps the
+    // task a clean ability snapshot with one well-understood scoring rule.
+    function answer(ans) {
+      if (finished) return;
+      attempted++;
+      if (ans === trial.answer) correct++; else incorrect++;
+      document.getElementById("rot-answered").textContent = attempted;
+      newTrial();
+    }
+    bSame.addEventListener("click", function () { answer("same"); });
+    bMir.addEventListener("click", function () { answer("mirror"); });
+
+    function tick() {
+      var rem = deadline - now();
+      var secs = Math.max(0, Math.ceil(rem / 1000));
+      timer.textContent = secs + "s";
+      if (secs <= 5) timer.classList.add("low"); else timer.classList.remove("low");
+      if (rem <= 0) finish();
+    }
+    function writeResults() {
+      if (resultsWritten) return;
+      resultsWritten = true;
+      // Primary scored metric is NET correct (correct - incorrect): for a
+      // two-choice task this is the unbiased correction for guessing, so
+      // rapid random clicking yields ~0 in expectation. Components recorded too.
+      q.setJSEmbeddedData(config.fields.score, correct - incorrect);
+      if (config.fields.correct) q.setJSEmbeddedData(config.fields.correct, correct);
+      if (config.fields.incorrect) q.setJSEmbeddedData(config.fields.incorrect, incorrect);
+      q.setJSEmbeddedData(config.fields.attempted, attempted);
+      q.setJSEmbeddedData(config.fields.time, Number(config.timeLimitSec).toFixed(2));
+    }
+    function finish() {
+      if (finished) return;
+      finished = true;
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      timer.textContent = "0s"; timer.classList.remove("low");
+      bSame.disabled = true; bMir.disabled = true;
+      writeResults();
+      msg.innerHTML = "Time is up. You answered <strong>" + correct +
+        "</strong> correctly. Click <em>Next</em> to continue.";
+      showNext();
+    }
+    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+
+    function hideNav() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (q.hidePreviousButton) q.hidePreviousButton();
+      if (window.jQuery) { jQuery("#NextButton").hide(); jQuery("#PreviousButton").hide(); }
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery("#NextButton").show();
+    }
+
+    hideNav();
+    newTrial();
+    tick();
+    timerId = setInterval(tick, 200);
+  }
+
+  function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+
+  return {
+    normalize: normalize, key: key, rotate: rotate, mirror: mirror,
+    rotations: rotations, isChiral: isChiral, genPolyomino: genPolyomino,
+    genChiral: genChiral, makeTrial: makeTrial, run: run
+  };
+});
+
+</script>
+<script>
+/* ============================================================================
+ * task_icons.js — task illustrations for the perception module (one per task).
+ * Person-free (depict the task artifact, never a person), inline HTML/SVG
+ * (self-contained, no external hosting). Sized to be detailed enough that a
+ * respondent can imagine actually doing the task. Styling comes from the
+ * perception engine's CSS under .perc-img.
+ *
+ * Dumbbell/lipstick are Material Design Icons (Apache-2.0); see the synthetic
+ * study's img/LICENSES.md. To change any image, edit its entry here.
+ * ==========================================================================*/
+(function (root) {
+  "use strict";
+  var I = {};
+
+  // --- focal tasks: a mini version of the actual artifact ---
+
+  // 6x6 letter grid, the word RIVER highlighted across the third row.
+  I.word_search =
+    "<table>" +
+    "<tr><td>K</td><td>B</td><td>T</td><td>M</td><td>A</td><td>P</td></tr>" +
+    "<tr><td>L</td><td>N</td><td>D</td><td>S</td><td>E</td><td>O</td></tr>" +
+    "<tr><td class='hl'>R</td><td class='hl'>I</td><td class='hl'>V</td><td class='hl'>E</td><td class='hl'>R</td><td>G</td></tr>" +
+    "<tr><td>A</td><td>C</td><td>F</td><td>H</td><td>J</td><td>Q</td></tr>" +
+    "<tr><td>W</td><td>X</td><td>Z</td><td>Y</td><td>U</td><td>I</td></tr>" +
+    "<tr><td>P</td><td>L</td><td>O</td><td>N</td><td>T</td><td>S</td></tr></table>" +
+    "<div class='cap'>find: RIVER</div>";
+
+  // 6x6 digit grid, the code 90210 highlighted down the diagonal.
+  I.zip_search =
+    "<table>" +
+    "<tr><td class='hl'>9</td><td>3</td><td>7</td><td>1</td><td>4</td><td>8</td></tr>" +
+    "<tr><td>2</td><td class='hl'>0</td><td>5</td><td>6</td><td>0</td><td>3</td></tr>" +
+    "<tr><td>4</td><td>8</td><td class='hl'>2</td><td>9</td><td>1</td><td>7</td></tr>" +
+    "<tr><td>1</td><td>5</td><td>0</td><td class='hl'>1</td><td>7</td><td>6</td></tr>" +
+    "<tr><td>7</td><td>2</td><td>6</td><td>4</td><td class='hl'>0</td><td>9</td></tr>" +
+    "<tr><td>3</td><td>9</td><td>1</td><td>8</td><td>5</td><td>2</td></tr></table>" +
+    "<div class='cap'>find: 90210</div>";
+
+  // 5x5 number grid, values greater than 50 highlighted.
+  I.number_grid_count =
+    "<table>" +
+    "<tr><td class='n'>12</td><td class='n hl'>72</td><td class='n'>39</td><td class='n hl'>64</td><td class='n'>18</td></tr>" +
+    "<tr><td class='n hl'>51</td><td class='n'>23</td><td class='n hl'>88</td><td class='n'>47</td><td class='n hl'>90</td></tr>" +
+    "<tr><td class='n'>33</td><td class='n hl'>56</td><td class='n'>21</td><td class='n hl'>70</td><td class='n'>14</td></tr>" +
+    "<tr><td class='n'>49</td><td class='n hl'>63</td><td class='n'>30</td><td class='n hl'>82</td><td class='n'>27</td></tr>" +
+    "<tr><td class='n hl'>75</td><td class='n'>11</td><td class='n hl'>58</td><td class='n'>44</td><td class='n hl'>60</td></tr></table>" +
+    "<div class='cap'>How many are greater than 50?</div>";
+
+  // Two shapes: the right one is the left rotated a quarter-turn.
+  I.mental_rotation =
+    "<svg width='150' height='66' viewBox='-4 -4 150 66'>" +
+    "<g fill='#3b6fb0' stroke='#1c3c63' stroke-width='1.5'>" +
+    // reference: X. / X. / XX  (cell 18)
+    "<rect x='0' y='0' width='18' height='18'/><rect x='0' y='18' width='18' height='18'/>" +
+    "<rect x='0' y='36' width='18' height='18'/><rect x='18' y='36' width='18' height='18'/>" +
+    // rotated: XXX / X..
+    "<rect x='86' y='0' width='18' height='18'/><rect x='104' y='0' width='18' height='18'/>" +
+    "<rect x='122' y='0' width='18' height='18'/><rect x='86' y='18' width='18' height='18'/>" +
+    "</g><text x='52' y='32' font-size='14' fill='#888'>vs</text></svg>" +
+    "<div class='cap'>same shape, or mirror image?</div>";
+
+  // --- anchors: person-free schematics, detailed enough to picture solving ---
+
+  I.spelling = "<div class='word'>Spell aloud:<br><b>&ldquo;rhythm&rdquo;</b> <span style='color:#147a2b'>&#10003;</span></div>";
+
+  I.proofreading =
+    "<div class='txt'>Find the error:<br>&ldquo;The quick brown fox <span style='color:#c00'>jamps</span> over the lazy dog.&rdquo;</div>" +
+    "<div class='cap'>jamps &rarr; jumps</div>";
+
+  // Digit-symbol coding: a key, then an item to fill in using the key.
+  I.dsst =
+    "<div class='cap' style='margin-bottom:4px'>Key</div>" +
+    "<table><tr><td>1</td><td>2</td><td>3</td><td>4</td></tr>" +
+    "<tr><td>&#9675;</td><td>&#9651;</td><td>&#9633;</td><td>&#10005;</td></tr></table>" +
+    "<div class='cap' style='margin:8px 0 4px'>Fill each box using the key:</div>" +
+    "<table><tr><td>&#9651;</td><td>&#10005;</td><td>&#9675;</td><td>&#9633;</td></tr>" +
+    "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>";
+
+  I.anagrams =
+    "<div class='word'>Unscramble:<br><b>P A E L P</b></div>" +
+    "<div class='cap'>P A E L P &rarr; APPLE</div>";
+
+  // Stroop: the word's meaning conflicts with its ink color (color IS the task).
+  I.stroop =
+    "<div class='word' style='font-size:22px;font-weight:700'>" +
+    "<span style='color:#1f6feb'>RED</span>&nbsp;&nbsp;<span style='color:#147a2b'>BLUE</span></div>" +
+    "<div class='cap'>Name the ink color (not the word)</div>";
+
+  I.arithmetic = "<div class='word' style='font-size:22px'>47 + 38 = ?</div>";
+
+  // Raven's-style 3x3 matrix: dots increase by row+column; bottom-right missing.
+  I.ravens =
+    "<svg width='150' height='150' viewBox='0 0 114 114'>" +
+    "<rect x='0.5' y='0.5' width='113' height='113' fill='#fff' stroke='#bbb'/>" +
+    "<g stroke='#ddd'><line x1='38' y1='0' x2='38' y2='114'/><line x1='76' y1='0' x2='76' y2='114'/>" +
+    "<line x1='0' y1='38' x2='114' y2='38'/><line x1='0' y1='76' x2='114' y2='76'/></g>" +
+    "<g fill='#3b6fb0'>" +
+    "<circle cx='19' cy='19' r='3.5'/>" +                                                   // (0,0)=1
+    "<circle cx='49' cy='19' r='3.5'/><circle cx='65' cy='19' r='3.5'/>" +                    // (0,1)=2
+    "<circle cx='95' cy='10' r='3.5'/><circle cx='87' cy='27' r='3.5'/><circle cx='103' cy='27' r='3.5'/>" + // (0,2)=3
+    "<circle cx='11' cy='57' r='3.5'/><circle cx='27' cy='57' r='3.5'/>" +                    // (1,0)=2
+    "<circle cx='57' cy='48' r='3.5'/><circle cx='49' cy='65' r='3.5'/><circle cx='65' cy='65' r='3.5'/>" + // (1,1)=3
+    "<circle cx='87' cy='49' r='3.5'/><circle cx='103' cy='49' r='3.5'/><circle cx='87' cy='65' r='3.5'/><circle cx='103' cy='65' r='3.5'/>" + // (1,2)=4
+    "<circle cx='19' cy='86' r='3.5'/><circle cx='11' cy='103' r='3.5'/><circle cx='27' cy='103' r='3.5'/>" + // (2,0)=3
+    "<circle cx='49' cy='87' r='3.5'/><circle cx='65' cy='87' r='3.5'/><circle cx='49' cy='103' r='3.5'/><circle cx='65' cy='103' r='3.5'/>" + // (2,1)=4
+    "</g><text x='86' y='104' font-size='26' fill='#999'>?</text></svg>" +
+    "<div class='cap'>which piece completes the pattern?</div>";
+
+  // --- sanity extremes: standalone objects (no person) ---
+  I.applying_makeup =
+    "<svg width='52' height='52' viewBox='0 0 24 24'><path fill='#c24a63' d='M9 23c-.55 0-1-.45-1-1v-9c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1zm1-12c-.55 0-1-.45-1-1V5.25S11 3 11.75 1c1.08.67 2.17 1.33 2.71 2.83S15 7.67 15 10c0 .55-.45 1-1 1z'/></svg>";
+
+  I.lifting_heavy =
+    "<svg width='60' height='60' viewBox='0 0 24 24'><path fill='#454552' d='M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43l-1.43-1.43L22 16.29z'/></svg>";
+
+  root.TASK_ICONS = I;
+})(typeof self !== "undefined" ? self : this);
+
+</script>
+<script>
+/* ============================================================================
+ * perception.js — task gender-typing perception module.
+ * ----------------------------------------------------------------------------
+ * Every respondent rates each task on TWO items, worded identically to the
+ * synthetic (LLM) study so the human and LLM rankings compare 1:1:
+ *   - Top-decile share (0-100): of the top 10% scorers, how many are men?
+ *   - Performance belief (1-7): on average, who performs better?
+ *
+ * Task order and (within each task) item order are randomized per respondent.
+ * One field is written per task per item: perc_<taskid>_top10, perc_<taskid>_perf.
+ *
+ * Next is hidden until every item is answered (force-response without relying
+ * on Qualtrics validation of custom inputs). The 0-100 item is a number entry
+ * (no slider) to avoid anchoring on a default handle position.
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.Perception = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  var CSS_ID = "perc-style";
+  var CSS = [
+    ".perc-wrap{font-family:Arial,Helvetica,sans-serif;max-width:720px;margin:0 auto;}",
+    ".perc-task{border:1px solid #e0e0e0;border-radius:8px;padding:22px 24px;margin:26px 0;background:#fcfcfc;}",
+    ".perc-task h4{margin:0 0 4px;font-size:18px;color:#1a1a1a;}",
+    ".perc-task .desc{margin:0;font-size:15px;color:#555;}",
+    // image sits BELOW the name/description, centered, with room around it
+    ".perc-img{margin:20px 0 8px;display:flex;flex-direction:column;align-items:center;}",
+    ".perc-img table{border-collapse:collapse;margin:0 auto;}",
+    ".perc-img td{border:1px solid #ccc;width:26px;height:26px;text-align:center;font:16px Arial;font-weight:600;color:#333;}",
+    ".perc-img td.n{width:34px;font:14px 'Courier New',monospace;}",
+    ".perc-img td.hl{background:#c9f3cf;color:#147a2b;}",
+    ".perc-img .cap{font:13px Arial;color:#666;text-align:center;margin-top:8px;}",
+    ".perc-img .word{font:18px Arial;color:#333;text-align:center;line-height:1.45;}",
+    ".perc-img .txt{font:14px Arial;color:#333;text-align:left;line-height:1.5;}",
+    ".perc-item{margin:26px 0 6px;}",
+    ".perc-item .q{font-size:16px;margin-bottom:14px;line-height:1.4;}",
+    ".perc-num{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}",
+    ".perc-num input{width:84px;font-size:16px;padding:7px 8px;text-align:center;border:2px solid #bbb;border-radius:4px;}",
+    ".perc-num .ends{font-size:13px;color:#888;}",
+    // Qualtrics-style scale: a row of options; number on top, radio aligned, anchor text BELOW
+    ".perc-likert{display:flex;gap:3px;align-items:flex-start;flex-wrap:wrap;}",
+    ".perc-likert label{display:flex;flex-direction:column;align-items:center;font-size:11.5px;color:#555;",
+    "width:78px;text-align:center;cursor:pointer;gap:8px;}",
+    ".perc-likert input{transform:scale(1.25);cursor:pointer;margin:0;}",
+    ".perc-likert .num{font-weight:600;color:#222;font-size:15px;}",
+    ".perc-hint{margin:18px 0;font-size:14px;color:#b00;text-align:center;min-height:20px;}"
+  ].join("\n");
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement("style");
+    st.id = CSS_ID; st.type = "text/css";
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  // config: { tasks:[{id,name,description}], items:{top10:{...},perf:{...}},
+  //           fieldPrefix:"perc", randomizeTasks:true, randomizeItems:true }
+  function run(q, container, config) {
+    ensureCss();
+    var prefix = config.fieldPrefix || "perc";
+    var values = {};                 // "taskid|kind" -> value
+    var requiredKeys = [];
+
+    var mount = (container.querySelector && container.querySelector("#perc-mount")) || container;
+    mount.innerHTML = "";
+    var wrap = el("div", "perc-wrap");
+
+    var tasks = config.tasks.slice();
+    if (config.randomizeTasks !== false) shuffle(tasks);
+
+    var icons = config.icons || {};
+    tasks.forEach(function (task) {
+      var card = el("div", "perc-task");
+
+      // Task name + description, then the person-free image centered below them.
+      var h = document.createElement("h4"); h.textContent = task.name; card.appendChild(h);
+      var d = el("p", "desc"); d.textContent = task.description; card.appendChild(d);
+      var icon = icons[task.id];
+      if (icon) {
+        var ibox = el("div", "perc-img");
+        ibox.innerHTML = icon;
+        card.appendChild(ibox);
+      }
+
+      // The two items, optionally in randomized order.
+      var kinds = ["top10", "perf"];
+      if (config.randomizeItems !== false) shuffle(kinds);
+      kinds.forEach(function (kind) {
+        card.appendChild(kind === "top10" ? buildNum(task) : buildLikert(task));
+      });
+      wrap.appendChild(card);
+    });
+
+    var hint = el("div", "perc-hint"); hint.id = "perc-hint"; wrap.appendChild(hint);
+    mount.appendChild(wrap);
+
+    function buildNum(task) {
+      var it = config.items.top10;
+      var key = task.id + "|top10";
+      requiredKeys.push(key);
+      var box = el("div", "perc-item");
+      var qd = el("div", "q"); qd.textContent = it.question; box.appendChild(qd);
+      var row = el("div", "perc-num");
+      var inp = document.createElement("input");
+      inp.type = "number"; inp.min = it.scaleMin; inp.max = it.scaleMax; inp.step = 1;
+      inp.setAttribute("inputmode", "numeric"); inp.setAttribute("autocomplete", "off");
+      var ends = el("span", "ends");
+      ends.textContent = "(0 = all women … 50 = half and half … 100 = all men)";
+      inp.addEventListener("input", function () {
+        var v = inp.value === "" ? null : clamp(parseInt(inp.value, 10), it.scaleMin, it.scaleMax);
+        if (v !== null && String(v) !== inp.value) inp.value = v;
+        setVal(key, v); refresh();
+      });
+      row.appendChild(inp); row.appendChild(ends);
+      box.appendChild(row);
+      return box;
+    }
+
+    function buildLikert(task) {
+      var it = config.items.perf;
+      var key = task.id + "|perf";
+      requiredKeys.push(key);
+      var box = el("div", "perc-item");
+      var qd = el("div", "q"); qd.textContent = it.question; box.appendChild(qd);
+      var scale = el("div", "perc-likert");
+      var name = prefix + "_" + task.id + "_perf_radio";
+      for (var v = it.scaleMin; v <= it.scaleMax; v++) {
+        (function (val) {
+          var lab = document.createElement("label");
+          var num = el("span", "num"); num.textContent = val;
+          var inp = document.createElement("input");
+          inp.type = "radio"; inp.name = name; inp.value = val;
+          var txt = document.createElement("span");
+          txt.textContent = it.anchors[val] || "";
+          inp.addEventListener("change", function () { setVal(key, val); refresh(); });
+          lab.appendChild(num); lab.appendChild(inp); lab.appendChild(txt);
+          scale.appendChild(lab);
+        })(v);
+      }
+      box.appendChild(scale);
+      return box;
+    }
+
+    function setVal(key, v) {
+      values[key] = v;
+      var parts = key.split("|");
+      var field = prefix + "_" + parts[0] + "_" + (parts[1] === "top10" ? "top10" : "perf");
+      if (v === null || v === undefined) return;
+      q.setJSEmbeddedData(field, v);
+    }
+    function complete() {
+      for (var i = 0; i < requiredKeys.length; i++) {
+        var v = values[requiredKeys[i]];
+        if (v === null || v === undefined) return false;
+      }
+      return true;
+    }
+    function refresh() {
+      if (complete()) { hint.textContent = ""; showNext(); }
+      else { hint.textContent = "Please answer every item to continue."; hideNext(); }
+    }
+
+    // Flush everything at page submit too (backstop).
+    if (q.addOnPageSubmit) q.addOnPageSubmit(function () {
+      requiredKeys.forEach(function (k) { setVal(k, values[k]); });
+    });
+
+    function hideNext() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (window.jQuery) jQuery("#NextButton").hide();
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery("#NextButton").show();
+    }
+
+    refresh(); // start with Next hidden until all answered
+  }
+
+  function clamp(v, lo, hi) { return isNaN(v) ? null : Math.max(lo, Math.min(hi, v)); }
+  function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+
+  return { run: run };
+})();
+
+</script>
+<script>
+window.__html = {
+  zip: "<!-- ZIP-code search \u2014 Qualtrics Question TEXT (HTML view).\n     One copy per attempt (1,2,3); the only thing that differs across copies is\n     the attempt number in the JS config. The engine builds the grid, target\n     list, timer, and status into #gs-mount below. -->\n<p style=\"font-size:15px;\">Find each ZIP code in the grid. Either <strong>click and drag</strong> across its five digits, or\n<strong>click the first digit and then the last digit</strong>. Codes run in a straight line (across, down,\nor diagonally) and in any direction.</p>\n\n<div id=\"gs-mount\"></div>\n",
+  word: "<!-- Word search \u2014 Qualtrics Question TEXT (HTML view). One copy per attempt. -->\n<p style=\"font-size:15px;\">Find each word in the grid. Either <strong>click and drag</strong> across its letters, or\n<strong>click the first letter and then the last letter</strong>. Words run in a straight line (across, down,\nor diagonally) and in any direction.</p>\n\n<div id=\"gs-mount\"></div>\n",
+  count: "<!-- Number-grid counting \u2014 Qualtrics Question TEXT (HTML view). One copy per attempt. -->\n<p style=\"font-size:15px;\">Each round shows a grid of numbers and asks how many are greater than a given\nvalue. Type the count and click <strong>Submit</strong> (or press Enter); a new grid appears right away.\nAnswer as many as you can before time runs out.</p>\n\n<div id=\"nc-mount\"></div>\n",
+  rotation: "<!-- Mental rotation \u2014 Qualtrics Question TEXT (HTML view). One copy per attempt. -->\n<p style=\"font-size:15px;\">Two shapes appear side by side. Decide whether the right shape is the\n<strong>same</strong> shape rotated, or its <strong>mirror image</strong>. Click your answer; a new pair\nappears right away.</p>\n<p style=\"font-size:15px;\">Each correct answer is worth a point and <strong>each wrong answer subtracts a point</strong>, so\nanswering at random will not help your score: answer carefully rather than guessing.</p>\n\n<div id=\"rot-mount\"></div>\n",
+  perception: "<!-- Perception module \u2014 Qualtrics Question TEXT (HTML view). One question; the\n     engine renders every task with its two items, in randomized order. -->\n<p style=\"font-size:15px;\">For each task below, please answer two quick questions about people in general.\nThere are no right or wrong answers; we are only interested in your impressions.</p>\n\n<div id=\"perc-mount\"></div>\n"
+};
+</script>
+<script>
+window.__launch = {
+  zip: function(){
+/* ZIP-code search — Qualtrics Question JAVASCRIPT.
+ * SOURCE form (depends on GridSearch from lib/grid_search.js). The dist build
+ * inlines the engine so the pasted question is self-contained.
+ *
+ * Make THREE copies of this question (attempts 1, 2, 3). The ONLY line that
+ * differs across the three copies is `var ATTEMPT = ...;`. Everything else —
+ * including the recorded field names — is derived from it, so there is no
+ * read-modify-write of embedded data and nothing can stick at a stale value. */
+(function () {
+  var ATTEMPT = 1; // <-- set to 1, 2, or 3 per copy. Nothing else changes.
+
+  // Five fixed cities, reused every attempt (learning across attempts is wanted).
+  // New York (10001, many 0s/1s) is placed 3rd so it is not the first sticking
+  // point that kills persistence.
+  var TARGETS = [
+    { code: "90210", label: "Beverly Hills, CA" },
+    { code: "60601", label: "Chicago, IL" },
+    { code: "10001", label: "New York, NY" },
+    { code: "20001", label: "Washington, DC" },
+    { code: "94102", label: "San Francisco, CA" }
+  ];
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    GridSearch.run(this, this.getQuestionContainer(), {
+      taskId: "zip",
+      attempt: ATTEMPT,
+      fill: "digits",
+      gridSize: 7,
+      timeLimitSec: 45,
+      showLabels: true,
+      targets: TARGETS,
+      fields: {
+        score: "zip_a" + ATTEMPT + "_score",
+        time: "zip_a" + ATTEMPT + "_time",
+        found: "zip_a" + ATTEMPT + "_found"
+      }
+    });
+  });
+})();
+
+},
+  word: function(){
+/* Word search — Qualtrics Question JAVASCRIPT (SOURCE; depends on GridSearch).
+ * Same engine and same 3-attempt pattern as the ZIP task: the ONLY line that
+ * changes across the three copies is `var ATTEMPT = ...;`.
+ *
+ * GRID: 7x7 to match the original Study-1 word search (direct comparability)
+ * and the ZIP task's 7x7 grid (same interface, digits vs letters).
+ *
+ * WORD LIST: the original Study-1 search used 5 words, each 5 letters long, in
+ * a 7x7 grid (confirmed) — this matches that structure. These five words are
+ * neutral placeholders; swap in the exact Study-1 words if they are recovered
+ * (any 5 five-letter words keep difficulty comparable). */
+(function () {
+  var ATTEMPT = 1; // <-- set to 1, 2, or 3 per copy. Nothing else changes.
+
+  var WORDS = ["APPLE", "CHAIR", "MUSIC", "RIVER", "STONE"];
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    GridSearch.run(this, this.getQuestionContainer(), {
+      taskId: "word",
+      attempt: ATTEMPT,
+      fill: "letters",
+      gridSize: 7,
+      timeLimitSec: 45,
+      showLabels: false,
+      targets: WORDS.map(function (w) { return { code: w, label: "" }; }),
+      fields: {
+        score: "word_a" + ATTEMPT + "_score",
+        time: "word_a" + ATTEMPT + "_time",
+        found: "word_a" + ATTEMPT + "_found"
+      }
+    });
+  });
+})();
+
+},
+  count: function(){
+/* Number-grid counting — Qualtrics Question JAVASCRIPT (SOURCE; depends on NumberCount).
+ * Same 3-attempt pattern as the other tasks: the ONLY line that changes across
+ * the three copies is `var ATTEMPT = ...;`.
+ *
+ * MODULAR / SWAPPABLE: this task has its own field namespace (count_a*). To
+ * drop it, omit its block from the survey flow. To use it INSTEAD of the ZIP
+ * task, include this block where the ZIP block was and remove the ZIP block —
+ * nothing else references either task's fields. */
+(function () {
+  var ATTEMPT = 1; // <-- set to 1, 2, or 3 per copy. Nothing else changes.
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    NumberCount.run(this, this.getQuestionContainer(), {
+      taskId: "count",
+      attempt: ATTEMPT,
+      timeLimitSec: 45,
+      rows: 5, cols: 5,        // 25 two-digit numbers per grid
+      minVal: 10, maxVal: 99,
+      thresholdMin: 35, thresholdMax: 75,  // keeps the count away from 0 / all
+      fields: {
+        score: "count_a" + ATTEMPT + "_score",        // number answered correctly
+        attempted: "count_a" + ATTEMPT + "_attempted", // number submitted
+        time: "count_a" + ATTEMPT + "_time"
+      }
+    });
+  });
+})();
+
+},
+  rotation: function(){
+/* Mental rotation — Qualtrics Question JAVASCRIPT (SOURCE; depends on Rotation).
+ * Same 3-attempt pattern: the ONLY line that changes across the three copies is
+ * `var ATTEMPT = ...;`. Short timer (~45s) keeps the whole study near 20 min. */
+(function () {
+  var ATTEMPT = 1; // <-- set to 1, 2, or 3 per copy. Nothing else changes.
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    Rotation.run(this, this.getQuestionContainer(), {
+      taskId: "rotation",
+      attempt: ATTEMPT,
+      timeLimitSec: 45,
+      shapeSize: 6,   // cells per polyomino
+      cellPx: 30,
+      fields: {
+        score: "rot_a" + ATTEMPT + "_score",        // NET = correct - incorrect (scored metric)
+        correct: "rot_a" + ATTEMPT + "_correct",
+        incorrect: "rot_a" + ATTEMPT + "_incorrect",
+        attempted: "rot_a" + ATTEMPT + "_attempted",
+        time: "rot_a" + ATTEMPT + "_time"
+      }
+    });
+  });
+})();
+
+},
+  perception: function(){
+/* Perception module — Qualtrics Question JAVASCRIPT (SOURCE; depends on Perception).
+ *
+ * The human gender-typing measure is the primary focus of this study. Task
+ * descriptions and item wording are reused from the synthetic-study instrument
+ * (experiment/60_task_typing_2026/instruments/tasks.yaml and
+ * perception_items.yaml) because the wording is clean and neutral; reusing it
+ * also lets us compare against the LLM arm as a secondary analysis.
+ *
+ * Curated to 13 tasks: the 4 measured performance tasks + 6 spread anchors +
+ * 2 sanity-check extremes. Add or remove a TASK by editing this array — the
+ * engine writes one field per task per item (perc_<id>_top10, perc_<id>_perf).
+ *
+ * Note: the mental-rotation description says "three-dimensional shapes" to match
+ * the LLM instrument; our human performance task is a 2-D rotation proxy for the
+ * same ability (flagged in the survey-flow / analysis notes). */
+(function () {
+  var TASKS = [
+    // --- the four measured performance tasks ---
+    { id: "word_search",       name: "Word search",          description: "Finding hidden words in a grid of letters as quickly as possible." },
+    { id: "zip_search",        name: "Number-string search", description: "Finding a specific string of digits (like a ZIP code) hidden in a grid of digits, as quickly as possible." },
+    { id: "number_grid_count", name: "Number-grid counting", description: "Counting how many numbers in a grid meet a stated condition (for example, greater than 50) and typing the exact count, under time pressure." },
+    { id: "mental_rotation",   name: "Mental rotation",      description: "Deciding whether two three-dimensional shapes are the same object rotated, or mirror images." },
+    // --- spread anchors (female -> neutral -> male) ---
+    { id: "spelling",          name: "Spelling test",        description: "Spelling difficult words correctly." },
+    { id: "proofreading",      name: "Proofreading",         description: "Spotting spelling and grammar errors in a passage of text." },
+    { id: "dsst",              name: "Digit-symbol coding",  description: "Matching symbols to digits using a key, as quickly as possible." },
+    { id: "anagrams",          name: "Anagrams",             description: "Rearranging scrambled letters to form real words." },
+    { id: "stroop",            name: "Color-word task",      description: "Naming the ink color a word is printed in while ignoring what the word says." },
+    { id: "arithmetic",        name: "Mental arithmetic",    description: "Adding pairs of two-digit numbers quickly and accurately." },
+    { id: "ravens",            name: "Pattern matrices",     description: "Solving abstract visual pattern puzzles by choosing the piece that completes the pattern." },
+    // --- sanity-check extremes ---
+    { id: "applying_makeup",   name: "Applying makeup",      description: "Applying makeup neatly and skillfully." },
+    { id: "lifting_heavy",     name: "Lifting heavy objects", description: "Lifting and carrying heavy objects." }
+  ];
+
+  var ITEMS = {
+    top10: {
+      id: "top10_men", scaleMin: 0, scaleMax: 100,
+      question: "Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?"
+    },
+    perf: {
+      id: "perf_belief", scaleMin: 1, scaleMax: 7,
+      question: "On average, who do you think performs better on this task?",
+      anchors: { 1: "women perform much better", 4: "men and women perform equally well", 7: "men perform much better" }
+    }
+  };
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    Perception.run(this, this.getQuestionContainer(), {
+      tasks: TASKS,
+      items: ITEMS,
+      icons: (typeof TASK_ICONS !== "undefined") ? TASK_ICONS : {},
+      fieldPrefix: "perc",
+      randomizeTasks: true,
+      randomizeItems: true
+    });
+  });
+})();
+
+}
+};
+</script>
+<script>
+
+(function () {
+  var body = document.getElementById("MockQuestionBody");
+  function setActive(v) {
+    var bs = document.querySelectorAll(".picker button");
+    for (var i = 0; i < bs.length; i++) bs[i].classList.toggle("active", bs[i].getAttribute("data-view") === v);
+  }
+  function showOverview() {
+    document.getElementById("overview").style.display = "";
+    document.getElementById("stage").style.display = "none";
+    setActive("overview");
+  }
+  function clearData() {
+    var d = window.__QDATA || {};
+    for (var k in d) if (d.hasOwnProperty(k)) delete d[k];
+    if (window.__mockRenderDebug) window.__mockRenderDebug();
+  }
+  function runTask(t) {
+    document.getElementById("overview").style.display = "none";
+    document.getElementById("stage").style.display = "";
+    setActive(t);
+    body.innerHTML = (window.__html && window.__html[t]) ? window.__html[t] : "";
+    clearData();
+    var msg = document.getElementById("MockAdvanceMsg"); if (msg) msg.style.display = "none";
+    var nb = document.getElementById("MockNextButton"); if (nb) nb.style.display = "";
+    window.__mockSetContainer(body);
+    window.__launch[t]();
+  }
+  var bs = document.querySelectorAll(".picker button");
+  for (var i = 0; i < bs.length; i++) {
+    (function (b) {
+      b.addEventListener("click", function () {
+        var v = b.getAttribute("data-view");
+        if (v === "overview") showOverview(); else runTask(v);
+      });
+    })(bs[i]);
+  }
+  document.getElementById("MockNextButton").addEventListener("click", function () {
+    if (window.__mockFireSubmit) window.__mockFireSubmit();
+  });
+  showOverview(); // default landing page
+})();
+
+</script>
+</body>
+</html>
