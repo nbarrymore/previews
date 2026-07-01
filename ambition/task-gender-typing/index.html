@@ -2159,7 +2159,7 @@ window.__launch = {
     DigitSymbol.run(this, this.getQuestionContainer(), {
       taskId: "dsst",
       attempt: ATTEMPT,
-      timeLimitSec: 45,
+      timeLimitSec: 30,
       symbols: 6,   // key size (digits 1..6 paired with 6 symbols)
       fields: {
         score: "dsst_a" + ATTEMPT + "_score",        // number matched correctly
@@ -2182,7 +2182,7 @@ window.__launch = {
     FingerTapping.run(this, this.getQuestionContainer(), {
       taskId: "tap",
       attempt: ATTEMPT,
-      timeLimitSec: 15,   // short window (finger-tapping tests are ~10-15s)
+      timeLimitSec: 5,   // short burst
       fields: {
         score: "tap_a" + ATTEMPT + "_score",   // number of taps
         time: "tap_a" + ATTEMPT + "_time"
@@ -2207,7 +2207,7 @@ window.__launch = {
     VerbalFluency.run(this, this.getQuestionContainer(), {
       taskId: "fluency",
       attempt: ATTEMPT,
-      timeLimitSec: 60,               // phonemic fluency is standardly 60s per letter
+      timeLimitSec: 30,               // shortened from the standard 60s per letter
       letter: LETTERS[ATTEMPT] || "S",
       fields: {
         count: "fluency_a" + ATTEMPT + "_count",   // provisional (client-accepted); validate post-hoc
