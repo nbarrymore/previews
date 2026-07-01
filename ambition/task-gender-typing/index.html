@@ -36,6 +36,14 @@
   .doc ol { font-size: 14.5px; margin: 8px 0; padding-left: 24px; }
   .doc ol li { margin: 9px 0; }
   .doc li { margin: 5px 0; }
+  .doc .tbl-scroll { overflow-x: auto; margin: 12px 0; }
+  .doc table.lit { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 520px; }
+  .doc table.lit th, .doc table.lit td { border: 1px solid #ddd; padding: 6px 9px; text-align: left; vertical-align: top; }
+  .doc table.lit th { background: #f3f7ff; font-weight: 600; color: #1a3a5c; }
+  .doc table.lit td.g { font-weight: 600; white-space: nowrap; }
+  .doc table.lit td.male { color: #1c5aa8; }
+  .doc table.lit td.female { color: #a83274; }
+  .doc .tbl-cap { font-size: 13px; color: #666; margin: 4px 0 2px; }
 </style>
 </head>
 <body>
@@ -124,6 +132,52 @@
   right shows the data the survey records. Reload the page to start a section over.</p>
   <p>The buttons cover the two hands-on parts of the survey. The remaining sections in the list above
   (consent, the AI-free pledge, the checks, demographics, and the debrief) are standard survey pages.</p>
+
+  <h2>Background: how tasks become gender-typed</h2>
+  <p>Whether a task is seen as more suited to men or to women has two roots in the research literature.
+  One is about traits: tasks that call for assertive, competitive, achievement-oriented behavior read as
+  masculine, and tasks that call for warmth, nurturing, and social sensitivity read as feminine (Heilman
+  2012; Eagly and Karau 2002). The other is about measured ability: on average men score higher on spatial
+  and mechanical tasks, women score higher on verbal fluency, perceptual speed, and reading emotions, and
+  most of these differences are small (Hyde 2005; Miller and Halpern 2014). People's beliefs about who
+  performs better track these real differences closely and tend to exaggerate them (Bordalo et al. 2019).</p>
+  <p>Table 1 places the broad domains on that spectrum, drawing on major works in the literature, only some
+  of which are experimental tasks. Table 2 turns to the specific tasks that experiments have actually used,
+  with how each has been typed and a source for every claim, and notes which paradigms are used most.</p>
+
+  <div class="tbl-cap"><strong>Table 1.</strong> Gender-typed domains (broad literature).</div>
+  <div class="tbl-scroll"><table class="lit">
+    <tr><th>Domain</th><th>Typed toward</th><th>Basis</th><th>Sources</th></tr>
+    <tr><td>Leadership, competition, assertiveness (agentic)</td><td class="g male">Male</td><td>Trait stereotype</td><td>Heilman 2012; Eagly and Karau 2002</td></tr>
+    <tr><td>Physical strength, heavy lifting</td><td class="g male">Male</td><td>Physical, agentic</td><td>extreme anchor (Heilman 2012)</td></tr>
+    <tr><td>Spatial ability, mental rotation</td><td class="g male">Male</td><td>Measured ability (largest gap)</td><td>Voyer et al. 1995; Linn and Petersen 1985</td></tr>
+    <tr><td>Reaction time, finger tapping</td><td class="g male">Male</td><td>Measured motor speed</td><td>Roivainen 2011</td></tr>
+    <tr><td>Mathematics</td><td class="g">Perceived male; actual gap near zero</td><td>Perception vs. ability</td><td>Bordalo et al. 2019 (perceived); Hyde et al. 1990, Lindberg et al. 2010 (actual)</td></tr>
+    <tr><td>Verbal ability, fluency, memory</td><td class="g female">Female</td><td>Measured ability</td><td>Hyde and Linn 1988; Hirnstein et al. 2022</td></tr>
+    <tr><td>Perceptual speed, coding and clerical</td><td class="g female">Female</td><td>Measured ability</td><td>Roivainen 2011; Feingold 1988</td></tr>
+    <tr><td>Emotion recognition, social sensitivity</td><td class="g female">Female</td><td>Measured ability and trait</td><td>McClure 2000; Hall 1978</td></tr>
+    <tr><td>Nurturing, caregiving, supportiveness (communal)</td><td class="g female">Female</td><td>Trait stereotype</td><td>Heilman 2012; Eagly and Karau 2002</td></tr>
+    <tr><td>Fine motor dexterity</td><td class="g female">Female</td><td>Measured ability</td><td>Nicholson and Kimura 1996</td></tr>
+  </table></div>
+  <p style="font-size:13px;color:#666;">Most gender differences are small overall (Hyde 2005), and perceived
+  task typing has weakened over time (Cejka and Eagly 1999; Beggs and Doolittle 1993). Tasks can also be
+  rated directly on a masculine-to-feminine scale (Shinar 1975).</p>
+
+  <div class="tbl-cap" style="margin-top:18px;"><strong>Table 2.</strong> Experimental tasks used in the gender literature.</div>
+  <div class="tbl-scroll"><table class="lit">
+    <tr><th>Task</th><th>Typed</th><th>How established</th><th>Source</th></tr>
+    <tr><td>Adding two-digit numbers (the standard competition task)</td><td class="g">Perceived male; performance-neutral</td><td>Most-used paradigm; no performance gap</td><td>Niederle and Vesterlund 2007; usage: Markowsky and Beblo 2022</td></tr>
+    <tr><td>Mazes</td><td class="g male">Male-leaning</td><td>Women's performance falls under competition</td><td>Gneezy, Niederle and Rustichini 2003</td></tr>
+    <tr><td>Word and anagram tasks</td><td class="g female">Female or neutral</td><td>Gender gap shrinks or reverses</td><td>Kamas and Preston 2012; G&uuml;nther et al. 2010</td></tr>
+    <tr><td>Math vs. verbal under time pressure</td><td class="g">Math male; verbal female</td><td>Beliefs and performance by task</td><td>Shurchkov 2012</td></tr>
+    <tr><td>Three tasks labeled by stereotype (maze / neutral / word)</td><td class="g">Male / neutral / female</td><td>Labeled by design; stereotype threat</td><td>G&uuml;nther et al. 2010</td></tr>
+    <tr><td>Number and word tasks with performance feedback</td><td class="g">Math male; word female</td><td>Feedback removes the gap</td><td>Wozniak et al. 2014</td></tr>
+    <tr><td>Ball-into-bucket (field)</td><td class="g">Culturally shaped</td><td>Gap reverses in a matrilineal society</td><td>Gneezy, Leonard and List 2009</td></tr>
+    <tr><td>Slider task</td><td class="g">Gender-neutral by design</td><td>Requires no preexisting knowledge</td><td>Gill and Prowse 2012</td></tr>
+  </table></div>
+  <p style="font-size:13px;color:#666;">Across 110 studies, the largest gender gaps appear with the
+  adding-numbers task on student samples, while verbal and field tasks show negligible gaps (Markowsky and
+  Beblo 2022).</p>
 
   <h2>Open questions for you</h2>
   <ul>
