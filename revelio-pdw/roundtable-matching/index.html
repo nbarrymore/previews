@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Revelio PDW: Roundtable Groups</title>
+<title>Career Histories PDW: Agenda and Groups</title>
 <style>
   :root{
     --ink:#1a2233; --muted:#5b6577; --line:#dfe4ec; --bg:#f6f8fb; --card:#ffffff;
@@ -24,7 +24,9 @@
   .table-card.t1{border-top-color:var(--t1)} .table-card.t2{border-top-color:var(--t2)}
   .table-card.t3{border-top-color:var(--t3)} .table-card.t4{border-top-color:var(--t4)}
   .leader{font-size:1.05rem;font-weight:600;margin:0}
-  .leader-sub{color:var(--muted);font-size:.85rem;margin:2px 0 10px}
+  .leader-sub{color:var(--muted);font-size:.85rem;margin:2px 0 0}
+  .leader-box{background:var(--accent-soft);border:1px solid #cfe0f7;border-radius:8px;padding:10px 14px;margin-bottom:10px}
+  .leader-badge{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;background:var(--accent);color:#fff;border-radius:4px;padding:2px 8px;margin-left:8px;vertical-align:middle}
   .theme{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.02em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
   .applicant{border-top:1px solid var(--line);padding:10px 0}
   .applicant .name{font-weight:600}
@@ -57,7 +59,7 @@
   <h1>Career Histories PDW: session groups</h1>
   <p class="sub">AOM 2026 professional development workshop, "New Theoretical and Empirical Research Opportunities from Examining Career Histories." Updated July 3, 2026.</p>
   <div class="toggle" role="group" aria-label="Choose a view">
-    <button id="btn-assignments" aria-pressed="true" onclick="show('assignments')">Group assignments</button>
+    <button id="btn-assignments" aria-pressed="true" onclick="show('assignments')">Agenda with group assignments</button>
     <button id="btn-background" aria-pressed="false" onclick="show('background')">Background info</button>
   </div>
 </header>
@@ -65,24 +67,37 @@
 <!-- ============ VIEW 1: GROUP ASSIGNMENTS ============ -->
 <div id="view-assignments" class="view active">
 
-<h2>Brainstorming groups</h2>
-<p class="small">In the second part of the workshop, attendees choose one of three topic groups. Each group leader gives a short overview of the topic, and the group then brainstorms together for about 30 minutes.</p>
+<h2>Session 1: opening and speaker presentations (45 minutes)</h2>
+<div class="card">
+  <p>The organizers open the workshop with a short welcome and overview: James White (University of Maryland), Nathan Barrymore (University of Texas at Austin), and Forrest Briscoe (Cornell University).</p>
+  <p>Three speakers then give ten minute talks on innovative uses and challenges of LinkedIn and career history data, followed by audience questions with the full panel:</p>
+  <ul>
+    <li><strong>Rocio Bonet</strong>, IE Business School</li>
+    <li><strong>Rem Koning</strong>, Harvard Business School</li>
+    <li><strong>Seth Carnahan</strong>, Washington University in St. Louis</li>
+  </ul>
+</div>
+
+<h2>Session 2: brainstorming groups (45 minutes)</h2>
+<p class="small">Attendees choose one of three topic groups. Each group leader gives a short overview of the topic, and the group then brainstorms together for about 30 minutes.</p>
 <table class="lineup">
-  <tr><th>Group topic</th><th>Leader</th><th>Affiliation</th></tr>
-  <tr><td>Advantages and limitations of Revelio data across differing contexts</td><td>Josh Feng</td><td>University of Utah</td></tr>
-  <tr><td>Careers, leadership, and inequality processes</td><td>Geoff Borchhardt</td><td>University of Oregon</td></tr>
-  <tr><td>Merging Revelio with external data, the VR Score case</td><td>Reuben Hurst</td><td>University of Maryland</td></tr>
+  <tr><th>Group leader</th><th>Topic</th></tr>
+  <tr><td><strong>Josh Feng</strong>, University of Utah</td><td>Advantages and limitations of Revelio data across differing contexts</td></tr>
+  <tr><td><strong>Geoff Borchhardt</strong>, University of Oregon</td><td>Careers, leadership, and inequality processes</td></tr>
+  <tr><td><strong>Reuben Hurst</strong>, University of Maryland</td><td>Merging Revelio with external data, the VR Score case</td></tr>
 </table>
 
-<h2>Paper development roundtables</h2>
-<p class="small">In the third part of the workshop, authors who submitted a proposal meet in small groups. Each paper gets about 15 minutes: a short summary from the author, then group discussion led by the table leader.</p>
+<h2>Session 3: paper development roundtables (45 minutes)</h2>
+<p class="small">Authors who submitted a proposal meet in small groups. Each paper gets about 15 minutes: a short summary from the author, then group discussion led by the table leader.</p>
 
 <div class="grid">
 
   <div class="card table-card t1">
     <span class="theme">Table 1: contestation and workforce flows</span>
-    <p class="leader">Max Kagan</p>
-    <p class="leader-sub">Columbia Business School</p>
+    <div class="leader-box">
+      <p class="leader">Max Kagan<span class="leader-badge">Table leader</span></p>
+      <p class="leader-sub">Columbia Business School</p>
+    </div>
     <div class="applicant">
       <div class="name">Tae-Ung Choi</div>
       <div class="inst">HKUST</div>
@@ -97,8 +112,10 @@
 
   <div class="card table-card t2">
     <span class="theme">Table 2: entrepreneurial careers and policy</span>
-    <p class="leader">Grady Raines</p>
-    <p class="leader-sub">Cornell University</p>
+    <div class="leader-box">
+      <p class="leader">Grady Raines<span class="leader-badge">Table leader</span></p>
+      <p class="leader-sub">Cornell University</p>
+    </div>
     <div class="applicant">
       <div class="name">Brad Turner</div>
       <div class="inst">MIT Sloan</div>
@@ -113,8 +130,10 @@
 
   <div class="card table-card t3">
     <span class="theme">Table 3: gender, benefits, and advancement</span>
-    <p class="leader">Beril Yalcinkaya</p>
-    <p class="leader-sub">The Wharton School</p>
+    <div class="leader-box">
+      <p class="leader">Beril Yalcinkaya<span class="leader-badge">Table leader</span></p>
+      <p class="leader-sub">The Wharton School</p>
+    </div>
     <div class="applicant">
       <div class="name">Hillary Cookler</div>
       <div class="inst">UCLA Anderson</div>
@@ -129,8 +148,10 @@
 
   <div class="card table-card t4">
     <span class="theme">Table 4: mobility, reputation, and strategic change</span>
-    <p class="leader">Cathy Lu</p>
-    <p class="leader-sub">University of Minnesota</p>
+    <div class="leader-box">
+      <p class="leader">Cathy Lu<span class="leader-badge">Table leader</span></p>
+      <p class="leader-sub">University of Minnesota</p>
+    </div>
     <div class="applicant">
       <div class="name">Paul Ferreira</div>
       <div class="inst">FGV EAESP, Sao Paulo</div>
@@ -143,6 +164,11 @@
     </div>
   </div>
 
+</div>
+
+<h2>Wrap-up (15 minutes)</h2>
+<div class="card">
+  <p>The organizers close the workshop with a summary of insights, collaboration opportunities, and next steps for the community.</p>
 </div>
 
 </div>
