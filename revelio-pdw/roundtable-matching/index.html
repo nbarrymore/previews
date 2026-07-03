@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revelio PDW — Batch 1 Roundtable Matching Review</title>
+<style>
+  :root{
+    --ink:#1a2233; --muted:#5b6577; --line:#dfe4ec; --bg:#f6f8fb; --card:#ffffff;
+    --accent:#1f5fbf; --accent-soft:#e8f0fc;
+    --t1:#7c3aed; --t2:#0f7b6c; --t3:#b45309; --t4:#be185d;
+    --warn-bg:#fff7e6; --warn-line:#e0a800;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:32px 24px 64px}
+  header h1{margin:0 0 4px;font-size:1.7rem}
+  header p.sub{margin:0;color:var(--muted)}
+  h2{font-size:1.25rem;margin:40px 0 12px;border-bottom:2px solid var(--line);padding-bottom:6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+  .decision{border-left:5px solid var(--accent);background:var(--accent-soft)}
+  .decision h3{margin:0 0 8px}
+  .warn{border-left:5px solid var(--warn-line);background:var(--warn-bg)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+  .table-card{border-top:5px solid var(--line)}
+  .table-card.t1{border-top-color:var(--t1)} .table-card.t2{border-top-color:var(--t2)}
+  .table-card.t3{border-top-color:var(--t3)} .table-card.t4{border-top-color:var(--t4)}
+  .leader{font-size:1.05rem;font-weight:600;margin:0}
+  .leader-sub{color:var(--muted);font-size:.85rem;margin:2px 0 10px}
+  .theme{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.02em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+  .applicant{border-top:1px solid var(--line);padding:10px 0}
+  .applicant .name{font-weight:600}
+  .applicant .inst{color:var(--muted);font-size:.85rem}
+  .applicant .paper{font-size:.92rem;margin:4px 0}
+  .applicant .why{font-size:.85rem;color:var(--muted);font-style:italic}
+  .pill{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .pill.prov{background:#fde8e8;color:#b42318;border:1px solid #f3b6b6}
+  .pill.mature{background:#e6f4ea;color:#1c7c3c;border:1px solid #b7dfc2}
+  .pill.early{background:#eef2f7;color:#475467;border:1px solid #d5dbe5}
+  .scroll{overflow-x:auto}
+  table.sheet{border-collapse:collapse;width:100%;font-size:.85rem;background:var(--card)}
+  table.sheet th{background:var(--ink);color:#fff;text-align:left;padding:8px 10px;white-space:nowrap;position:sticky;top:0}
+  table.sheet td{border:1px solid var(--line);padding:8px 10px;vertical-align:top}
+  table.sheet tr:nth-child(even){background:#fafbfd}
+  .tick{color:#1c7c3c;font-weight:700}
+  .miss{color:#b42318;font-weight:700}
+  ol.q li{margin:8px 0}
+  .lineup{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--card)}
+  .lineup th{text-align:left;padding:8px 10px;background:#eef2f7}
+  .lineup td{border:1px solid var(--line);padding:8px 10px}
+  .small{font-size:.85rem;color:var(--muted)}
+  footer{margin-top:48px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Revelio PDW — Batch 1 Roundtable Matching</h1>
+  <p class="sub">AOM 2026 &nbsp;·&nbsp; "New Theoretical and Empirical Research Opportunities from Examining Career Histories" &nbsp;·&nbsp; prepared 2026-07-03 &nbsp;·&nbsp; 9 applicants → 4 tables · <strong>recommendation for organizer review</strong></p>
+</header>
+
+<h2>1 · Leader confirmation</h2>
+<div class="card">
+  <p>Cross-checked against the proposal: organizers (James White, Nathan Barrymore, Forrest Briscoe), speakers (Rocio Bonet, Rem Koning, Seth Carnahan), and brainstorming leads (Josh Feng, Tiantian Yang, Forrest Briscoe, Reuben Hurst) all hold other roles. The panelists with <em>no</em> other role are exactly the five intended roundtable leaders:</p>
+  <p><strong>Max Kagan · Geoff Borchhardt · Cathy Lu · Beril Yalcinkaya · Grady Raines</strong> <span class="tick">✔ confirmed</span></p>
+  <p class="small">Updates applied: Tiantian Yang dropped out; Forrest Briscoe is a maybe.</p>
+</div>
+
+<h2>2 · Staffing decision — who fills the vacated brainstorming slot</h2>
+<div class="card decision">
+  <h3>Recommendation: promote Geoff Borchhardt → brainstorming leader ("Careers, leadership, and inequality processes"). Cathy Lu stays on a roundtable.</h3>
+  <ul>
+    <li><strong>Topic fit is overwhelming.</strong> Borchhardt's whole agenda is careers across labor-market transitions: solo-authored <em>ASQ</em> 2nd R&amp;R on career consequences of self-employment, layoffs-and-careers (w/ Botelho), gendered earnings inequality (w/ Carlson), <em>SMJ</em> 2025. He covers <em>both</em> vacated topics (Yang's careers/inequality and, if Briscoe drops, turnover/mobility). Lu's published record is strategy/sustainability/networks; her career-mobility stream is her newest, with one working paper.</li>
+    <li><strong>Proven facilitation.</strong> Organizes Oregon's management seminar series; ran Yale's Computational Social Science Workshop for 4 years; solo-teaches the strategy capstone — matching the framing-talk-plus-structured-brainstorm format. No comparable evidence found for Lu.</li>
+    <li><strong>Avoids concentration.</strong> Lu's main career-history paper is coauthored with Reuben Hurst, who already leads another brainstorming session; promoting her would put one collaboration behind half the brainstorming groups.</li>
+  </ul>
+  <p class="small"><strong>Trade-off, stated plainly:</strong> Lu (PhD ~2022–23 + World Bank experience) is 1–2 years <em>more senior</em> than Borchhardt (PhD 2024) — seniority is the only criterion favoring her. Both clear the bar of being more experienced than the remaining table leaders (Kagan PhD '25, Yalcinkaya PhD '25, Raines PhD '26).</p>
+</div>
+
+<h3 style="margin-top:24px">Resulting brainstorming lineup (Part 2)</h3>
+<table class="lineup">
+  <tr><th>Group topic</th><th>Leader</th><th>Status</th></tr>
+  <tr><td>Advantages &amp; limitations of Revelio across contexts</td><td>Josh Feng</td><td><span class="tick">confirmed</span> <span class="small">(Utah affiliation re-verified 2026-07-03)</span></td></tr>
+  <tr><td>Careers, leadership, and inequality processes</td><td><strong>Geoff Borchhardt</strong> <span class="small">(was T. Yang)</span></td><td>recommended</td></tr>
+  <tr><td>Turnover and inter-organizational mobility</td><td>Forrest Briscoe</td><td><span class="miss">maybe</span> — if out, Borchhardt absorbs mobility themes or run 3 groups</td></tr>
+  <tr><td>Merging Revelio with external data (VR Score case)</td><td>Reuben Hurst</td><td><span class="tick">confirmed</span></td></tr>
+</table>
+
+<h2>3 · Roundtable assignments — 9 applicants, 4 tables</h2>
+<p class="small">Matching principle: topical affinity between proposal and leader research; secondary: coherent within-table conversation, 2–3 papers per table (proposal spec), and the no-document applicant placed at the 3-person table so it still works as a 2-paper table if she never submits.</p>
+
+<div class="grid">
+
+  <div class="card table-card t1">
+    <span class="theme">Table 1 · Political, legal &amp; social contestation meets workforce flows</span>
+    <p class="leader">Max Kagan</p>
+    <p class="leader-sub">Postdoc, Columbia Business School · PhD UC Berkeley '25 · nonmarket strategy, workforce politics; deepest hands-on Revelio expertise (VRscores, <em>Org Science</em> '26; <em>Nature Human Behaviour</em> '26)</p>
+    <div class="applicant">
+      <div class="name">Tae-Ung Choi <span class="pill mature">advanced WP</span></div>
+      <div class="inst">Assistant Professor, HKUST</div>
+      <div class="paper">Moralization of membership — divestment campaigns drive fossil-fuel employee sorting &amp; political entrenchment (Revelio + donations, DiD)</div>
+      <div class="why">Linking Revelio careers to political-donation data is literally Kagan's research design.</div>
+    </div>
+    <div class="applicant">
+      <div class="name">Charles (Canquan) Li <span class="pill mature">advanced WP</span></div>
+      <div class="inst">PhD candidate, HK Polytechnic University</div>
+      <div class="paper">Anti-SLAPP laws → employee turnover (+12.3%) — Revelio 1990–2024, stacked DiD</div>
+      <div class="why">Legal/political shocks to workforce flows in Revelio; Kagan's methods + nonmarket territory.</div>
+    </div>
+    <div class="applicant">
+      <div class="name">Kate Niu <span class="pill prov">provisional — no document</span></div>
+      <div class="inst">PhD candidate, INSEAD</div>
+      <div class="paper">No proposal/CV uploaded; keywords: CPA, activism, competitive dynamics</div>
+      <div class="why">Keywords-only fit to the nonmarket/activism table; contingent on receiving her proposal.</div>
+    </div>
+  </div>
+
+  <div class="card table-card t2">
+    <span class="theme">Table 2 · Entrepreneurial careers &amp; entrepreneurship policy</span>
+    <p class="leader">Grady Raines</p>
+    <p class="leader-sub">PhD candidate, Cornell Johnson (exp. '26) → incoming AP, Indiana Kelley · entrepreneurship, policy &amp; inequality via quasi-/field experiments (<em>ASQ</em> '24, <em>SMJ</em>)</p>
+    <div class="applicant">
+      <div class="name">Brad Turner <span class="pill early">data collection</span></div>
+      <div class="inst">PhD candidate, MIT Sloan</div>
+      <div class="paper">RDD evaluation of a state rural accelerator/pitch competition — worker &amp; regional outcomes via Revelio + PitchBook + fieldwork</div>
+      <div class="why">Entrepreneurship-policy natural experiments are Raines's exact profile.</div>
+    </div>
+    <div class="applicant">
+      <div class="name">Catherine Paek <span class="pill mature">advanced WP</span></div>
+      <div class="inst">Assistant Professor, Boise State</div>
+      <div class="paper">Interim careers of serial entrepreneurs — interim jobs help previously-failed founders (Crunchbase, IPW logit)</div>
+      <div class="why">Entrepreneurial careers/post-exit transitions; Raines can also advise the natural Revelio-enrichment step.</div>
+    </div>
+  </div>
+
+  <div class="card table-card t3">
+    <span class="theme">Table 3 · Gender, benefits &amp; career advancement</span>
+    <p class="leader">Beril Yalcinkaya</p>
+    <p class="leader-sub">Postdoc, Wharton People Analytics · PhD Maryland Smith '25 · strategic human capital, mobility, gender/inequality, policy shocks (<em>SMJ</em> '26 benchmarks Revelio/LinkedIn coverage)</p>
+    <div class="applicant">
+      <div class="name">Hillary Cookler <span class="pill mature">JMP · AOM '26 STR Best Paper</span></div>
+      <div class="inst">PhD candidate, UCLA Anderson</div>
+      <div class="paper">"Bucks for Bumps" — paid parental leave → retention; 219 policy changes × Revelio (5.3M workers); ~3.5% departure reduction</div>
+      <div class="why">Benefits, retention, and gendered career outcomes with Revelio panels — squarely her expertise.</div>
+    </div>
+    <div class="applicant">
+      <div class="name">Tiffany Yau <span class="pill early">preliminary results</span></div>
+      <div class="inst">PhD student (3rd/4th yr), USC Marshall</div>
+      <div class="paper">Gendered career configurations to VC partner — QCA on a 2011 entry cohort via Crunchbase/PitchBook/LinkedIn</div>
+      <div class="why">Gender &amp; promotion in careers; strong thematic pairing with Cookler. (Alt: Raines — VC/finance fit.)</div>
+    </div>
+  </div>
+
+  <div class="card table-card t4">
+    <span class="theme">Table 4 · Mobility, reputation &amp; strategic change</span>
+    <p class="leader">Cathy Lu</p>
+    <p class="leader-sub">Assistant Professor, Minnesota Carlson · PhD Cornell ~'22–23 · strategic human capital × nonmarket; worker mobility filtering firm practices; sustainability/stakeholders</p>
+    <div class="applicant">
+      <div class="name">Paul Ferreira <span class="pill mature">near-complete paper</span></div>
+      <div class="inst">Assistant Professor, FGV EAESP (São Paulo)</div>
+      <div class="paper">Returnee ("boomerang") executives → strategic distinctiveness — Brazilian linked employer-employee panel 2000–2023, within-firm FE</div>
+      <div class="why">Executive mobility shaping firm strategy — her mobility-filters-firm-practices stream.</div>
+    </div>
+    <div class="applicant">
+      <div class="name">Henrique Goncalves <span class="pill early">early stage</span></div>
+      <div class="inst">PhD candidate, Notre Dame</div>
+      <div class="paper">"Good employer penalty" in AI-era layoffs — survivor turnover after layoffs at pro-employee-reputation firms; staggered DiD, S&amp;P 1500 + Revelio + GPTW</div>
+      <div class="why">Strategic change + stakeholder/reputation fits her strategy-sustainability-stakeholder work. (Alt: Yalcinkaya — layoffs/turnover.)</div>
+    </div>
+  </div>
+
+</div>
+
+<h2>4 · Master applicant sheet</h2>
+<p class="small">Full version with all columns: <code>matching/applicants.csv</code>. Per-person detail: <code>applicants/&lt;name&gt;/profile.md</code>, <code>proposal.md</code>, <code>cv.md</code>. Contact emails are omitted from this page (it is public by URL) — they are in the CSV.</p>
+<div class="scroll">
+<table class="sheet">
+  <tr><th>Applicant</th><th>Institution · Position</th><th>Keywords (survey)</th><th>Proposal</th><th>CV</th><th>Focus highlights</th><th>Div.</th><th>Table · Leader</th></tr>
+  <tr><td><strong>Brad Turner</strong></td><td>MIT Sloan · PhD 5th+</td><td>startup hiring; pitch competitions; economic development</td><td class="tick">✔</td><td class="tick">✔</td><td>RDD on state rural accelerator; Revelio+PitchBook; regional/worker outcomes; w/ E. Poskanzer; AOM Annals solo pub</td><td>ENT</td><td>2 · Raines</td></tr>
+  <tr><td><strong>Paul Ferreira</strong></td><td>FGV EAESP · Asst Prof</td><td>Upper Echelons; Executive Mobility; Strategic Change</td><td class="tick">✔</td><td class="miss">—</td><td>Boomerang executives → strategic distinctiveness; Brazilian linked employer-employee panel; near-complete</td><td>STR</td><td>4 · Lu</td></tr>
+  <tr><td><strong>Catherine Paek</strong></td><td>Boise State · Asst Prof</td><td>Entrepreneurial career; post-exit career; career transition</td><td class="tick">✔</td><td class="miss">—</td><td>Interim jobs between ventures help previously-failed serial founders; Crunchbase 4,055 founders; IPW logit</td><td>ENT</td><td>2 · Raines</td></tr>
+  <tr><td><strong>Tiffany Yau</strong></td><td>USC Marshall · PhD 3rd/4th</td><td>venture capital, promotion, QCA</td><td class="tick">✔</td><td class="tick">✔</td><td>Gendered experience configurations → VC partner; QCA, 2011 cohort; ex-VC analyst; preliminary results</td><td>ENT/OMT</td><td>3 · Yalcinkaya</td></tr>
+  <tr><td><strong>Charles Li</strong></td><td>HK PolyU · PhD 5th+</td><td>Human capital, employee turnover, stakeholder interrelationships</td><td class="tick">✔</td><td class="tick">✔</td><td>Anti-SLAPP laws → +12.3% departures; Revelio 65k firm-years; stacked DiD; SMJ target</td><td>STR</td><td>1 · Kagan</td></tr>
+  <tr><td><strong>Hillary Cookler</strong></td><td>UCLA Anderson · PhD 5th+</td><td>strategic human capital, benefits, paid parental leave</td><td class="tick">✔</td><td class="tick">✔</td><td>Paid parental leave → retention; 219 policy changes × Revelio 5.3M workers; JMP; AOM '26 STR Best Paper</td><td>STR</td><td>3 · Yalcinkaya</td></tr>
+  <tr><td><strong>Tae-Ung Choi</strong></td><td>HKUST · Asst Prof</td><td>Social movements; employee and insider activism; stigmatization</td><td class="tick">✔</td><td class="tick">✔</td><td>Divestment campaigns moralize membership → sorting + entrenchment; Revelio + donations; ASQ/OrgSci record</td><td>OMT</td><td>1 · Kagan</td></tr>
+  <tr><td><strong>Kate Niu</strong></td><td>INSEAD · PhD 5th+</td><td>CPA, activism, competitive dynamics</td><td class="miss">✗ missing</td><td class="miss">✗</td><td>33-second survey response, no uploads — follow up by email</td><td>STR/OMT?</td><td>1 · Kagan <span class="small">(provisional)</span></td></tr>
+  <tr><td><strong>Henrique Goncalves</strong></td><td>Notre Dame · PhD 5th+</td><td>Strategic change; technological disruption; stakeholder outcomes</td><td class="tick">✔</td><td class="tick">✔</td><td>Good-employer penalty in AI layoffs; staggered DiD, S&amp;P 1500 + Revelio; 2 AMJ R&amp;Rs; early stage</td><td>STR</td><td>4 · Lu</td></tr>
+</table>
+</div>
+
+<h2>5 · Open questions (parked for organizers)</h2>
+<div class="card warn">
+<ol class="q">
+  <li><strong>Kate Niu</strong> — no proposal/CV uploaded. Email to request the document; her Table 1 seat is provisional.</li>
+  <li><strong>Forrest Briscoe's participation</strong> — if he withdraws, should Borchhardt's session absorb turnover/mobility (4→ combined topics) or do we run 3 brainstorming groups?</li>
+  <li><strong>Josh Feng</strong> — <s>possible Tulane move</s> <strong>resolved 2026-07-03:</strong> false alarm; the Tulane "Koerner Chair" snippet refers to Matthew Higgins (ex-Utah Eccles). Feng confirmed current at Utah Eccles.</li>
+  <li><strong>Ferreira &amp; Paek</strong> — no CVs submitted (optional field). Chase, or match on proposals alone (done here)?</li>
+  <li>Two submissions are mature (Cookler's award-winning JMP, Ferreira's near-complete paper) — these tables may skew toward polishing rather than early development. OK?</li>
+  <li>Proposal promises <strong>ad-hoc open-discussion tables</strong> — who staffs those? (Organizers could float, or use freed capacity.)</li>
+</ol>
+</div>
+
+<footer>
+  Sources: submissions in <code>submissions/batch-1/</code> · survey <code>submissions/surveys/</code> · applicant detail in <code>applicants/</code> · leader research (web-verified 2026-07-03) in <code>leaders/</code> · decision rationale in <code>matching/assignments.md</code>. Nothing has been sent to leaders or applicants.
+</footer>
+
+</div>
+</body>
+</html>

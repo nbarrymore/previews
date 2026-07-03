@@ -26,7 +26,10 @@ Only put material here that is safe to be public:
 
 One folder per project, one subfolder per preview. Example:
 
-- `ambition/study2/` — Study 2 human task-typing survey draft (interactive).
+- `ambition/task-gender-typing/` — Study 2 human task-typing survey draft (interactive).
+- `revelio-pdw/roundtable-matching/` — AOM 2026 Revelio PDW roundtable matching review
+  (source of truth: `c:\repos\revelio-pdw\matching\review.html`; republish with that
+  repo's `publish-preview.ps1`).
 
 ## Publishing a new preview
 
