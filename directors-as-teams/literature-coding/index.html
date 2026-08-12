@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Board Composition Literature Coding: Codebook</title>
+<style>
+  :root {
+    --ink: #1a1d23; --muted: #5a6270; --line: #d9dde3; --bg: #ffffff;
+    --accent: #1a5fb4; --accent-bg: #eef4fb;
+    --warn: #9a3412; --warn-bg: #fff3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 62rem; padding: 2rem 1.5rem 5rem;
+    font-family: Georgia, 'Times New Roman', serif; color: var(--ink);
+    background: var(--bg); line-height: 1.55; font-size: 1.02rem;
+  }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 .3rem; }
+  h2 { font-size: 1.25rem; margin: 2.2rem 0 .8rem; border-bottom: 2px solid var(--ink); padding-bottom: .25rem; }
+  h3 { font-size: 1.05rem; margin: 1.6rem 0 .4rem; }
+  .meta { font-size: .88rem; color: var(--muted); margin-bottom: 1.4rem;
+          font-family: 'Segoe UI', system-ui, sans-serif; }
+  p { margin: .5rem 0 .9rem; }
+  ul, ol { margin: .4rem 0 1rem; padding-left: 1.5rem; }
+  li { margin-bottom: .35rem; }
+  .rule { background: var(--accent-bg); border-left: 4px solid var(--accent); padding: .7rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .decision { background: var(--warn-bg); border-left: 4px solid var(--warn); padding: .7rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .decision .dnum { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--warn); }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0 1.4rem; font-size: .9rem; }
+  th, td { border: 1px solid var(--line); padding: .4rem .55rem; text-align: left; vertical-align: top; }
+  th { background: #f3f5f8; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .8rem; }
+  code, .m { font-family: Consolas, 'Courier New', monospace; font-size: .88em; background: #f4f5f7; padding: .05rem .3rem; border-radius: 3px; }
+  .note { font-size: .9rem; color: var(--muted); }
+
+  /* Tabs */
+  .tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.2rem 0 1.8rem;
+          border-bottom: 2px solid var(--line); padding-bottom: .8rem;
+          font-family: 'Segoe UI', system-ui, sans-serif; }
+  .tabs button {
+    font: inherit; font-size: .92rem; font-weight: 600; cursor: pointer;
+    padding: .45rem 1.1rem; border: 1px solid var(--line); border-radius: 999px;
+    background: #fafbfc; color: var(--muted);
+  }
+  .tabs button:hover { border-color: var(--accent); color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Validation visual */
+  .flow { display: flex; gap: 1rem; align-items: stretch; flex-wrap: wrap; margin: 1rem 0; }
+  .flow .col { flex: 1 1 22rem; min-width: 20rem; }
+  .jsoncard { font-family: Consolas, 'Courier New', monospace; font-size: .78rem; background: #f7f8fa;
+              border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem; margin-bottom: .6rem;
+              white-space: pre-wrap; }
+  .jsoncard b { color: var(--accent); font-weight: 700; }
+  .arrow { align-self: center; font-size: 1.6rem; color: var(--muted); padding: 0 .3rem; }
+  pre.prompt { white-space: pre-wrap; font-family: Consolas, 'Courier New', monospace; font-size: .82rem;
+               background: #f7f8fa; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem;
+               line-height: 1.45; }
+  /* --- Disagreements screen --- */
+  .dsum td.n { text-align: center; font-weight: 700; }
+  .dcard { border: 1px solid var(--line); border-radius: 10px; margin: 1.6rem 0; overflow: hidden; }
+  .dcard > h4 { margin: 0; padding: .6rem .9rem; background: #f3f5f8; font-size: .98rem;
+                font-family: 'Segoe UI', system-ui, sans-serif; border-bottom: 1px solid var(--line); }
+  .dcard .body { padding: .9rem; }
+  .cells { font-family: 'Segoe UI', system-ui, sans-serif; font-size: .84rem; margin-bottom: .9rem; }
+  .chip { display: inline-block; border-radius: 999px; padding: .1rem .6rem; margin: .12rem .25rem .12rem 0;
+          font-size: .78rem; font-weight: 600; }
+  .chip.human { background: #fdecea; color: #8a1c11; }
+  .chip.llm { background: #eef4fb; color: #1a5fb4; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: .6rem 0 .9rem; }
+  .split > div { border: 1px solid var(--line); border-radius: 8px; padding: .6rem .75rem; font-size: .88rem; }
+  .split h5 { margin: 0 0 .4rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em;
+              font-family: 'Segoe UI', system-ui, sans-serif; color: var(--muted); }
+  .split .sheet { background: #fffaf9; }
+  .split .ours { background: #f9fbfe; }
+  blockquote.paper { margin: .5rem 0; padding: .5rem .8rem; border-left: 3px solid var(--muted);
+                     background: #fafbfc; font-size: .88rem; }
+  blockquote.paper cite { display: block; margin-top: .3rem; font-size: .8rem; color: var(--muted);
+                          font-style: normal; font-family: 'Segoe UI', system-ui, sans-serif; }
+  pre.tbl { background: #f4f5f7; border: 1px solid var(--line); border-radius: 6px; padding: .5rem .7rem;
+            font-family: Consolas, monospace; font-size: .78rem; overflow-x: auto; white-space: pre; }
+  .why { background: var(--accent-bg); border-left: 4px solid var(--accent); padding: .6rem .9rem;
+         border-radius: 0 6px 6px 0; font-size: .9rem; }
+  .ask { background: var(--warn-bg); border-left: 4px solid var(--warn); padding: .7rem 1rem;
+         border-radius: 0 6px 6px 0; margin: 1rem 0; }
+  .ask b { color: var(--warn); }
+  @media (max-width: 46rem) { .split { grid-template-columns: 1fr; } }
+  @media print { body { max-width: none; } .tabs { display: none; } .screen { display: block !important; } }
+</style>
+</head>
+<body>
+
+<h1>Coding Board Composition Constructs in the Governance Literature</h1>
+<div class="meta">2026-08-11<br>STATUS: three papers LLM-coded, waiting for human decision
+on disagreements (see "Disagreements to Check" tab) before LLM-coding all papers.</div>
+
+<nav class="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="variables">Variables</button>
+  <button data-tab="prompt">LLM Prompt</button>
+  <button data-tab="validation">Validation</button>
+  <button data-tab="tables">Tables</button>
+  <button data-tab="disagreements">Disagreements to Check</button>
+</nav>
+
+<!-- ============================ OVERVIEW ============================ -->
+<section id="overview" class="screen active">
+
+<h2>What this is</h2>
+<ul>
+  <li><b>Goal:</b> a structured, auditable coding of every variable used in a corpus of 114 board-composition
+      papers, produced by LLM coders and validated against a 113-article hand-coded sheet.</li>
+  <li><b>Process:</b> an LLM agent reads the paper's full text (a markdown conversion of the
+      PDF) and returns a structured output of all variable records and coding notes (formally,
+      a schema-validated JSON object). The exact instructions are on the LLM Prompt screen.</li>
+  <li><b>Unit of data:</b> the <b>variable record</b> &mdash; one JSON object per variable per paper:
+    <ul>
+      <li><b>Identity:</b> the variable's name as the authors write it, its operationalization, any
+          transformations applied, and the data source.</li>
+      <li><b>Content:</b> which construct the authors intend the variable to measure, taken from a fixed
+          vocabulary.</li>
+      <li><b>Measurement form:</b> how the variable is measured over people &mdash; per director, or as a
+          board mean, share, dispersion, faultline or overlap. Content and form are recorded
+          independently, so one construct can be followed across the different ways papers aggregate it.</li>
+      <li><b>Role and scope:</b> the part the variable plays (DV, IV, moderator, mediator, control,
+          instrument), and whether it belongs to the main specifications, appears only in robustness
+          checks, or was considered by the authors and dropped.</li>
+      <li><b>Justification:</b> the authors' own reasons for including the variable and for measuring it
+          that way, as verbatim quotes with locations.</li>
+    </ul>
+    Everything else &mdash; construct counts, comparison rows, the manuscript tables &mdash; is computed
+    from these fields rather than recorded separately.
+  </li>
+  <li><b>What it feeds:</b> the manuscript tables (constructs &times; papers &times; operationalizations
+      &times; justifications; measurement-practice patterns) and a cell-level validation against the
+      hand coding. See the Tables and Validation screens.</li>
+</ul>
+
+<h2>Workflow and status</h2>
+<ul>
+  <li>Three papers have been coded and checked against the hand-coded sheet. Next is the full run over
+      the 109 empirical papers, then the validation report, then the tables.</li>
+  <li>Five of the 114 papers are excluded from coding because they are not empirical: a review article,
+      an editorial, a meta-analysis, and two theory papers built on propositions. None of them estimates
+      variables, so there is nothing for the coder to record.</li>
+</ul>
+
+</section>
+
+<!-- ============================ VARIABLES ============================ -->
+<section id="variables" class="screen">
+
+<h2>Fields coded (per variable)</h2>
+<p class="note">Exact instructions and definitions provided to the LLM are stated in the
+&ldquo;LLM Prompt&rdquo; section.</p>
+<table>
+  <tr><th>Field</th><th>What it records</th></tr>
+  <tr><td><span class="m">name_in_paper</span></td><td>The variable's label as the authors write it &mdash; the label from the variable-definitions table, or the row label in a regression table &mdash; with nothing appended by the coder. Table locations go in <span class="m">appears_in_tables</span>, descriptions in <span class="m">operationalization</span>.</td></tr>
+  <tr><td><span class="m">role</span></td><td>The part the variable plays in the paper's main analysis: <span class="m">dv</span>, <span class="m">iv</span>, <span class="m">moderator</span>, <span class="m">mediator</span>, <span class="m">control</span>, <span class="m">instrument</span>. Other parts in other analyses go in <span class="m">notes</span>.</td></tr>
+  <tr><td><span class="m">scope</span></td><td><span class="m">main</span> (main specifications), <span class="m">robustness</span> (robustness checks only), <span class="m">dropped</span> (considered and excluded). Every variable in the empirical analyses gets a record — none skipped for seeming minor.</td></tr>
+  <tr><td><span class="m">content</span></td><td>Which construct the authors intend the variable to measure, from the Content Vocabulary below. Identified from the paper's own framing — the variable's name, the hypothesis or argument it serves, the literature cited when introducing it — never from the measurement formula alone. Null when the paper provides no framing anywhere (no guessing). <span class="m">not_applicable</span> for variables measuring no person or board trait (firm outcomes, industry, macro). <b>Multi-valued</b> (an ordered list) when one measure's definition spans more than one construct &mdash; a multi-trait faultline, or a disjunctive category that fires on conditions from different trait families. <b>The primary construct is listed first</b>, and a paper counts toward every construct in the list, not only the first. Multi-valued content applies only to variables with an empty <span class="m">derived_from</span>: a composite takes the content its own framing supports, never the union of its constituents', which stays recoverable from the constituents' own records.</td></tr>
+  <tr><td><span class="m">content_evidence</span></td><td>The framing evidence for the content choice: a short verbatim phrase plus location. Empty when content is null or not_applicable.</td></tr>
+  <tr><td><span class="m">measurement_form</span></td><td>How the variable is measured over people, from the Form Vocabulary below. Decided by the unit the value varies over: differs across directors &rarr; individual; one value per board &rarr; a board_* form; a board feature that is not an aggregate of member traits &rarr; structural. Derived variables take a form only if one genuinely fits.</td></tr>
+  <tr><td><span class="m">relative_to</span></td><td>The benchmark a relational measure is defined against: <span class="m">none</span>, <span class="m">ceo</span>, <span class="m">chair</span>, <span class="m">other_directors</span>, <span class="m">firm</span>. The benchmark never changes the form, and benchmarking against the CEO or firm does not make the variable a CEO or firm variable.</td></tr>
+  <tr><td><span class="m">level</span></td><td>Whose attribute the value is: <span class="m">director</span>, <span class="m">board</span>, <span class="m">ceo</span>, <span class="m">firm</span>, <span class="m">other</span>. Person-trait contents apply at any person level — a CEO's age is (content: age, level: ceo). Board tables later filter to director/board.</td></tr>
+  <tr><td><span class="m">derived_from</span></td><td>For variables built from other named measures (composite index, interaction term, ratio): the constituent variable names. Each constituent gets its own record; the derived record is coded in its own right (unframed derived variables take content = null like anything else).</td></tr>
+  <tr><td><span class="m">operationalization</span></td><td>The precise definition of how the variable is constructed, as the authors define it.</td></tr>
+  <tr><td><span class="m">transformations</span></td><td>Log, +1 offset, winsorization, reverse-coding, threshold dummy, standardization.</td></tr>
+  <tr><td><span class="m">data_source</span></td><td>Where the variable's data comes from, as named by the authors.</td></tr>
+  <tr><td><span class="m">measure_label</span></td><td>A short label: the operationalization phrase, plus the data source in parentheses where the paper names one. Full definitions stay in operationalization.</td></tr>
+  <tr><td><span class="m">inclusion_quote</span> (+ location)</td><td>Verbatim quote where the authors justify why this variable is in the analysis. Empty if none exists — never a paraphrase.</td></tr>
+  <tr><td><span class="m">measurement_quote</span> (+ location)</td><td>Verbatim quote justifying why the variable is measured this way. Empty if none. Quote policy for both: verbatim wording and word order; OCR spacing may be repaired; no word changed, added, or deleted.</td></tr>
+  <tr><td><span class="m">appears_in_tables</span></td><td>The tables/panels where the variable appears.</td></tr>
+  <tr><td><span class="m">notes</span></td><td>Ambiguities, secondary roles, suspected conversion artifacts, judgment calls.</td></tr>
+</table>
+
+<h2><i>Content</i> field vocabulary list</h2>
+<table>
+  <tr><th>ID</th><th>Definition</th><th>Boundary notes</th></tr>
+  <tr><td><span class="m">age</span></td><td>A person's age: years, bins, retirement-age dummies.</td><td></td></tr>
+  <tr><td><span class="m">gender</span></td><td>Gender; female indicators; gender in matching or tie definitions.</td><td>Gender-based ties also code <span class="m">networks</span>.</td></tr>
+  <tr><td><span class="m">race_ethnicity</span></td><td>Race or ethnicity; minority indicators.</td><td></td></tr>
+  <tr><td><span class="m">nationality</span></td><td>The person's own nationality or foreign status.</td><td>International <i>experience</i> is <span class="m">expertise</span>.</td></tr>
+  <tr><td><span class="m">political_ideology</span></td><td>Political leanings, usually donation-based; ideological distance.</td><td>Office-holding is <span class="m">political_experience</span>.</td></tr>
+  <tr><td><span class="m">risk_preferences</span></td><td>Revealed risk preferences (e.g., option-exercise behavior).</td><td></td></tr>
+  <tr><td><span class="m">personality_psychology</span></td><td>Personality and cognition: narcissism, overconfidence, cognitive style.</td><td>Risk attitudes are <span class="m">risk_preferences</span>.</td></tr>
+  <tr><td><span class="m">experience_tenure</span></td><td>Experience as a director: tenure on the focal board, count of current/past board seats, first-time-director indicators, years served with the current CEO.</td><td>Seat counts framed as attention constraints are <span class="m">busyness</span>. Executive work experience is <span class="m">expertise</span>.</td></tr>
+  <tr><td><span class="m">education</span></td><td>Degree level, institution prestige/elite lists, field of study, exam scores.</td><td>Education-based <i>ties</i> (same school) are <span class="m">networks</span>.</td></tr>
+  <tr><td><span class="m">expertise</span></td><td>Skills, functional background (finance, legal, accounting, media, medicine), industry experience, executive experience (including being a CEO elsewhere), country-specific/foreign experience.</td><td>Political office is <span class="m">political_experience</span>; board seats as experience are <span class="m">experience_tenure</span>.</td></tr>
+  <tr><td><span class="m">political_experience</span></td><td>Held political office or worked in government; years in government.</td><td>Donation-based ideology is <span class="m">political_ideology</span>.</td></tr>
+  <tr><td><span class="m">busyness</span></td><td>Overcommitment: directorship-count thresholds, seat counts framed as attention constraints, outside employment.</td><td>Temporary shocks are <span class="m">distraction</span>.</td></tr>
+  <tr><td><span class="m">distraction</span></td><td>Temporary attention shocks (events at the person's other firms).</td><td>Chronic overload is <span class="m">busyness</span>.</td></tr>
+  <tr><td><span class="m">attendance</span></td><td>Meeting attendance records.</td><td>Count of meetings held is <span class="m">board_structure</span>.</td></tr>
+  <tr><td><span class="m">networks</span></td><td>Ties and network positions: interlocks, employment/education/social ties (including ties to the CEO or chair), centrality at any level.</td><td></td></tr>
+  <tr><td><span class="m">status</span></td><td>Standing in a prestige hierarchy, usually composite; directorship counts explicitly framed as status.</td><td>Negative standing is <span class="m">stigma_reputation</span>.</td></tr>
+  <tr><td><span class="m">stigma_reputation</span></td><td>Negative or at-risk public standing: fraud taint, lawsuit association, media reputation.</td><td></td></tr>
+  <tr><td><span class="m">independence</span></td><td>Independence classification (exchange/ISS definitions; inside/outside/affiliated).</td><td></td></tr>
+  <tr><td><span class="m">pay_ownership</span></td><td>Compensation; equity ownership; incentive structure.</td><td>Blockholder-scale stakes are <span class="m">blockholder</span>.</td></tr>
+  <tr><td><span class="m">blockholder</span></td><td>The person is, or represents, a large shareholder.</td><td></td></tr>
+  <tr><td><span class="m">founder_family</span></td><td>Founder or founding/controlling-family member.</td><td></td></tr>
+  <tr><td><span class="m">ceo_duality</span></td><td>The CEO also holds the board chair role, or the two roles are separated.</td><td>The chair role on its own, held by anyone, is <span class="m">board_chair</span>.</td></tr>
+  <tr><td><span class="m">board_chair</span></td><td>Holds the chair (or presiding chair) role of the board itself, as an attribute of a person.</td><td>Whether the CEO is the one holding it is <span class="m">ceo_duality</span>; chairing a board committee is <span class="m">committee_chair</span>.</td></tr>
+  <tr><td><span class="m">committee_chair</span></td><td>Chairs a board committee.</td><td></td></tr>
+  <tr><td><span class="m">committee_member</span></td><td>Sits on a board committee; assignment used as a variable.</td><td>A paper using chair and membership variables codes both.</td></tr>
+  <tr><td><span class="m">ceo_appointment</span></td><td>Director joined the board during the sitting CEO's tenure (co-opted directors, CEO allies).</td><td>&ldquo;Currently a CEO elsewhere&rdquo; is <span class="m">expertise</span>.</td></tr>
+  <tr><td><span class="m">election_outcome</span></td><td>Shareholder votes on the director: election/withhold results, vote shares.</td><td></td></tr>
+  <tr><td><span class="m">investor_appointed</span></td><td>Appointed by or representing an investor, typically an activist.</td><td></td></tr>
+  <tr><td><span class="m">lead_independent_director</span></td><td>Lead/presiding independent director role.</td><td></td></tr>
+  <tr><td><span class="m">board_structure</span></td><td>Structural board features that are not aggregates of member traits: staggered/classified board, board size, meeting frequency.</td><td></td></tr>
+  <tr><td><span class="m">not_applicable</span></td><td>The variable measures no person or board trait (firm characteristics and outcomes, industry and macro conditions).</td><td></td></tr>
+</table>
+
+<h2><i>Measurement form</i> field vocabulary list</h2>
+<table>
+  <tr><th>ID</th><th>Definition</th></tr>
+  <tr><td><span class="m">individual</span></td><td>Measured per person, including role dummies and dyadic measures that vary across directors.</td></tr>
+  <tr><td><span class="m">board_mean_level</span></td><td>Board-level mean or level of a member trait.</td></tr>
+  <tr><td><span class="m">board_share_count</span></td><td>Share or count of members with a trait; totals of member traits.</td></tr>
+  <tr><td><span class="m">board_dispersion</span></td><td>Heterogeneity: SD, Blau/HHI, similarity indices, heterogeneity measures.</td></tr>
+  <tr><td><span class="m">board_faultline</span></td><td>Faultline measures, including multi-trait ones (content is then multi-valued).</td></tr>
+  <tr><td><span class="m">board_overlap</span></td><td>Pairwise overlap/similarity among members; uniqueness relative to the rest of the board (with relative_to = other_directors).</td></tr>
+  <tr><td><span class="m">structural</span></td><td>Board features that are not aggregates of member traits.</td></tr>
+</table>
+<p class="note">A variable can also have a benchmark, recorded separately in
+<span class="m">relative_to</span>. The benchmark does not change the measurement form: average board
+tenure divided by CEO tenure is still a board mean — it is simply a board mean with
+<span class="m">relative_to</span> = CEO.</p>
+
+<h2>Paper-level and coding-notes fields</h2>
+<table>
+  <tr><th>Block</th><th>Fields</th></tr>
+  <tr><td><b>paper</b></td><td>title, authors, year, journal; research_question (one sentence); theory_framing; samples (one entry per estimation sample: description, n, period); data_sources; empirical_methods; identification_strategy (with the authors' own caveats); measurement_innovation (reusable dictionaries, indices, coding protocols).</td></tr>
+  <tr><td><b>coding_notes</b></td><td>conversion_quality; ambiguities (judgment calls); possible_missing (content suspected lost in PDF conversion).</td></tr>
+</table>
+
+</section>
+
+<!-- ============================ LLM PROMPT ============================ -->
+<section id="prompt" class="screen">
+
+<h2>The prompt the LLM coder sees</h2>
+<p class="note">Verbatim copy of <span class="m">docs/curation_prompts/litreview_variable_coding_v3.md</span>
+(prompt body only; the coder sees raw markdown). <span class="m">{PAPER_MD_PATH}</span> is filled in with
+the paper being coded. Every returned file is checked against the schema before it is accepted.</p>
+
+<pre class="prompt">You are coding one academic paper for a structured literature database on board composition research.
+Your final message must be a single JSON object and nothing else; it is parsed by a program. Do not
+summarize the paper, evaluate its quality, or address a human reader.
+
+The paper (a markdown conversion of the PDF) is at: `{PAPER_MD_PATH}`
+
+## How to read the paper
+
+- Read the ENTIRE file. Page through it with the Read tool (offset/limit) until you reach the end.
+- If the paper has a variable-definitions appendix or table, read it FIRST and use it as the spine of
+  your inventory; then walk every regression table to catch variables the appendix omits; then read the
+  text for framing and justification quotes.
+- Expect PDF-conversion artifacts: minus signs rendered as "2" (a table cell "20.30" may be &minus;0.30), "&times;"
+  rendered as "3", "&lt;" rendered as ",", dropped ligatures ("frm" for "firm"), collapsed whitespace, and
+  unreadable figures (captions survive). When you suspect an artifact, record the suspicion in
+  `coding_notes` instead of silently guessing.
+- Never invent a variable, a number, or a quote. When you are unsure, say so in the `notes` field of the
+  affected record; uncertainty belongs in the data, not resolved by guessing.
+
+## Which variables get a record
+
+Create one record for every variable that appears in the paper's empirical analyses: dependent
+variables, focal predictors, moderators, mediators, instruments, and controls. Set `role` to the part
+the variable plays in the paper's main analysis; if it plays different parts in different analyses, use
+the main analysis and note the others in `notes`. Set `scope` to `main` for variables in the main
+specifications, `robustness` for variables appearing only in robustness checks, and `dropped` for
+variables the authors considered but excluded. Do not skip a variable because it seems minor.
+
+### What counts as one record
+
+These two rules fix the boundaries of the inventory. Apply them literally.
+
+- **Do not record estimation apparatus.** Fixed effects of any kind, intercepts, time dummies, offsets,
+  exposure terms, and weights are not variables. They measure no person or board trait and get no
+  record, however prominently the tables list them.
+- **A variable and its transformation are one record.** Where variable X enters the analyses only in
+  transformed form — logged, winsorized, standardized, reverse-coded, or cut into a threshold dummy —
+  create one record, named as the authors label it, and put the transformation in `transformations`.
+  Create a second record only where the untransformed and transformed forms both enter as distinct
+  regressors, and say so in `notes`.
+
+### Reconcile before you emit
+
+Check your inventory against the paper, and fix any gap you find:
+
+1. Every row of the variable-definitions appendix or table has a record.
+2. Every row of every regression table has a record, or is estimation apparatus excluded above.
+
+This check leaves no trace in your output; just complete it.
+
+## Field guide
+
+Every entry below is the rule for that field. Vocabulary values are defined once, in the tables after
+this guide; nothing here redefines them.
+
+**`name_in_paper`** — the variable's label as the authors write it: the label from the
+variable-definitions table, or the row label in a regression table. Add nothing of your own devising —
+not a description, not a table reference, not a clarifying parenthetical. Table locations belong in
+`appears_in_tables` and descriptions in `operationalization`.
+
+**`role`** — one of: `dv`, `iv`, `moderator`, `mediator`, `control`, `instrument`.
+
+**`scope`** — one of: `main`, `robustness`, `dropped` (see "Which variables get a record").
+
+**`content`** — which construct the authors intend the variable to measure, as a Content Vocabulary ID.
+Identify the construct from the paper's own framing — the variable's name, the hypothesis or argument it
+serves, and the literature cited when introducing it — never from the measurement formula alone. If the
+paper provides no framing anywhere (typically a control that is listed but never discussed), set
+`content` to null rather than guessing. Variables that measure no person or board trait — firm
+characteristics and outcomes, industry and macro conditions — take `content` = `not_applicable`.
+
+Some variables are defined DISJUNCTIVELY: one measure fires on any of several conditions that belong
+to different constructs, and the data cannot show which condition fired for a given person.
+Disclosure-based categories are the common case — a single dummy defined so that it fires when a
+person satisfies either of two conditions drawn from different trait families, sometimes operationalized
+with a keyword list spanning both. For these, `content` is a LIST naming every construct the definition
+can fire on, with the PRIMARY construct FIRST. The primary construct is the one the authors' own framing
+leads with; where the framing does not settle it, the one covering most of the definition. Do not
+silently pick one condition and drop the others, and do not reorder the list alphabetically or by
+vocabulary order; the order is meaningful, not cosmetic. A single-construct variable stays a plain
+string, not a one-element list.
+
+This applies ONLY to variables whose `derived_from` is empty. A variable built from other named
+measures takes only the content its OWN framing supports, or null — never the union of its
+constituents' contents; the constituents carry those in their own records. If you find yourself
+listing three or more contents for one variable, check whether it is in fact built from constituents;
+if it is, name them in `derived_from` and leave the extra contents off this record.
+
+**`content_evidence`** — the framing evidence for your `content` choice: a short verbatim phrase or
+sentence plus its location. Empty string when `content` is null or `not_applicable`.
+
+**`measurement_form`** — how the variable is measured over people, as a Measurement Form ID. Decide by
+the unit the value varies over: it differs across individual directors → `individual`; one value per
+board → the matching `board_*` form; a board feature that is not an aggregate of member traits →
+`structural`. For a derived variable (see `derived_from`), assign a form only if the derived variable
+itself matches one; otherwise null, with a note.
+
+**`relative_to`** — one of: `none`, `ceo`, `chair`, `other_directors`, `firm`. The benchmark a
+relational measure is defined against. The benchmark never changes `measurement_form`, and using the CEO
+or the firm as a benchmark does not make the variable a CEO or firm variable.
+
+**`level`** — one of: `director`, `board`, `ceo`, `firm`, `other`. Content values describe traits of
+people and boards; code every person-trait variable with its content regardless of whose trait it is —
+`level` records whether the person is a director or the CEO.
+
+**`derived_from`** — when the variable is built from other named measures (a composite index, an
+interaction term, a ratio of two variables), list the constituent variable names here, and create a
+record for each constituent as well. Code every record — including the derived one — in its own right
+under this field guide; a derived variable with no framing of its own takes `content` = null like any
+other unframed variable. Empty list otherwise.
+
+**`operationalization`** — the precise definition of how the variable is constructed, as the authors
+define it (include sample statistics only if the authors state them).
+
+**`transformations`** — measurement transformations applied: log, +1 offset, winsorization,
+reverse-coding, threshold dummy, standardization. Empty string if none.
+
+**`data_source`** — where the variable's data comes from, as named by the authors.
+
+**`measure_label`** — a short label of the form "[operationalization phrase] ([data source])", or just
+the phrase where the paper names no source. Full definitions belong in `operationalization`, never in
+the label.
+
+**`inclusion_quote`, `inclusion_quote_location`** — verbatim quote where the authors justify WHY this
+variable is in the analysis, and where it appears. Empty strings if no such justification exists — never
+substitute a paraphrase.
+
+**`measurement_quote`, `measurement_quote_location`** — verbatim quote where the authors justify why
+the variable is measured THIS WAY, and where it appears. Empty strings if none.
+
+Quote policy for both quote fields: verbatim in wording and word order; you may repair spacing lost in
+PDF conversion; you may not change, add, or delete a word.
+
+**`appears_in_tables`** — the tables/panels where the variable appears (e.g., "Table 2; Table 5 Panel A").
+
+**`notes`** — ambiguities, secondary roles, suspected conversion artifacts, judgment calls.
+
+### Paper block fields
+
+`title`, `authors`, `year`, `journal`; `research_question` (one sentence); `theory_framing` (the
+literature/theory motivating the paper, brief); `samples` (a list — one entry per estimation sample:
+description, n, period); `data_sources`; `empirical_methods`; `identification_strategy` (the causal
+strategy, or "descriptive/associational", with the authors' own caveats if any); `measurement_innovation`
+(any reusable measurement contribution — a new dictionary, index, or coding protocol — or empty string).
+
+Types in this block: every field above is a STRING except `samples`, which is a list of OBJECTS, one
+per estimation sample, each with exactly the keys `description`, `n` and `period`. Do not write
+`samples` as a list of sentences.
+
+### Coding-notes block fields
+
+`conversion_quality` (were tables and definitions readable?); `ambiguities` (judgment calls you made);
+`possible_missing` (content you suspect exists in the PDF but was lost in conversion). All three are
+strings.
+
+## Content Vocabulary
+
+Assign the ID whose definition matches the construct the paper's framing invokes. Boundary notes resolve
+neighboring pairs. Multi-valued where one measure genuinely spans trait families — a faultline combining
+demographic and skill traits, or a disjunctive category that fires on conditions from different families.
+List the primary construct first.
+
+| ID | Definition | Boundary notes |
+|---|---|---|
+| `age` | A person's age: years, bins, retirement-age dummies. | |
+| `gender` | Gender; female indicators; gender in matching or tie definitions. | Gender-based ties also code `networks`. |
+| `race_ethnicity` | Race or ethnicity; minority indicators. | |
+| `nationality` | The person's own nationality or foreign status. | International *experience* is `expertise`. |
+| `political_ideology` | Political leanings, usually donation-based; ideological distance. | Office-holding is `political_experience`. |
+| `risk_preferences` | Revealed risk preferences (e.g., option-exercise behavior). | |
+| `personality_psychology` | Personality and cognition: narcissism, overconfidence, cognitive style. | Risk attitudes are `risk_preferences`. |
+| `experience_tenure` | Experience as a director: tenure on the focal board, count of current/past board seats, first-time-director indicators, years served with the current CEO. | Seat counts framed as attention constraints are `busyness`. Executive work experience is `expertise`. |
+| `education` | Degree level, institution prestige/elite lists, field of study, exam scores. | Education-based *ties* (same school) are `networks`. |
+| `expertise` | Skills, functional background (finance, legal, accounting, media, medicine), industry experience, executive experience (including being a CEO elsewhere), country-specific/foreign experience. | Political office is `political_experience`; board seats as experience are `experience_tenure`. |
+| `political_experience` | Held political office or worked in government; years in government. | Donation-based ideology is `political_ideology`. |
+| `busyness` | Overcommitment: directorship-count thresholds, seat counts framed as attention constraints, outside employment. | Temporary shocks are `distraction`. |
+| `distraction` | Temporary attention shocks (events at the person's other firms). | Chronic overload is `busyness`. |
+| `attendance` | Meeting attendance records. | Count of meetings held is `board_structure`. |
+| `networks` | Ties and network positions: interlocks, employment/education/social ties (including ties to the CEO or chair), centrality at any level. | |
+| `status` | Standing in a prestige hierarchy, usually composite; directorship counts explicitly framed as status. | Negative standing is `stigma_reputation`. |
+| `stigma_reputation` | Negative or at-risk public standing: fraud taint, lawsuit association, media reputation. | |
+| `independence` | Independence classification (exchange/ISS definitions; inside/outside/affiliated). | |
+| `pay_ownership` | Compensation; equity ownership; incentive structure. | Blockholder-scale stakes are `blockholder`. |
+| `blockholder` | The person is, or represents, a large shareholder. | |
+| `founder_family` | Founder or founding/controlling-family member. | |
+| `ceo_duality` | The CEO also holds the board chair role, or the two roles are separated. | The chair role on its own, held by anyone, is `board_chair`. |
+| `board_chair` | Holds the chair (or presiding chair) role of the board itself, as an attribute of a person. | Whether the CEO is the one holding it is `ceo_duality`; chairing a board committee is `committee_chair`. |
+| `committee_chair` | Chairs a board committee. | |
+| `committee_member` | Sits on a board committee; assignment used as a variable. | A paper using chair and membership variables codes both. |
+| `ceo_appointment` | Director joined the board during the sitting CEO's tenure (co-opted directors, CEO allies). | "Currently a CEO elsewhere" is `expertise`. |
+| `election_outcome` | Shareholder votes on the director: election/withhold results, vote shares. | |
+| `investor_appointed` | Appointed by or representing an investor, typically an activist. | |
+| `lead_independent_director` | Lead/presiding independent director role. | |
+| `board_structure` | Structural board features that are not aggregates of member traits: staggered/classified board, board size, meeting frequency. | |
+| `not_applicable` | The variable measures no person or board trait (firm characteristics and outcomes, industry and macro conditions). | |
+
+## Measurement Form Vocabulary
+
+| ID | Definition |
+|---|---|
+| `individual` | Measured per person, including role dummies and dyadic measures that vary across directors. |
+| `board_mean_level` | Board-level mean or level of a member trait. |
+| `board_share_count` | Share or count of members with a trait; totals of member traits. |
+| `board_dispersion` | Heterogeneity: SD, Blau/HHI, similarity indices, heterogeneity measures. |
+| `board_faultline` | Faultline measures, including multi-trait ones (content is then multi-valued). |
+| `board_overlap` | Pairwise overlap/similarity among members; uniqueness relative to the rest of the board (with `relative_to` = `other_directors`). |
+| `structural` | Board features that are not aggregates of member traits. |
+
+## Worked examples (schematic)
+
+These examples use placeholder names (X, A, Z, D) and placeholder content tokens (`&lt;CONTENT_C&gt;` stands
+for whichever Content Vocabulary ID the paper's framing supports). They demonstrate mechanics and format
+only; they carry no information about which contents are common or likely.
+
+**Example 1 — a framed focal variable.** The paper says: *"Our main independent variable is X, measured
+as [definition] following Author (Year). We argue that X captures [construct C], and expect it to
+increase Y because [mechanism]."*
+
+```json
+{
+  "name_in_paper": "X",
+  "role": "iv",
+  "scope": "main",
+  "content": "&lt;CONTENT_C&gt;",
+  "content_evidence": "\"We argue that X captures [construct C], and expect it to increase Y because [mechanism].\" (Hypotheses section, p. 7)",
+  "measurement_form": "individual",
+  "relative_to": "none",
+  "level": "director",
+  "derived_from": [],
+  "operationalization": "[definition as the authors state it]",
+  "transformations": "",
+  "data_source": "[source named by the authors]",
+  "measure_label": "[short phrase] ([source])",
+  "inclusion_quote": "\"We argue that X captures [construct C]...\"",
+  "inclusion_quote_location": "Hypotheses section, p. 7",
+  "measurement_quote": "\"measured as [definition] following Author (Year)\"",
+  "measurement_quote_location": "Data section, p. 12",
+  "appears_in_tables": "Table 3, Columns 1-4",
+  "notes": ""
+}
+```
+
+**Example 2 — an unframed control.** The paper says only: *"Controls include A, B, and C."* and A is
+never discussed again.
+
+```json
+{
+  "name_in_paper": "A",
+  "role": "control",
+  "scope": "main",
+  "content": null,
+  "content_evidence": "",
+  "measurement_form": "individual",
+  "relative_to": "none",
+  "level": "director",
+  "derived_from": [],
+  "operationalization": "[definition if given anywhere, e.g., a definitions appendix]",
+  "transformations": "",
+  "data_source": "[source if named]",
+  "measure_label": "[short phrase]",
+  "inclusion_quote": "",
+  "inclusion_quote_location": "",
+  "measurement_quote": "",
+  "measurement_quote_location": "",
+  "appears_in_tables": "Table 3, Columns 1-4",
+  "notes": "Listed among controls only; no framing anywhere in the paper."
+}
+```
+
+**Example 3 — a derived variable and its constituents.** The paper interacts X with Z in its moderation
+test. X and Z each get their own full record (as in Examples 1-2); the interaction gets:
+
+```json
+{
+  "name_in_paper": "X × Z",
+  "role": "moderator",
+  "scope": "main",
+  "content": null,
+  "content_evidence": "",
+  "measurement_form": "individual",
+  "relative_to": "none",
+  "level": "director",
+  "derived_from": ["X", "Z"],
+  "operationalization": "Product of X and Z.",
+  "transformations": "",
+  "data_source": "",
+  "measure_label": "X × Z",
+  "inclusion_quote": "\"Hypothesis 2. The relationship between X and Y is weaker when Z is high.\"",
+  "inclusion_quote_location": "Hypotheses section, p. 8",
+  "measurement_quote": "",
+  "measurement_quote_location": "",
+  "appears_in_tables": "Table 4",
+  "notes": "Interaction term; constituents X and Z recorded separately."
+}
+```
+
+**Example 4 — a disjunctive category.** The paper defines a single dummy D as: *"D equals one if the
+person satisfies condition P or condition Q"*, where P belongs to one trait family and Q to another,
+and introduces D as a measure of P.
+
+```json
+{
+  "name_in_paper": "D",
+  "role": "iv",
+  "scope": "main",
+  "content": ["&lt;CONTENT_P&gt;", "&lt;CONTENT_Q&gt;"],
+  "content_evidence": "\"D equals one if the person satisfies condition P or condition Q.\" (Data section, p. 9)",
+  "measurement_form": "individual",
+  "relative_to": "none",
+  "level": "director",
+  "derived_from": [],
+  "operationalization": "Dummy equal to one if the person satisfies condition P or condition Q.",
+  "transformations": "",
+  "data_source": "[source if named]",
+  "measure_label": "D dummy ([source])",
+  "inclusion_quote": "",
+  "inclusion_quote_location": "",
+  "measurement_quote": "",
+  "measurement_quote_location": "",
+  "appears_in_tables": "Table 3",
+  "notes": "Disjunctive category: the definition fires on P or Q, which fall in different trait families. &lt;CONTENT_P&gt; is listed first as the primary construct because the authors introduce D as a measure of P."
+}
+```
+
+## Output
+
+Your final message is exactly one JSON object with this shape, and no other text:
+
+```json
+{
+  "paper": { "...paper block fields..." },
+  "variables": [ { "...one record per variable..." } ],
+  "coding_notes": { "...coding-notes block fields..." }
+}
+```</pre>
+
+</section>
+
+<!-- ============================ VALIDATION ============================ -->
+<section id="validation" class="screen">
+
+<h2>How LLM output is validated against the hand coding</h2>
+<ol>
+  <li><b>Parse the hand-coded sheet</b> (<span class="m">article-categorization-manual-coding-080626.xlsx</span>,
+      113 article rows &times; 33 category columns). Parsing rules: Federo et al. (2020) is excluded (its
+      row was left uncoded, though the paper is still LLM-coded like the rest); Baik (2024)&rsquo;s stray
+      &ldquo;2&rdquo; is read as 1; the sheet&rsquo;s own count column is ignored (the marked Yes cells
+      are truth).</li>
+  <li><b>Derive a comparison row per paper</b> from the LLM's variable records, using the fixed
+      (content, form) &rarr; column mapping below. Only records with <span class="m">level</span> =
+      director or board and <span class="m">scope</span> = main enter; where a paper frames a variable
+      nowhere, a documented defaults table supplies the content, and each record keeps a note of where
+      its content came from.</li>
+  <li><b>Score cell-level agreement</b> per column (presence precision/recall, Cohen's kappa), under both
+      scope variants (all main-specification variables vs focal-only) — the hand coding is internally
+      mixed on controls, and the two scores reveal which rule it implicitly followed.</li>
+  <li><b>Adjudicate every disagreement</b>: a fresh agent re-reads just the disputed cell and issues a
+      quote-backed verdict — <i>model error / human error / genuinely ambiguous</i>. Neither source is
+      presumed right; only the ambiguous pile needs human review.</li>
+</ol>
+
+<h2>Example: LLM output to human-coded row of data</h2>
+<p class="note">Three of the 60 records from Adams, Akyol &amp; Verwijmeren (2018), &ldquo;Director
+Skill Sets,&rdquo; and the cells they produce. (Records abridged to the fields the mapping consumes.)</p>
+
+<div class="flow">
+  <div class="col">
+    <div class="jsoncard">{ "name_in_paper": "Director tenure",
+  "role": "control", "scope": "main",
+  "content": <b>"experience_tenure"</b>,
+  "measurement_form": <b>"individual"</b>,
+  "level": "director",
+  "measure_label": "Tenure" }</div>
+    <div class="jsoncard">{ "name_in_paper": "Blau skill concentration",
+  "role": "iv", "scope": "main",
+  "content": <b>"expertise"</b>,
+  "measurement_form": <b>"board_dispersion"</b>,
+  "level": "board",
+  "measure_label": "Skill Blau index" }</div>
+    <div class="jsoncard">{ "name_in_paper": "Classified board",
+  "role": "control", "scope": "main",
+  "content": <b>"board_structure"</b>,
+  "measurement_form": <b>"structural"</b>,
+  "level": "board",
+  "measure_label": "Classified board (0,1)" }</div>
+  </div>
+  <div class="arrow">&rarr;</div>
+  <div class="col">
+    <table>
+      <tr><th>Sheet column</th><th>Yes</th><th>Measure cell</th></tr>
+      <tr><td>Directorship Experience/Tenure</td><td>1</td><td>Tenure</td></tr>
+      <tr><td>Expertise Diversity/Levels</td><td>1</td><td>Skill Blau index</td></tr>
+      <tr><td>Staggered/Classified Board</td><td>1</td><td></td></tr>
+    </table>
+    <p class="note">Each (content, form) pair looks up its column; the Measure cell concatenates the
+    distinct measure labels of all records mapping to that column. The full row for this paper marks
+    eleven columns and the hand-coded row marks eight. The differences are set out on the Disagreements
+    screen.</p>
+  </div>
+</div>
+
+<h2>The (content, form) &rarr; sheet-column mapping</h2>
+<p class="note">Used for ground-truth comparison only; manuscript tables come from the records directly.
+Three columns are renamed relative to the spreadsheet so names reveal their level:
+Independence &rarr; <b>Board Independence</b>; Network Position &rarr; <b>Board Network Position</b>;
+Board Experience/Tenure &rarr; <b>Directorship Experience/Tenure</b> (a director-level category whose
+old name misread as board-level). Combinations not listed map to no column — new information the sheet
+could not distinguish. Counts (n) are how many of the 113 hand-coded articles mark the column.</p>
+<table>
+  <tr><th>Sheet column</th><th>n</th><th>Content(s)</th><th>Form(s)</th></tr>
+  <tr><td>Age</td><td>31</td><td>age</td><td>individual</td></tr>
+  <tr><td>Gender</td><td>31</td><td>gender</td><td>individual</td></tr>
+  <tr><td>Nationality</td><td>7</td><td>nationality</td><td>individual</td></tr>
+  <tr><td>Race/Ethnicity</td><td>14</td><td>race_ethnicity</td><td>individual</td></tr>
+  <tr><td>Political Ideology</td><td>7</td><td>political_ideology</td><td>individual</td></tr>
+  <tr><td>Risk Aversion</td><td>1</td><td>risk_preferences</td><td>individual</td></tr>
+  <tr><td>Directorship Experience/Tenure</td><td>40</td><td>experience_tenure</td><td>individual</td></tr>
+  <tr><td>Education</td><td>19</td><td>education</td><td>individual</td></tr>
+  <tr><td>Expertise</td><td>49</td><td>expertise</td><td>individual</td></tr>
+  <tr><td>Political Experience</td><td>6</td><td>political_experience</td><td>individual</td></tr>
+  <tr><td>Busyness</td><td>11</td><td>busyness</td><td>individual</td></tr>
+  <tr><td>Distracted</td><td>1</td><td>distraction</td><td>individual</td></tr>
+  <tr><td>Meeting Attendance</td><td>3</td><td>attendance</td><td>individual</td></tr>
+  <tr><td>Networks/Social Capital</td><td>32</td><td>networks</td><td>individual</td></tr>
+  <tr><td>Status</td><td>2</td><td>status</td><td>any</td></tr>
+  <tr><td>Stigma/Reputation</td><td>3</td><td>stigma_reputation</td><td>individual</td></tr>
+  <tr><td>Blockholder</td><td>3</td><td>blockholder</td><td>individual</td></tr>
+  <tr><td>Chairman/CEO Duality</td><td>17</td><td>ceo_duality</td><td>individual, structural</td></tr>
+  <tr><td>Committee Chair</td><td>8</td><td>committee_chair</td><td>individual</td></tr>
+  <tr><td>Committee Member</td><td>9</td><td>committee_member</td><td>individual</td></tr>
+  <tr><td>Current CEO Appointment</td><td>7</td><td>ceo_appointment</td><td>individual</td></tr>
+  <tr><td>Election Outcome</td><td>1</td><td>election_outcome</td><td>individual</td></tr>
+  <tr><td>Founder/Family</td><td>3</td><td>founder_family</td><td>individual</td></tr>
+  <tr><td>Independent</td><td>38</td><td>independence</td><td>individual</td></tr>
+  <tr><td>Investor Appointed</td><td>1</td><td>investor_appointed</td><td>individual</td></tr>
+  <tr><td>Lead Independent Director (LID)</td><td>5</td><td>lead_independent_director</td><td>individual</td></tr>
+  <tr><td>Pay/Ownership</td><td>11</td><td>pay_ownership</td><td>individual</td></tr>
+  <tr><td>Ascriptive Diversity</td><td>24</td><td>age, gender, race_ethnicity, nationality</td><td>any board form</td></tr>
+  <tr><td>Experience Diversity/Differences</td><td>10</td><td>experience_tenure</td><td>any board form</td></tr>
+  <tr><td>Expertise Diversity/Levels</td><td>17</td><td>expertise, education, political_experience</td><td>any board form; also (expertise, individual + relative_to = other_directors)</td></tr>
+  <tr><td>Board Independence</td><td>23</td><td>independence</td><td>board_share_count, board_mean_level</td></tr>
+  <tr><td>Board Network Position</td><td>3</td><td>networks</td><td>any board form</td></tr>
+  <tr><td>Staggered/Classified Board</td><td>5</td><td>board_structure (staggered/classified)</td><td>structural</td></tr>
+</table>
+<p class="note">Notes: status homogeneity (a board form of status) maps to Status per the hand coding's
+precedent. The Expertise Diversity/Levels extra clause covers director-level uniqueness measures relative
+to the rest of the board, which the hand coding files there. Multi-trait faultlines mark every diversity
+column their contents touch.</p>
+
+</section>
+
+<!-- ============================ TABLES ============================ -->
+<section id="tables" class="screen">
+
+<h2>Tables for the paper</h2>
+
+<h3>Table A — Existing major constructs</h3>
+<p>One row per construct: how much of the literature uses it, how it is operationalized, and why authors
+say they use it.</p>
+<table>
+  <tr><th>Construct</th><th>Papers using it</th><th>Top operationalizations</th><th>Common justifications</th></tr>
+  <tr><td colspan="4" class="note">Counts from the records (papers with &ge;1 qualifying record per
+  content); operationalizations ranked by frequency of normalized measure labels, cut where usage share
+  drops sharply; justifications synthesized by clustering the harvested inclusion/measurement quotes into
+  recurring rationales, each backed by citable verbatim examples.</td></tr>
+</table>
+
+<h3>Table B — Papers measuring close to our approach</h3>
+<p>Detailed comparison for the constructs nearest our framework: expertise, experience, and networks.
+One row per variable variety: the varieties of measures, operationalization detail, and justification.</p>
+
+<h3>Table C — Measurement practice (enabled by the two-axis coding)</h3>
+<p>How the literature aggregates member traits: contents &times; measurement forms (individual vs mean vs
+share vs dispersion vs faultline vs overlap). Feeds the theory discussion on levels-vs-diversity
+measurement choices.</p>
+
+<h2>Open decisions for the tables</h2>
+
+<div class="decision"><span class="dnum">Decision 1.</span> <b>Composites and their components.</b>
+Composites and their definitional components are each captured as their own variable record, with
+components linked to the composite via <span class="m">derived_from</span>. Whether components count
+toward their own contents is therefore a per-table switch decided when each table is built, not
+a coding decision. The ground-truth comparison view currently includes components. The hand coding is not consistent
+on this: it marks the components of Acharya &amp; Pollock's status composite but not those of You
+et al.'s power composite, which is why this needs settling. See Q2 on the Disagreements screen.</div>
+
+<div class="decision"><span class="dnum">Decision 2.</span> <b>Do controls count, or only focal variables?</b>
+Every variable record carries its role (DV, IV, moderator, mediator, control, instrument) and a
+robustness-only flag, so &ldquo;do controls count toward a construct?&rdquo; is a scope switch applied when
+outputs are derived; any table can be computed under either scope. The hand coding
+is internally mixed on this (Adams et al. 2018's committee-membership control is marked, but its
+outside-board-seats control is not), so validation is scored under <i>both</i> scopes. On the three papers coded so
+far, the scope that counts controls matches the hand coding better. The one question for the authors is
+which scope the manuscript's headline construct counts should use, and that can be decided as late as
+table construction.</div>
+
+</section>
+
+<!-- ==================== DISAGREEMENTS TO CHECK ==================== -->
+<section id="disagreements" class="screen">
+
+<h2>Disagreements to check</h2>
+<p>The following presents cases where the LLM coding disagrees with the human coding in the 3 sample papers
+we coded using the LLM prompt. In most of these the human and LLM coding record the <i>same</i> construct and differ over the unit it should be
+recorded at (director or board). We need to review each of these disagreements to determine if the LLM prompt should be revised.</p>
+
+<!-- ============ 1 ============ -->
+<div class="dcard">
+<h4>1 &middot; Level of aggregation &mdash; You et al. (2023)</h4>
+<div class="body">
+<div class="cells">Cells:
+  <span class="chip human">Age</span><span class="chip human">Gender</span>
+  <span class="chip human">Race/Ethnicity</span><span class="chip human">Expertise</span>
+  <span class="chip human">Current CEO Appointment</span> &mdash; all human coding only
+</div>
+
+<p>The paper's control list names eleven board and director characteristics, and every one of them is an
+aggregate: a proportion, a heterogeneity index, or a similarity composite. Director age, gender and race
+never appear as per-director variables. They enter in one other place only, as inputs to the algorithm
+that sorts directors into identity subgroups.</p>
+
+<p>One control shows the whole disagreement in a single row. For &ldquo;the proportion of directors with
+CEO experience&rdquo;, the human coding marked <b>Expertise</b>, a director-level column, with the
+Measure cell &ldquo;Executive (CEO)&rdquo;. The LLM coding recorded content <span class="m">expertise</span>
+at form <span class="m">board_share_count</span>, which the mapping sends to <b>Expertise
+Diversity/Levels</b>, a board-level column. Same variable, same construct, two different columns.</p>
+
+<p>Across the sentence as a whole the two sides <b>agree on all four board-level columns</b>: Ascriptive
+Diversity, Experience Diversity/Differences, Expertise Diversity/Levels and Board Independence. The
+human coding's Measure cell for each of the three diversity columns reads &ldquo;Faultine&rdquo;, so
+both sides were looking at the same faultline measure. The disagreement is that the human coding also
+marked five director-level columns for those same traits, recording them twice; the LLM coding recorded
+them once, at the level the paper estimates.</p>
+
+<p>One of the five is not a disagreement about level at all. &ldquo;The proportion of directors appointed
+after the CEO&rdquo; is a board-level share, but the sheet's only category for CEO appointment is
+director-level, so the mapping has nowhere to put it. The LLM coding did record the construct; the
+comparison simply cannot express it. The same is true of board-level job-title heterogeneity.</p>
+
+<div class="split">
+  <div class="sheet"><h5>Human coding</h5>
+    Marks all five as director-level categories. Measure cells are blank except Expertise
+    (<i>&ldquo;Executive (CEO)&rdquo;</i>).</div>
+  <div class="ours"><h5>LLM coding</h5>
+    Each trait is recorded, but only in the forms the paper uses:
+    <ul>
+      <li>age &rarr; <span class="m">Director age heterogeneity</span> (board_dispersion),
+          <span class="m">CEO age</span> (level ceo)</li>
+      <li>gender &rarr; <span class="m">Proportion of female directors</span> (board_share_count),
+          <span class="m">Female CEO</span> (ceo)</li>
+      <li>race &rarr; <span class="m">Director racial heterogeneity</span> (board_dispersion),
+          <span class="m">Minority CEO</span> (ceo)</li>
+      <li>expertise &rarr; <span class="m">Proportion of directors with CEO experience</span> (board_share_count)</li>
+      <li>ceo_appointment &rarr; <span class="m">Proportion of directors appointed after the CEO</span>
+          (board_share_count; no sheet column exists for this at board level)</li>
+    </ul>
+    All five also appear inside <span class="m">Faultline strength</span> and
+    <span class="m">Number of subgroups</span> (board_faultline) and, for the demographics,
+    <span class="m">CEO-board similarity</span> (board_overlap).</div>
+</div>
+
+<blockquote class="paper">&ldquo;We controlled for 11 variables on board and director characteristics
+related to CEO dismissal or board subgroups (Westphal &amp; Zajac, 1995): board size (the total number
+of directors), the proportion of independent directors, CEO-board similarity (a composite measure of
+age, gender, and race dissimilarities), board diversity (the proportion of female directors, director
+racial heterogeneity, director age heterogeneity using the coefficient of variation, the proportion of
+directors with CEO experience, the proportion of directors appointed after the CEO, director tenure
+heterogeneity, and director job title heterogeneity), faultline strength&hellip;&rdquo;
+<cite>Data and Methods, p. 2823 &mdash; every board/director control in the paper, and every one of
+them is an aggregate</cite></blockquote>
+
+<blockquote class="paper">&ldquo;we first calculated faultline strength using the average silhouette
+width (ASW) algorithm (Meyer &amp; Glenz, 2013) and identified directors' membership of subgroups in
+each board based on five [director characteristics]&rdquo;
+<cite>Data and Methods, p. 2822 &mdash; where director age, gender and race actually enter</cite></blockquote>
+</div></div>
+
+<!-- ============ 2 ============ -->
+<div class="dcard">
+<h4>2 &middot; Ingredients of a composite index &mdash; Acharya &amp; Pollock (2021) and You et al. (2023)</h4>
+<div class="body">
+<div class="cells">Cells:
+  <span class="chip human">Directorship Experience/Tenure</span>
+  <span class="chip human">Education</span>
+  <span class="chip human">Expertise</span> &mdash; human coding only, Acharya &amp; Pollock
+  &nbsp;|&nbsp;
+  <span class="chip llm">Status</span><span class="chip llm">Committee Chair</span>
+  <span class="chip llm">Pay/Ownership</span> &mdash; LLM coding only, You et al.
+</div>
+
+<p>Both papers build a headline variable out of named ingredients, and the human coding treats the two
+cases oppositely. That inconsistency is why this needs a decision rather than a ruling.</p>
+
+<p><b>Acharya &amp; Pollock.</b> A director counts as &ldquo;globally high status&rdquo; if he or she
+holds any one of three credentials: a degree from an elite school, a vice-president-or-above post at an
+S&amp;P 500 firm, or an outside directorship at an S&amp;P 500 firm. That yes/no flag is then turned into
+a single board-level Blau index, and it is the index that enters the regressions. No model contains a
+director's education or occupation as a variable in its own right. The human coding marked all three
+credentials, and its Measure cells name them exactly: &ldquo;Prestige&rdquo;, &ldquo;Occupation
+Employment prestige&rdquo;, &ldquo;Directorial prestige&rdquo;. The LLM coding recorded the variable the
+paper estimates &mdash; one board-level record carrying all three constructs at once.</p>
+
+<p><b>You et al.</b> CEO subgroup power is built from three named indicators of an individual director's
+power: the director's title (chair of the board or of a committee), their number of external
+directorships, and their share ownership. Here the human coding marked none of the three, and did not
+mark the composite under Status either. The LLM coding recorded each named indicator under its own
+construct.</p>
+
+<p>Two wrinkles sit inside the You et al. side. The count of external directorships is introduced only as
+an indicator of <i>power</i>, and the coding vocabulary has no entry for power; a directorship count
+counts as status only where the authors explicitly frame it as prestige, which they do not, which leaves
+that cell genuinely ambiguous. And &ldquo;director title&rdquo; runs together chairing the board with
+chairing a committee, two different roles, of which only the committee half has a column in the sheet.</p>
+
+<p>Note that the Acharya &amp; Pollock cells turn on the aggregation question in card 1 as well: the
+credentials are director-level, the estimated index is board-level.</p>
+
+<div class="split">
+  <div class="sheet"><h5>Human coding &mdash; Acharya &amp; Pollock</h5>
+    Marks the three credentials as director-level categories:
+    <ul>
+      <li>Directorship Experience/Tenure &rarr; <i>&ldquo;Directorial prestige (Proxies)&rdquo;</i></li>
+      <li>Education &rarr; <i>&ldquo;Prestige (Proxies)&rdquo;</i></li>
+      <li>Expertise &rarr; <i>&ldquo;Occupation Employment prestige (Proxies)&rdquo;</i></li>
+    </ul>
+    It also marks Status, which the LLM coding marks too.</div>
+  <div class="ours"><h5>LLM coding &mdash; Acharya &amp; Pollock</h5>
+    Records the variable the paper estimates:
+    <ul>
+      <li><span class="m">Status Homogeneity (SH)</span> &mdash; content <span class="m">[status,
+          education, expertise]</span>, form <span class="m">board_dispersion</span>, level board</li>
+      <li><span class="m">Tenure Overlap</span> &mdash; <span class="m">experience_tenure</span>,
+          <span class="m">board_overlap</span></li>
+      <li><span class="m">Expertise Overlap</span> &mdash; <span class="m">expertise</span>,
+          <span class="m">board_overlap</span></li>
+    </ul></div>
+</div>
+
+<div class="split">
+  <div class="sheet"><h5>Human coding &mdash; You et al.</h5>
+    Marks none of the three indicators. The composite itself is not marked under Status either.</div>
+  <div class="ours"><h5>LLM coding &mdash; You et al.</h5>
+    One record per named indicator, each under its own construct:
+    <ul>
+      <li><span class="m">director title</span> &rarr; <span class="m">[board_chair, committee_chair]</span></li>
+      <li><span class="m">the number of external directorships</span> &rarr; <span class="m">status</span></li>
+      <li><span class="m">director ownership</span> &rarr; <span class="m">pay_ownership</span></li>
+    </ul></div>
+</div>
+
+<blockquote class="paper">&ldquo;we treated a director as globally high status if he or she possessed at
+least one of the following credentials: a degree from an elite educational institution listed in
+Finkelstein's (1992) list of prestigious institutions (educational prestige), experience as an
+executive at the level of vice president or above at an S&amp;P 500 company (employment prestige), or
+experience as an outside director for an S&amp;P 500 firm (directorial prestige).&rdquo;
+<cite>Acharya &amp; Pollock, Data and Methods, p. 1481</cite></blockquote>
+
+<blockquote class="paper">&ldquo;we computed individual directors' power using three indicators (Zajac
+&amp; Westphal, 1996): director title (coded as one for the chair of the board or a board committee and
+zero otherwise), the number of external directorships, and director ownership (the number of
+outstanding shares).&rdquo;<cite>You et al., Data and Methods, p. 2822</cite></blockquote>
+</div></div>
+
+<!-- ============ 3 ============ -->
+<div class="dcard">
+<h4>3 &middot; One dummy, two trait families &mdash; Adams, Akyol &amp; Verwijmeren (2018)</h4>
+<div class="body">
+<div class="cells">Cells:
+  <span class="chip llm">Education &mdash; LLM coding only</span>
+  <span class="chip llm">Political Experience &mdash; LLM coding only</span>
+</div>
+
+<p>The paper codes twenty director skills from proxy statements, each a yes/no dummy driven by a keyword
+list. The human coding treated the taxonomy as one measure and marked Expertise, with the Measure cell
+&ldquo;Skills (Proxies)&rdquo;. The LLM coding made one record per skill category, which agrees on
+Expertise but also picks up two categories whose definitions straddle a boundary.</p>
+
+<p>&ldquo;Academic&rdquo; fires if a director is from academia <i>or</i> holds a higher degree. The first
+is an occupation, the second a credential, and the keyword list mixes them: dean, faculty and professor
+sit alongside doctorate, masters and Ph.D. Nothing in the data says which condition fired for a given
+director. &ldquo;Government and policy&rdquo; fires on any of four keywords &mdash; government, policy,
+politics, regulatory &mdash; so a director flagged on &ldquo;regulatory&rdquo; alone may have held no
+public office at all, yet the coding vocabulary deliberately separates political office from general
+expertise.</p>
+
+<p>The LLM coding therefore records both constructs for these two dummies, primary one first. The
+question is whether a measure that genuinely conflates two things should count toward both, or only
+toward the one the authors lead with.</p>
+
+<div class="split">
+  <div class="sheet"><h5>Human coding</h5>
+    Marks <b>Expertise</b> only, with the Measure cell <i>&ldquo;Skills (Proxies)&rdquo;</i> &mdash; all
+    twenty proxy-statement skill categories treated as one measure under one construct.</div>
+  <div class="ours"><h5>LLM coding</h5>
+    One record per skill category. Two of the twenty have definitions that span two trait families, so
+    they carry two contents, primary first:
+    <ul>
+      <li><span class="m">Academic</span> &rarr; <span class="m">[expertise, education]</span></li>
+      <li><span class="m">Government and policy</span> &rarr; <span class="m">[political_experience, expertise]</span></li>
+    </ul>
+    Both also mark Expertise, where the two agree.</div>
+</div>
+
+<pre class="tbl">Table 2, Skill categories (p. 645)
+|Academic             |The director is from academia or has a higher degree (such as a Ph.D.).|
+|Government and policy|The director has governmental, policy, or regulatory experience.       |
+
+Appendix B.1, Skill dictionary (p. 660)
+|Academic             |Academia, academic, dean, doctorate, education, faculty, graduate,
+|                     | masters, Ph.D., professor, school environment                        |
+|Government and policy|Government, policy, politics, regulatory                              |</pre>
+</div></div>
+
+<!-- ============ 4 ============ -->
+<div class="dcard">
+<h4>4 &middot; Apparent oversights &mdash; no standard needed, just confirmation</h4>
+<div class="body">
+<div class="cells">Cells:
+  <span class="chip llm">Board Independence &mdash; LLM coding only, Adams et al.</span>
+  <span class="chip human">Networks/Social Capital &mdash; human coding only, Acharya &amp; Pollock</span>
+</div>
+
+<p><b>Board independence, Adams et al.</b> The paper defines it in the variable appendix as the ratio of
+independent directors to board size, reports it in the descriptive statistics table, and carries it as a
+control in the main performance regressions (Table 5, columns 2, 4, 6 and 7, and Table 6 Panel C). The
+LLM coding recorded it; the human coding left the column blank. The same hand-coded row does mark the
+director-level Independent column for this paper, and that variable is also only a control, so controls
+were not being excluded as a class. The blank looks like an oversight rather than a convention.</p>
+
+<div class="split">
+  <div class="sheet"><h5>Human coding</h5>
+    Board Independence left blank, though the director-level Independent column is marked.</div>
+  <div class="ours"><h5>LLM coding</h5>
+    <span class="m">Board independence</span> &mdash; content <span class="m">independence</span>, form
+    <span class="m">board_share_count</span>, level board, role control.</div>
+</div>
+
+<p><b>Networks, Acharya &amp; Pollock.</b> The human coding marked Networks/Social Capital with a blank
+Measure cell. The paper has no tie, interlock or centrality variable anywhere: its variables are tenure
+overlap, expertise overlap, status homogeneity, and firm-level controls. The one candidate is prior
+outside directorships at S&amp;P 500 firms, but that is not a standalone variable &mdash; it is one of
+the three status credentials in card 2, which the paper labels directorial <i>prestige</i> and which the
+coding vocabulary sends to Status, a column both sides already mark. Nothing supports a separate networks
+mark, and the blank Measure cell is consistent with a stray tick.</p>
+
+<div class="split">
+  <div class="sheet"><h5>Human coding</h5>
+    Networks/Social Capital marked yes, with a blank Measure cell.</div>
+  <div class="ours"><h5>LLM coding</h5>
+    No record for this paper carries <span class="m">networks</span>. The paper has no tie, interlock or
+    centrality variable.</div>
+</div>
+
+<pre class="tbl">Adams et al., Appendix A, Variable definitions (p. 659)
+|Board independence|The ratio of independent directors on the board to the board size.|
+
+Adams et al., Table 1, Panel A: Firm characteristics (p. 644)
+|Variables         | Mean | Median| Std. dev.| Min. | Max. |
+|Board independence| 0.795| 0.818 | 0.105    | 0.333| 0.941|</pre>
+</div></div>
+
+
+<h2>What we need to agree</h2>
+
+<div class="ask"><b>Q1 &mdash; the aggregation question (card 1).</b> When a paper uses a trait only in
+board-level form &mdash; a proportion, a heterogeneity index, a faultline input &mdash; should the
+director-level category be marked as well? This governs the five cells in card 1, and the three
+Acharya &amp; Pollock cells in card 2 turn on it too.
+<br><br><i>Mark it:</i> matches the sheet, and reads the categories as &ldquo;does this paper engage
+with this trait?&rdquo; <i>Do not mark it:</i> what the LLM coding does now, and keeps the individual and
+board-level columns meaning different things, which is what lets Table C distinguish levels from
+diversity. Note the sheet itself has separate board-level columns (Ascriptive Diversity, Board
+Independence), which suggests the distinction was intended.</div>
+
+<div class="ask"><b>Q2 &mdash; the composite-ingredient question (card 2).</b> Should a named ingredient
+of a composite index count toward its own construct? The human coding does this in Acharya &amp; Pollock
+and not in You et al., so no convention can be inferred from it. The LLM coding marks ingredients in
+both.</div>
+
+<div class="ask"><b>Q3 &mdash; the disjunctive-category question (card 3).</b> When one dummy
+fires on conditions from two trait families and the data cannot show which fired, do both constructs
+count? The LLM coding records both, primary first, so either convention can be produced later without
+recoding.</div>
+
+<div class="ask"><b>Q4 &mdash; two straightforward errors (card 4).</b> These need confirming, not
+deciding. If you agree, the remaining disagreement on these three papers is entirely Q1&ndash;Q3.</div>
+
+<p class="note">Bearing on Q1: on the three papers coded here, the set of constructs recorded per paper
+has been <b>identical</b> every time they were coded. Q1 does not change
+which constructs a paper counts toward &mdash; both sides record age, gender and race for You et al.
+It changes only which column, individual or board-level, records them. That makes it a presentation
+decision for the tables rather than a coding-accuracy one.</p>
+
+</section>
+
+<script>
+  const tabs = document.querySelectorAll('.tabs button');
+  const screens = document.querySelectorAll('.screen');
+  function show(id) {
+    tabs.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    screens.forEach(s => s.classList.toggle('active', s.id === id));
+  }
+  tabs.forEach(b => b.addEventListener('click', () => {
+    show(b.dataset.tab);
+    history.replaceState(null, '', '#' + b.dataset.tab);
+    window.scrollTo(0, 0);
+  }));
+  const initial = location.hash.slice(1);
+  if (initial && document.getElementById(initial)) show(initial);
+</script>
+
+</body>
+</html>
