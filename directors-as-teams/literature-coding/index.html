@@ -241,9 +241,9 @@ tenure divided by CEO tenure is still a board mean — it is simply a board mean
 <section id="prompt" class="screen">
 
 <h2>The prompt the LLM coder sees</h2>
-<p class="note">Verbatim copy of <span class="m">docs/curation_prompts/litreview_variable_coding_v3.md</span>
-(prompt body only; the coder sees raw markdown). <span class="m">{PAPER_MD_PATH}</span> is filled in with
-the paper being coded. Every returned file is checked against the schema before it is accepted.</p>
+<p class="note">Verbatim copy of the coding prompt (prompt body only; the coder sees raw markdown).
+<span class="m">{PAPER_MD_PATH}</span> is filled in with the paper being coded. Every returned file is
+checked against the schema before it is accepted.</p>
 
 <pre class="prompt">You are coding one academic paper for a structured literature database on board composition research.
 Your final message must be a single JSON object and nothing else; it is parsed by a program. Do not
