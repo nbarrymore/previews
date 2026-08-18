@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Grades-UT Coding Codebook</title>
+<style>
+  :root {
+    --ink: #1a1d23; --muted: #5a6270; --line: #d9dde3; --bg: #ffffff;
+    --accent: #1a5fb4; --accent-bg: #eef4fb;
+    --warn: #9a3412; --warn-bg: #fff3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 62rem; padding: 2rem 1.5rem 5rem;
+    font-family: Georgia, 'Times New Roman', serif; color: var(--ink);
+    background: var(--bg); line-height: 1.55; font-size: 1.02rem;
+  }
+  h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 .3rem; }
+  h2 { font-size: 1.25rem; margin: 2.2rem 0 .8rem; border-bottom: 2px solid var(--ink); padding-bottom: .25rem; }
+  h3 { font-size: 1.05rem; margin: 1.6rem 0 .4rem; }
+  .meta { font-size: .88rem; color: var(--muted); margin-bottom: 1.4rem;
+          font-family: 'Segoe UI', system-ui, sans-serif; }
+  p { margin: .5rem 0 .9rem; }
+  ul, ol { margin: .4rem 0 1rem; padding-left: 1.5rem; }
+  li { margin-bottom: .35rem; }
+  .rule { background: var(--accent-bg); border-left: 4px solid var(--accent); padding: .7rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .decision { background: var(--warn-bg); border-left: 4px solid var(--warn); padding: .7rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .decision .dnum { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; color: var(--warn); }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0 1.4rem; font-size: .9rem; }
+  th, td { border: 1px solid var(--line); padding: .4rem .55rem; text-align: left; vertical-align: top; }
+  th { background: #f3f5f8; font-family: 'Segoe UI', system-ui, sans-serif; font-size: .8rem; }
+  code, .m { font-family: Consolas, 'Courier New', monospace; font-size: .88em; background: #f4f5f7; padding: .05rem .3rem; border-radius: 3px; }
+  .note { font-size: .9rem; color: var(--muted); }
+  .ex { display: block; margin-top: .3rem; color: #4b5563; }
+  th ul, .nb { font-weight: normal; }
+  .llm { display: block; margin-top: .8rem; font-style: italic; }
+  .llm ul { margin: .3rem 0 0; }
+  .tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.2rem 0 1.8rem;
+          border-bottom: 2px solid var(--line); padding-bottom: .8rem;
+          font-family: 'Segoe UI', system-ui, sans-serif; }
+  .tabs button {
+    font: inherit; font-size: .92rem; font-weight: 600; cursor: pointer;
+    padding: .45rem 1.1rem; border: 1px solid var(--line); border-radius: 999px;
+    background: #fafbfc; color: var(--muted);
+  }
+  .tabs button:hover { border-color: var(--accent); color: var(--accent); }
+  .tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  pre.prompt { white-space: pre-wrap; font-family: Consolas, 'Courier New', monospace; font-size: .82rem;
+               background: #f7f8fa; border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem;
+               line-height: 1.45; }
+  blockquote.syl { margin: .5rem 0; padding: .5rem .8rem; border-left: 3px solid var(--muted);
+                   background: #fafbfc; font-size: .88rem; }
+  @media print { body { max-width: none; } .tabs { display: none; } .screen { display: block !important; } }
+</style>
+</head>
+<body>
+
+<h1>AI-Grades-UT: Codebook for Grading Components and AI Policy</h1>
+<div class="meta">Version 2.0 DRAFT (2026-08-17)<br>
+STATUS: Updated 8/18/26 draft, pending coder review and approval.</div>
+
+<nav class="tabs">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="aipolicy">Variables: AI</button>
+  <button data-tab="components">Variables: Grading</button>
+  <button data-tab="prompts">LLM Prompts</button>
+  <button data-tab="backend">Changes &amp; Decisions</button>
+</nav>
+
+<!-- ============================ OVERVIEW ============================ -->
+<section id="overview" class="screen active">
+
+This serves as the codebook for both human and LLM coders working on the AI-Grades project. The following tabs contain codebook instructions,
+variable definitions, the exact prompt the LLM coder receives, and backend details for the project. Human coders should
+refer to the "Variables: Grading" and "Variables: AI" tabs for variable definitions and coding instructions.
+
+<h2>Next Steps</h2>
+<ul>
+    <li>Review codebook: the coding team reviews the codebook and suggests any changes by Thursday 8/20 at 10am</li>
+    <li>The coding team finalizes the codebook by Thursday 8/20 at 12pm</li>
+</ul>
+
+<h2>Overall Plan</h2>
+<ul>
+  <li>Human coders will code around 20 syllabi each, with 10 syllabi coded by 2 human coders to calculate inter-rater reliability.</li>
+  <li>LLM will code the same 30 syllabi and we will then adjudicate disagreements</li>
+  <li>After we produce an LLM run that achieves 100% accuracy on our human coded sample, we will run the LLM coding on the full corpus</li>
+</ul>
+  
+<h2>General Rules</h2>
+<ul>
+  <li>This document governs both human and LLM coders. It contains the
+      human-facing instructions (Grading and AI tabs) and the exact prompts the
+      LLM extractors receive (LLM Prompts tab). The two layers state the same rules and the same
+      definitions. Phrasing and layout may differ where humans and LLMs ingest information
+      differently; the rules may not. Anyone editing a rule edits it in both layers.</li>
+  <li>We code two types of data:
+      <ul>
+      <li><b>Grade objects</b>: one row per grade-determining component of a syllabus,
+          carrying its name, position, weight, task category, modality, and the assessment-condition
+          fields (proctored, open_book, group, timed).</li>
+      <li><b>AI policy</b>: one row per syllabus, carrying the verbatim AI policy text,
+          its category and scope, eleven three-state detail fields, and a clarity score.</li>
+    </ul></li>
+</ul>
+
+<h2>Global conventions (apply everywhere in this document)</h2>
+<ul>
+  <li><b>Yes/No/Null Policy</b>: conditional fields have three possible codes:
+      <ul>
+      <li>Yes: the syllabus explicitly affirms the field.</li>
+      <li>No: the syllabus explicitly rules it out, or gives an exclusive list that omits it.</li>
+      <li>Null: the syllabus is silent; the field is left null (LLM) or set to
+          <span class="m">not_stated</span> (workbook dropdown).</li>
+   </ul></li>
+   <li>Direct quotes: Fields ending in <span class="m">_verbatim</span>
+and all evidence quotes copy the syllabus exactly. Do not paraphrase into a verbatim field.</li>
+   <li>Ambiguous cases: When a rule does not provide a clear answer, code the best available answer and explain the uncertainty in the <span class="m">notes</span> column.</li>
+</ul>
+
+
+<h2>Coding workflow</h2>
+<ol>
+  <li>Work in the hand-coding workbook (shared as a Google Sheet). One row per syllabus in the
+      AI_Policy tab; one row per grading component in the Grading_Components tab. Dropdowns enforce
+      the vocabularies in this codebook.</li>
+  <li>Open the syllabus PDF whose filename prefix matches the row's
+      <span class="m">coding_order</span>.</li>
+  <li>Enter components in the order the grading breakdown lists them;
+      <span class="m">order_listed</span> is that position, starting at 1.</li>
+  <li>Three-state fields are dropdowns reading <span class="m">yes / no / not_stated</span>
+      (open_book reads <span class="m">closed / restricted / open / not_stated</span>). Choose
+      <span class="m">not_stated</span> when the syllabus is silent. A blank cell means the row is
+      not yet coded; it is never a valid answer.</li>
+  <li>Write notes in the row's <span class="m">notes</span> column and set
+      <span class="m">flag_for_discussion = YES</span> for anything genuinely ambiguous.</li>
+  <li>Fill <span class="m">coder_initials</span> and <span class="m">coded_date</span> (YYYY-MM-DD)
+      on every completed row.</li>
+</ol>
+
+<h2>Proposing changes to this codebook</h2>
+<b>If you find an issue with the codebook itself, email the research team by Thursday 8/18 at 10am</b>
+<ul>
+  <li><b>Case-level doubt</b> (this syllabus is hard to code, the rules are fine): code the best
+      answer, set <span class="m">flag_for_discussion = YES</span>, explain in notes.</li>
+  <li><b>Codebook-level problem</b> (a category is missing, a rule is ambiguous): add a row to the
+      workbook's Codebook_Feedback tab. Do not silently work around it.</li>
+</ul>
+
+</section>
+
+<!-- ======================= GRADING COMPONENTS ======================= -->
+<section id="components" class="screen">
+
+
+<h2>Fields coded (per syllabus, grading side)</h2>
+<table>
+  <tr><th>Field</th><th>Definition</th></tr>
+  <tr><td><span class="m">syllabus_doc_id</span></td><td>The syllabus document id. Pre-filled in the
+      workbook; the LLM echoes the id it was given.</td></tr>
+  <tr><td><span class="m">course_metadata_visible</span></td><td>Course number, title, term, and
+      instructors exactly as printed on the syllabus. Each part is null, or an empty list for
+      instructors, when the syllabus does not print it.
+      <span class="ex"><i>Example</i>: a header reading "ECO 304K, Introduction to Microeconomics,
+      Fall 2023, Prof. A. Garcia" fills all four.</span></td></tr>
+  <tr><td><span class="m">grading_scheme_verbatim</span></td><td>The grading breakdown (table or
+      prose list) copied verbatim, ONCE, at the syllabus level.
+      <span class="ex"><i>Example</i>: the four lines "Midterm 1 20% / Midterm 2 20% / Final 40% /
+      Homework 20%" are copied here as one block, and the four component rows carry no quote of
+      their own.</span></td></tr>
+  <tr><td><span class="m">grade_scale</span></td><td>Copy the syllabus's letter-grade scale (the block stating which score
+      earns which letter) <span class="m">grade_scale_verbatim</span>.<br>When the syllabus states a curve or a pass/fail option somewhere other than
+      that block, add those sentences too, joined with " [...] ". Empty when the syllabus states no
+      scale.
+      <span class="ex"><i>Example</i>: "A = 93-100, A- = 90-92, B+ = 87-89, ... below 60 = F" is
+      copied exactly as printed. A syllabus that says only "grades follow the standard University
+      scale" gives that sentence and nothing more.</span>
+      <span class="llm"><b>Do not code these variables below (cutoff_units through curve_mentioned) as a human coder.<br>
+      </b>The LLM codes four further parts from the same text. Do not fill them as a human coder,
+      the information is already in <span class="m">grade_scale_verbatim</span>, so we will just have code extract it.
+      <ul>
+        <li><span class="m">cutoff_units</span>: <span class="m">percent</span> when the scale is
+            written in percentages, <span class="m">points</span> when it is written in raw points,
+            null when the syllabus gives letters with no numbers.</li>
+        <li><span class="m">cutoffs</span>: one entry per letter grade whose minimum the syllabus
+            states, each a grade label exactly as printed and the lowest score that earns it; an empty
+            list when no numeric scale is stated.</li>
+        <li><span class="m">pass_fail_option_mentioned</span>: whether the syllabus mentions a
+            pass/fail or credit/no-credit option.</li>
+        <li><span class="m">curve_mentioned</span>: yes when the syllabus states that grades may be
+            curved, scaled, adjusted, or normalized relative to class performance, which makes the
+            printed cutoffs non-binding; no when it rules a curve out; null when a curve is not
+            addressed. A stated rounding rule is not a curve.</li>
+      </ul></span></td></tr>
+  <tr><td><span class="m">notes</span></td><td>ONE free-text field per syllabus for anything
+      ambiguous about the syllabus as a whole or about a specific component; a note about one
+      component names that component. Empty when there is nothing to flag. Excluded from accuracy
+      scoring.
+      <span class="ex"><i>Example</i>: "Presentation 10%: one weight covers the slides and the live
+      delivery, coded as the dominant element (delivery)."</span></td></tr>
+</table>
+
+<h2>Fields coded (per component)</h2>
+<table>
+  <tr><th>Field</th><th>Definition</th></tr>
+  <tr><td><span class="m">component_name_raw</span></td><td>The component's name exactly as the
+      grading breakdown writes it. Change nothing: do not normalize, expand, or clean the name.
+      <span class="ex"><i>Example</i>: a breakdown line reading "Midterm 1 ....... 20%" gives
+      <span class="m">Midterm 1</span>; a line reading "PSets (best 5 of 6)" keeps that whole
+      string.</span></td></tr>
+  <tr><td><span class="m">order_listed</span></td><td>The component's position in the grading
+      breakdown, starting at 1. When components are described only in scattered prose, number them
+      in the order the syllabus first states their weight.
+      <span class="ex"><i>Example</i>: in a table listing Midterm 1, Midterm 2, Final, Homework, the
+      Final is <span class="m">order_listed = 3</span>.</span></td></tr>
+  <tr><td><span class="m">weight_percent</span></td><td>The stated percent of the course grade.
+      Null when the syllabus gives points only, or states no weight.
+      <span class="ex"><i>Example</i>: "Midterm 1 ....... 20%" gives 20.</span></td></tr>
+  <tr><td><span class="m">points</span></td><td>The stated points. Null when the syllabus uses
+      percentages only.
+      <span class="ex"><i>Example</i>: "Final exam: 150 points" gives
+      <span class="m">points = 150</span>, and <span class="m">weight_percent</span> stays null
+      unless a percent is also stated.</span></td></tr>
+  <tr><td><span class="m">is_extra_credit</span></td><td>True when the component adds to the grade
+      beyond the base scheme, false otherwise. Use the stated maximum as
+      <span class="m">weight_percent</span>; null if unstated.
+      <span class="ex"><i>Example</i>: an extra-credit essay is category
+      <span class="m">paper</span> with this flag true. Extra credit is never its own
+      category.</span></td></tr>
+  <tr><td><span class="m">category</span></td><td>One ID from the Category vocabulary below: what
+      kind of academic task is graded. Category describes the task only; where and how it happens
+      lives in <span class="m">modality</span> and the condition fields.
+      <span class="ex"><i>Example</i>: a take-home extra-credit essay is category
+      <span class="m">paper</span>, modality <span class="m">online</span> or
+      <span class="m">take_home_physical</span>, <span class="m">is_extra_credit</span>
+      true.</span></td></tr>
+  <tr><td><span class="m">modality</span></td><td>One ID from the Modality vocabulary below: where
+      the work is performed crossed with how it is submitted. Null when the syllabus states
+      neither.
+      <span class="ex"><i>Example</i>: "complete each week's quiz on Canvas by Sunday night" is
+      <span class="m">online</span>. "Exams are given in class" with no submission channel stated
+      is <span class="m">in_class_physical</span>.</span></td></tr>
+  <tr><td><span class="m">proctored</span></td><td>Yes when the syllabus states explicit monitoring:
+      proctoring software named, a testing center, or invigilation with identity checks. No when the
+      syllabus states the assessment is unproctored. Null when monitoring is not addressed. Being an
+      in-class exam does not by itself make this yes; <span class="m">modality</span> already records
+      in-class, and the analyst can combine the two.
+      <span class="ex"><i>Example</i>: "Exams are administered through Proctorio" is yes. "Midterms
+      are given in class" alone is null. "Quizzes are not proctored" is no.</span></td></tr>
+  <tr><td><span class="m">open_book</span></td><td>Four values.
+      <span class="m">closed</span>: the syllabus explicitly allows no resources.
+      <span class="m">restricted</span>: resources are allowed with stated limits.
+      <span class="m">open</span>: resources are unrestricted.
+      <span class="m">not_stated</span> (null for the LLM): the syllabus does not address resources.
+      The four-way coding is what separates "explicitly no resources" from "resources never
+      mentioned".
+      <span class="ex"><i>Example</i>: "closed-book. No notes or calculators are permitted" is
+      <span class="m">closed</span>. "One double-sided page of notes, no internet" is
+      <span class="m">restricted</span>. "You may refer to your syllabus, classmates, or any other
+      resources" is <span class="m">open</span>. A syllabus that never mentions resources is
+      <span class="m">not_stated</span>.</span></td></tr>
+  <tr><td><span class="m">allowed_resources_verbatim</span></td><td>The syllabus sentence(s) stating
+      the resource rule, copied verbatim. Empty when the syllabus states no resource rule, in which
+      case <span class="m">open_book</span> is <span class="m">not_stated</span>.
+      <span class="ex"><i>Example</i>: for the closed-book midterm above, the field holds "Midterms
+      and the final are given in class and are closed-book. No notes or calculators are
+      permitted."</span></td></tr>
+  <tr><td><span class="m">group</span></td><td>Yes when the graded submission is joint or the grade
+      is shared, including anything the syllabus calls a group project. No when the syllabus states
+      the submission is individual. Null when collaboration is not addressed. Collaboration allowed
+      on the process does not make it group work; the submission decides.
+      <span class="ex"><i>Example</i>: "You may work with classmates, but the final responses and
+      submission must be your own" is no. "Teams of four submit one report" is yes.</span></td></tr>
+  <tr><td><span class="m">timed</span></td><td>Yes when the syllabus states a duration shorter than
+      the availability window. No when the syllabus states there is no time limit. Null when
+      duration is not addressed. A due date or deadline alone is not a time limit. This field is
+      provisional and may be dropped if it turns out to be unstated on nearly every component.
+      <span class="ex"><i>Example</i>: "60 minutes once opened" and "you will have 50 minutes" are
+      yes. "Due Sunday at 11:59pm" is null. "Take as long as you need" is no.</span></td></tr>
+  <tr><td><span class="m">attribute_evidence</span></td><td>A verbatim quote for any attribute coded
+      from text OUTSIDE the captured grading breakdown (exam-rules sections, assignment
+      descriptions). Empty means every attribute of this component came from
+      <span class="m">grading_scheme_verbatim</span>.
+      <span class="ex"><i>Example</i>: the grading table gives "Midterm 1 ....... 20%" and a later
+      Exams section supplies the closed-book rule, so that sentence goes here. A component whose
+      weight and name are all that the syllabus says leaves this empty.</span></td></tr>
+  <tr><td><span class="m">confidence</span></td><td>Confidence in this record, 0 to 1. Lower it
+      whenever a rule did not settle the case, and say why in <span class="m">notes</span>.
+      <span class="ex"><i>Example</i>: a fully stated closed-book midterm scores about 0.95; a
+      component with no stated weight and an unclear task scores about 0.5.</span></td></tr>
+</table>
+
+<h2><i>Category</i> vocabulary</h2>
+<p class="note">Assign the ID whose definition matches the graded task. Boundary rules resolve
+neighboring pairs; apply them literally.</p>
+<table>
+  <tr><th>ID</th><th>Definition</th><th>Boundary rules</th></tr>
+  <tr><td><span class="m">exam_quiz</span></td><td>A test of content knowledge taken under
+      assessment conditions and graded on correctness: midterms, finals, tests, quizzes.</td>
+      <td>A quiz graded for completion rather than correctness, and any quiz over course logistics
+      (a syllabus quiz), is <span class="m">homework_problem_set</span>. Quizzes are
+      <span class="m">exam_quiz</span> by default; move them only when the syllabus states
+      completion grading or the logistics subject. In-class polling (iClicker) graded on
+      correctness is <span class="m">exam_quiz</span>; graded for answering at all it is
+      <span class="m">participation</span>. Lab practicals are <span class="m">lab_or_field</span>.</td></tr>
+  <tr><td><span class="m">paper</span></td><td>A standalone written prose composition graded on its
+      content, argument, or analysis: essays, term papers, reports, literature reviews.</td>
+      <td>Recurring short writing (weekly responses, discussion posts, journals) is
+      <span class="m">homework_problem_set</span> when graded on content and
+      <span class="m">participation</span> when graded for engaging. A writeup whose main function
+      is evidencing attendance at an event is <span class="m">attendance_writeup</span>. Non-prose
+      deliverables are <span class="m">project_or_artifact</span>.</td></tr>
+  <tr><td><span class="m">homework_problem_set</span></td><td>Exercises completed outside class and
+      graded: problem sets, worksheets, coding assignments, recurring short writing,
+      completion-graded quizzes, graded peer reviews of classmates' work.</td>
+      <td>A coding assignment that runs for weeks and integrates the course material is
+      <span class="m">project_or_artifact</span>.</td></tr>
+  <tr><td><span class="m">lab_or_field</span></td><td>Work performed in a laboratory or field
+      setting, and its direct write-ups: lab exercises, lab reports, field notebooks, lab practical
+      exams.</td>
+      <td>The exam conditions of a practical are recorded in <span class="m">proctored</span> and
+      <span class="m">timed</span>, not by moving it to <span class="m">exam_quiz</span>.</td></tr>
+  <tr><td><span class="m">presentation</span></td><td>A graded live delivery to an audience: oral
+      presentations, speeches, musical or theatrical performances, poster-session presentations.
+      Delivery over synchronous video counts as live.</td>
+      <td>The presented artifact (slides, poster, written paper), when weighted separately, is its
+      own record under its own category. When one weight covers both artifact and delivery, code the
+      dominant graded element and say so in notes.</td></tr>
+  <tr><td><span class="m">project_or_artifact</span></td><td>An integrative deliverable or non-prose
+      artifact: term projects, portfolios, posters, videos, designs, applications, substantial
+      code.</td>
+      <td>A prose deliverable is <span class="m">paper</span>. A graded live delivery is
+      <span class="m">presentation</span>.</td></tr>
+  <tr><td><span class="m">participation</span></td><td>Credit for engaging in class activities:
+      discussion participation, polling graded for responding, in-class exercises graded for
+      engagement.</td>
+      <td>Credit for presence alone is <span class="m">attendance</span>.</td></tr>
+  <tr><td><span class="m">attendance</span></td><td>Credit for being present, with no submitted work
+      beyond a presence check (sign-in sheet, seat check, attendance clicker).</td><td></td></tr>
+  <tr><td><span class="m">attendance_writeup</span></td><td>Credit that requires BOTH attending an
+      event and submitting a written account of it, where the writing mainly evidences attendance or
+      engagement (speaker-series writeups, event reflections graded for submission).</td>
+      <td>When the writing is graded on analytical quality with essay-like expectations (rubric,
+      length, argument), it is <span class="m">paper</span>. The event attended in person plus the
+      writeup form ONE component when the syllabus weights them together.</td></tr>
+  <tr><td><span class="m">other</span></td><td>A clearly described component that fits no category
+      above. Always explain in notes.</td><td></td></tr>
+  <tr><td><span class="m">unknown</span></td><td>The component is named in the grading scheme but
+      the syllabus says too little to classify it.</td>
+      <td>Distinct from <span class="m">other</span>: unknown means "cannot tell", other means
+      "can tell, fits nothing".</td></tr>
+</table>
+
+<h2><i>Modality</i> vocabulary</h2>
+<p>Modality is two facts joined: <b>where the work is performed</b> (during a class meeting, or
+outside class) and <b>how it is submitted</b> (physically, or online). Scheduled synchronous video
+sessions count as class meetings. For live presentations, the delivery is the submission.</p>
+<table>
+  <tr><th>ID</th><th>Definition</th></tr>
+  <tr><td><span class="m">in_class_physical</span></td><td>Performed during a class meeting;
+      submitted physically: paper exams, blue books, live presentations, artifacts handed in.</td></tr>
+  <tr><td><span class="m">in_class_online</span></td><td>Performed during a class meeting; submitted
+      electronically: an LMS quiz taken in the classroom, in-class coding submitted online.</td></tr>
+  <tr><td><span class="m">online</span></td><td>Performed outside class; submitted electronically.</td></tr>
+  <tr><td><span class="m">take_home_physical</span></td><td>Performed outside class; submitted
+      physically on paper or in person.</td></tr>
+</table>
+<div class="rule"><b>Modality rules.</b>
+<ul>
+  <li>Null / <span class="m">not_stated</span> when the syllabus says neither where the work is done
+      nor how it is submitted.</li>
+  <li><b>In-class default:</b> an exam or quiz stated to happen in class, with no stated submission
+      channel, is <span class="m">in_class_physical</span>. Choose
+      <span class="m">in_class_online</span> only when the syllabus states a device or LMS is used.
+      This is the one documented exception to the no-inference rule.</li>
+  <li>An assignment stated to be completed or submitted "on Canvas" (or any LMS) outside class is
+      <span class="m">online</span>.</li>
+  <li>Hybrid work (drafted at home, finished in class): code where the graded work is dominantly
+      produced; if genuinely split, null plus a note.</li>
+  <li>Resource permissions and collaboration rules say nothing about modality; they live in
+      <span class="m">open_book</span> and <span class="m">group</span>.</li>
+</ul></div>
+
+<h2>Decision rules for ambiguous cases</h2>
+<ul>
+  <li><b>Roll-up rule.</b> Several sub-items sharing one weight ("Homework: five problem sets, 20%
+      total") are ONE record with the shared weight. Do not create one record per instance.</li>
+  <li><b>Separate weights, separate records.</b> "Paper 15%, Presentation 10%" is two records even
+      when they belong to one project.</li>
+  <li><b>No stated weight.</b> Code the component with <span class="m">weight_percent = null</span>
+      and lowered confidence.</li>
+  <li><b>Extra credit.</b> Underlying task category plus <span class="m">is_extra_credit =
+      true</span>.</li>
+  <li><b>Completion-graded quizzes and syllabus quizzes</b> are
+      <span class="m">homework_problem_set</span> (see Category boundary rules).</li>
+</ul>
+
+</section>
+
+<!-- ============================ AI POLICY ============================ -->
+<section id="aipolicy" class="screen">
+
+<h2>Fields coded (per syllabus)</h2>
+<table>
+  <tr><th>Field</th><th>Definition</th></tr>
+  <tr><td><span class="m">syllabus_doc_id</span></td><td>The syllabus document id. Pre-filled in the
+      workbook; the LLM echoes the id it was given.</td></tr>
+  <tr><td><span class="m">ai_mentioned</span></td><td>True when the syllabus names generative AI:
+      a large language model, a chatbot or assistant built on one, or generative AI as a category.
+      False otherwise. Keyword seed list (not exhaustive): ChatGPT, GPT, OpenAI, generative AI,
+      genAI, generative artificial intelligence, artificial intelligence, AI tool, AI tools, large
+      language model, LLM, Claude, Bard, Google Bard, Gemini, Bing Chat, Copilot, DALL-E, Midjourney,
+      text generator, machine-generated. A term not on the list still counts when it names a
+      generative tool. Tools that predate large language models are outside this definition and do
+      NOT set this true; see <i>What does not count as generative AI</i> below. Generic honor-code
+      language that names no tool does NOT set this true.
+      <span class="ex"><i>Example</i>: "Do not submit text produced by ChatGPT" is true. "Run your
+      draft through a spelling and grammar checker before submitting" is false. "Use of any tool or
+      aid not explicitly authorized is prohibited" is false, because no tool is named.</span></td></tr>
+  <tr><td><span class="m">ai_terms_found</span></td><td>Each distinct AI term the syllabus uses,
+      copied verbatim, listed once. A term the syllabus repeats is listed once. Order does not
+      matter. Empty when <span class="m">ai_mentioned</span> is false.
+      <span class="ex"><i>Example</i>: "You may use generative AI tools such as ChatGPT ...
+      Submitting AI-generated text as your own work is a violation" gives ["generative AI tools",
+      "ChatGPT", "AI-generated text"].</span></td></tr>
+  <tr><td><span class="m">ai_policy_verbatim</span></td><td>EVERY passage of the syllabus that
+      addresses AI use, copied verbatim, in document order, with " [...] " joining passages that are
+      not contiguous. Empty when <span class="m">ai_mentioned</span> is false.
+      <span class="ex"><i>Example</i>: a syllabus with an AI paragraph on page 2 and one sentence in
+      the exam rules on page 5 gives "AI paragraph text [...] exam-rules sentence".</span></td></tr>
+  <tr><td><span class="m">policy_category</span></td><td>One ID from the Policy category vocabulary
+      below: what kind of rule the syllabus states.</td></tr>
+  <tr><td><span class="m">policy_scope</span></td><td>Every ID from the Policy scope vocabulary
+      below that applies: what coursework the policy governs. A syllabus can carry more than one
+      scope, and many do. Order does not matter. In the workbook, list every applicable ID in the
+      cell, separated by semicolons.
+      <span class="ex"><i>Example</i>: "No AI during exams. For papers, cite anything you generate"
+      gives <span class="m">exam_specific; writing_specific</span>. A single rule governing
+      everything gives <span class="m">coursewide</span> alone.</span></td></tr>
+  <tr><th colspan="2">The following fields (<span class="m">requires_disclosure</span> through <span class="m">ai_required</span>)
+      should each be coded as yes, no, or null as follows:
+      <ul>
+      <li><b>Yes</b>: the syllabus states the thing</li>
+      <li><b>No</b>: the syllabus rules the thing out or gives an exclusive list that omits it</li>
+      <li><b>Null</b>: the syllabus does not address it</li>
+      </ul>
+    <span class="nb">A permissive mention WITHOUT exclusivity ("you may use AI for brainstorming") sets that one
+      field true and leaves the others null. With exclusivity ("AI may be used only for
+      brainstorming"), the unlisted permits_* fields are false. A blanket ban sets every
+      <span class="m">permits_*</span> field no and both <span class="m">prohibits_*</span> fields
+      yes.<br>
+      Every detail field is null when <span class="m">ai_mentioned</span> is false.</span></th></tr>
+  <tr><td><span class="m">requires_disclosure</span></td><td>Yes when students must state that AI was
+      used. Disclosure is telling the instructor AI was used; formal source-style attribution is
+      <span class="m">requires_citation</span>.
+      <span class="ex"><i>Example</i>: "Include a note describing any AI assistance you used" is
+      yes.</span></td></tr>
+  <tr><td><span class="m">requires_citation</span></td><td>Yes when AI output must be cited or
+      attributed the way other sources are cited.
+      <span class="ex"><i>Example</i>: "Cite ChatGPT as you would cite any other source" is
+      yes.</span></td></tr>
+  <tr><td><span class="m">requires_prompt_appendix</span></td><td>Yes when students must submit their
+      prompts or the AI transcript.
+      <span class="ex"><i>Example</i>: "Attach the full chat log as an appendix" is
+      yes.</span></td></tr>
+  <tr><td><span class="m">permits_brainstorming</span></td><td>Yes when AI may be used for idea
+      generation or outlining.
+      <span class="ex"><i>Example</i>: "You may use AI to brainstorm paper topics" is yes. Under "AI
+      may be used only to check grammar" it is no, because that exclusive list omits
+      brainstorming.</span></td></tr>
+  <tr><td><span class="m">permits_editing</span></td><td>Yes when AI may be used to edit or polish
+      text the student wrote, for grammar or style.
+      <span class="ex"><i>Example</i>: "You may use ChatGPT to tighten your prose" is
+      yes.</span></td></tr>
+  <tr><td><span class="m">permits_coding_help</span></td><td>Yes when AI assistance on code is
+      allowed.
+      <span class="ex"><i>Example</i>: "Copilot is allowed on the programming assignments" is
+      yes.</span></td></tr>
+  <tr><td><span class="m">permits_final_text_generation</span></td><td>Yes when AI-drafted text may be
+      submitted as part of graded work.
+      <span class="ex"><i>Example</i>: "AI-generated passages may be included if labeled" is yes.
+      "Submitting AI-generated text as your own work is a violation of the academic integrity policy"
+      is no.</span></td></tr>
+  <tr><td><span class="m">prohibits_ai_on_exams</span></td><td>Yes when AI is banned on exams or
+      quizzes.
+      <span class="ex"><i>Example</i>: "No AI tools may be used during exams" is yes.</span></td></tr>
+  <tr><td><span class="m">prohibits_ai_on_all_assignments</span></td><td>Yes when AI is banned on all
+      graded work. A blanket ban sets this yes.
+      <span class="ex"><i>Example</i>: "Use of AI is prohibited in this course" is yes. "No AI on the
+      final paper" alone leaves this null, since only one assignment is covered.</span></td></tr>
+  <tr><td><span class="m">teaches_ai_use</span></td><td>Yes when the course instructs students in how
+      to use AI. Teaching AI use does not by itself set <span class="m">ai_required</span> yes.
+      <span class="ex"><i>Example</i>: "Week 4 covers prompt engineering for research" is
+      yes.</span></td></tr>
+  <tr><td><span class="m">ai_required</span></td><td>Yes when at least one assignment cannot be
+      completed without using AI.
+      <span class="ex"><i>Example</i>: "For Assignment 3 you must generate a draft with ChatGPT and
+      critique it" is yes. "We will explore AI tools this semester" is not enough.</span></td></tr>
+  <tr><td><span class="m">policy_clarity_score</span></td><td>0 to 1: how clearly the syllabus states
+      the rule. 1 means explicit and complete, so a reader knows exactly what is allowed, for what,
+      and under what conditions; 0 means vague, and 0 is also the score when the syllabus states no
+      AI rule at all. Score <b>clarity only</b>. Enforceability is NOT part of this score: a crisp
+      rule that is hard to police still scores high. Enforceability is derived in analysis from the
+      assessment structure (<span class="m">modality</span>, <span class="m">proctored</span>) and is
+      never coded here.
+      <span class="ex"><i>Example</i>: "AI may be used only to brainstorm ideas and check grammar;
+      submitting AI-generated text is a violation" scores about 0.9, even though every writeup is
+      done at home. "Discuss with the instructor before using AI" scores low.</span></td></tr>
+  <tr><td><span class="m">confidence</span></td><td>Confidence in this record, 0 to 1. Lower it
+      whenever a rule did not settle the case, and say why in <span class="m">notes</span>.
+      <span class="ex"><i>Example</i>: a syllabus with one clear AI paragraph scores about 0.95; a
+      syllabus with scattered, partly contradictory AI sentences scores lower.</span></td></tr>
+  <tr><td><span class="m">notes</span></td><td>ONE free-text field per syllabus for anything
+      ambiguous. Empty when there is nothing to flag. Excluded from accuracy scoring.
+      <span class="ex"><i>Example</i>: "AI paragraph in the integrity section conflicts with the
+      assignment sheet quoted on page 6; coded from the integrity section."</span></td></tr>
+</table>
+
+<div class="rule"><b>What does not count as generative AI.</b> This coding covers generative AI:
+large language models, chatbots built on them, and generative AI as a category. Tools that predate
+large language models are outside the definition. They never set <span class="m">ai_mentioned</span>
+true, and a rule about them is not an AI policy, however much space the syllabus gives them.
+<ul>
+  <li>Spelling and grammar checkers, and writing-usage references (Grammarly).</li>
+  <li>Plagiarism-detection and enforcement software (Turnitin). Naming a detection tool is not an AI
+      policy. A syllabus whose only tool language names a detector is
+      <span class="m">no_ai_mention</span>.</li>
+  <li>Machine translation (Google Translate, online translators).</li>
+  <li>Commercial paper-writing services and homework-answer sites (essay mills, Chegg, Course
+      Hero).</li>
+</ul>
+When a syllabus names one of these AND names a generative tool, code it on the generative tool; the
+excluded tool changes nothing.</div>
+
+<div class="rule"><b>Institutional boilerplate.</b> Syllabi often paste a University, college, or
+department statement about AI instead of stating the instructor's own rule. Code the rule the
+syllabus contains, whoever wrote it.
+<ul>
+  <li>The boilerplate names AI, so <span class="m">ai_mentioned</span> is yes, and it goes into
+      <span class="m">ai_policy_verbatim</span> like any other AI passage.</li>
+  <li>When the boilerplate states a substantive rule, one that prohibits or permits a described use,
+      code that rule on its content, exactly as if the instructor had written it.</li>
+  <li>When it defers to the instructor without stating the instructor's rule ("AI tools must not be
+      used to complete academic work in a manner not allowed by the instructor"),
+      <span class="m">policy_category</span> is <span class="m">vague_or_ambiguous</span>,
+      <span class="m">policy_scope</span> is <span class="m">unclear</span>, every detail field is
+      null, and <span class="m">policy_clarity_score</span> is low: a student cannot tell what is
+      allowed.</li>
+  <li>When the syllabus carries BOTH boilerplate and the instructor's own rule, the instructor's rule
+      decides <span class="m">policy_category</span> and <span class="m">policy_scope</span>, and
+      <span class="m">ai_policy_verbatim</span> holds both passages.</li>
+</ul></div>
+
+<h2><i>Policy category</i> vocabulary</h2>
+<table>
+  <tr><th>ID</th><th>Definition</th><th>Boundary rules</th></tr>
+  <tr><td><span class="m">no_ai_mention</span></td><td>No language naming generative AI
+      anywhere.</td>
+      <td>Honor-code boilerplate without tool language ("no cheating", "your own work") stays here,
+      and so does a syllabus whose only tool language names an excluded pre-LLM tool.</td></tr>
+  <tr><td><span class="m">academic_integrity_only</span></td><td>The syllabus never names AI, but
+      has integrity language broad enough to cover AI use ("use of any tool or aid not
+      explicitly authorized is prohibited").</td>
+      <td>NOT <span class="m">blanket_ban</span> unless AI tools are specifically named.
+      <span class="m">ai_mentioned</span> is always false here, since the category requires that no
+      AI tool is named.</td></tr>
+  <tr><td><span class="m">blanket_ban</span></td><td>AI is named and prohibited for all
+      coursework.</td><td></td></tr>
+  <tr><td><span class="m">partial_ban</span></td><td>AI is prohibited for some tasks and allowed,
+      explicitly or by clear implication, for others ("allowed for brainstorming, banned for final
+      writing").</td><td></td></tr>
+  <tr><td><span class="m">allowed_with_disclosure</span></td><td>AI is allowed broadly, conditional
+      on disclosure, citation, or attribution ("use AI, but cite anything you generate").</td><td></td></tr>
+  <tr><td><span class="m">allowed_for_specific_tasks</span></td><td>AI is allowed only for
+      enumerated uses.</td>
+      <td>The enumeration triggers the exclusive-list rule for the permits_* fields.</td></tr>
+  <tr><td><span class="m">encouraged_or_integrated</span></td><td>AI use is welcomed or built into
+      course activities, without being mandatory.</td><td></td></tr>
+  <tr><td><span class="m">required_ai_use</span></td><td>At least one assignment cannot be completed
+      without using AI.</td>
+      <td>Requires MUST-use language; "we will explore AI tools" is
+      <span class="m">encouraged_or_integrated</span>.</td></tr>
+  <tr><td><span class="m">vague_or_ambiguous</span></td><td>AI is addressed but the rule is
+      indeterminate ("discuss with the instructor before using AI").</td>
+      <td>Institutional boilerplate that defers to the instructor without stating the instructor's
+      rule lands here.</td></tr>
+  <tr><td><span class="m">other</span></td><td>A policy exists but fits none of the above. Explain
+      in notes.</td><td></td></tr>
+</table>
+
+<h2><i>Policy scope</i> vocabulary</h2>
+<table>
+  <tr><th>ID</th><th>Definition</th></tr>
+  <tr><td><span class="m">coursewide</span></td><td>The policy governs all coursework.</td></tr>
+  <tr><td><span class="m">assignment_specific</span></td><td>The policy governs named assignments.</td></tr>
+  <tr><td><span class="m">exam_specific</span></td><td>The policy governs exams or quizzes only.</td></tr>
+  <tr><td><span class="m">writing_specific</span></td><td>The policy governs written work only.</td></tr>
+  <tr><td><span class="m">coding_specific</span></td><td>The policy governs code only.</td></tr>
+  <tr><td><span class="m">unclear</span></td><td>A policy exists but its scope is indeterminate.</td></tr>
+  <tr><td><span class="m">none</span></td><td>No AI policy exists (<span class="m">no_ai_mention</span>
+      or <span class="m">academic_integrity_only</span>).</td></tr>
+</table>
+<div class="rule"><b>Scope rules.</b>
+<ul>
+  <li>Record every scope the policy covers. A syllabus that addresses AI at all often addresses more
+      than one kind of work.</li>
+  <li>Add <span class="m">coursewide</span> when a rule governs all coursework. Do not also add the
+      narrower IDs just because that rule reaches them; add a narrower ID only when the syllabus
+      states a separate rule for that kind of work.</li>
+  <li><span class="m">unclear</span> and <span class="m">none</span> each stand alone and are never
+      combined with another ID. <span class="m">none</span> is the only value when no AI policy
+      exists. <span class="m">unclear</span> is the only value when a policy exists and no scope can
+      be determined for any part of it.</li>
+</ul></div>
+
+<h2>Decision rules</h2>
+<ul>
+  <li><b>Syllabi from before spring 2023.</b> Almost always
+      <span class="m">no_ai_mention</span>, since generative AI tools were not yet in common
+      classroom use. When such a syllabus does name a text generator, code it like any other:
+      <span class="m">ai_mentioned = true</span>, with category usually
+      <span class="m">vague_or_ambiguous</span>.</li>
+  <li><b>"Use of any tool not explicitly authorized is prohibited."</b>
+      <span class="m">academic_integrity_only</span>, NOT <span class="m">blanket_ban</span>, unless
+      AI tools are specifically named.</li>
+  <li><b>Allowed for brainstorming, banned for final writing.</b>
+      <span class="m">partial_ban</span> with <span class="m">permits_brainstorming = true</span>,
+      <span class="m">permits_final_text_generation = false</span>.</li>
+  <li><b>"Use AI to study but cite anything you generate."</b>
+      <span class="m">allowed_with_disclosure</span> with
+      <span class="m">requires_citation = true</span>, scope <span class="m">coursewide</span>
+      alone.</li>
+  <li><b>"Discuss with the instructor before using AI."</b>
+      <span class="m">vague_or_ambiguous</span>.</li>
+  <li><b>"This course is built around using AI."</b>
+      <span class="m">encouraged_or_integrated</span>, or <span class="m">required_ai_use</span>
+      only when students MUST use AI to complete an assignment.</li>
+</ul>
+
+</section>
+
+<!-- ============================ LLM PROMPTS ============================ -->
+<section id="prompts" class="screen">
+
+<h2>The prompts the LLM extractors see</h2>
+<p class="note">Verbatim copies of the system messages. The prompt files the pipeline sends are
+copies of these blocks and never diverge from them. The user message for the two extractors is:
+<span class="m">syllabus_doc_id: {{SYLLABUS_DOC_ID}}</span> followed by
+<span class="m">Syllabus text: {{SYLLABUS_TEXT}}</span>. Batch mode, prompt caching on the system
+message, temperature 0. Every response is validated against the project schemas before it is
+accepted.</p>
+
+<h3>Prompt 1: extract grading components</h3>
+<pre class="prompt">You are extracting the grade-determining components of one university course syllabus.
+
+Your entire reply must be a single JSON object matching the schema at the end; it is parsed by a
+program. No prose outside the JSON. Do not summarize the syllabus or address a human reader.
+
+## What counts as one component
+
+- Create one record per component of the final course grade: every line of the grading breakdown
+  that carries its own weight or points.
+- Roll-up rule: when several sub-items share one weight ("Homework: five problem sets, 20% total"),
+  create ONE record for the group, not five.
+- Separate weights, separate records: "Paper 15%, Presentation 10%" is two records even when they
+  belong to one project. When one weight covers both an artifact and its live delivery, create one
+  record, code the dominant graded element, and say so in notes.
+- Extra credit is a record like any other, with is_extra_credit true and weight_percent equal to
+  the stated maximum (null if unstated).
+- Never invent a component, a weight, or a quote. When the syllabus does not state something, use
+  null and lower confidence; uncertainty belongs in the data, not resolved by guessing.
+
+## The three-state convention
+
+Applies to modality, proctored, open_book, group, and timed:
+- true (or a vocabulary value): the syllabus states it.
+- false (or "closed"): the syllabus explicitly rules it out, or gives an exclusive list that
+  omits it.
+- null: the syllabus does not address it. Never fill a field from what is typical for a course of
+  this kind; code only what this syllabus states. The one exception is the in-class submission
+  default in the Modality rules below.
+
+## Field guide (per component)
+
+**component_name_raw**: the component's name exactly as the grading breakdown writes it. Change
+nothing. Do not normalize, expand, or clean the name.
+
+**order_listed**: the component's position in the grading breakdown, starting at 1. When components
+are described only in scattered prose, number them in the order the syllabus first states their
+weight.
+
+**weight_percent**: the stated percent of the course grade; null when the syllabus uses points
+only or states no weight.
+
+**points**: the stated points; null when the syllabus uses percentages only.
+
+**is_extra_credit**: true when the component adds to the grade beyond the base scheme. An
+extra-credit essay is category "paper" with this flag true.
+
+**category**: one Category vocabulary ID (table below). Category describes the graded task only;
+where and how it happens lives in modality and the condition fields.
+
+**modality**: one Modality vocabulary ID, or null when the syllabus says neither where the work is
+done nor how it is submitted.
+
+**proctored**: true only when explicit monitoring is stated: proctoring software named, a testing
+center, or invigilation with identity checks. Being an in-class exam does not by itself make
+proctored true.
+
+**open_book**: "closed" when the syllabus explicitly allows no resources; "restricted" when
+resources are allowed with stated limits (one page of notes, a cheat sheet, "notes but no
+internet", calculator only); "open" when resources are unrestricted; null when the syllabus does
+not address resources.
+
+**allowed_resources_verbatim**: the syllabus sentence(s) stating the resource rule, verbatim; ""
+when no rule is stated.
+
+**group**: true when the graded submission is joint or the grade is shared, including anything the
+syllabus calls a group project; false when the syllabus states the submission is individual; null
+when unaddressed. "You may work with classmates, but the final responses and submission must be
+your own" is group = false: collaboration on the process does not make it group work, the
+submission decides.
+
+**timed**: true only when the syllabus states a duration shorter than the availability window
+("60 minutes once opened", "you will have 50 minutes"); a due date alone is not a time limit;
+null when unaddressed.
+
+**attribute_evidence**: a verbatim quote for any attribute you coded from text OUTSIDE the grading
+breakdown (exam-rules sections, assignment descriptions); "" when every attribute of this component
+came from the breakdown captured in grading_scheme_verbatim.
+
+**confidence**: your confidence in this record, 0 to 1.
+
+## Field guide (per syllabus)
+
+**syllabus_doc_id**: echo the id you were given.
+
+**course_metadata_visible**: course number, title, term, and instructors exactly as printed; null
+or [] when absent.
+
+**grading_scheme_verbatim**: the grading breakdown (table or prose list) copied verbatim, once.
+You may repair OCR spacing; change no words or numbers.
+
+**grade_scale**: five parts.
+- grade_scale_verbatim: the block of the syllabus stating the letter-grade scale, copied verbatim,
+  once; "" when the syllabus states no scale. When the syllabus states a curve or a pass/fail option
+  somewhere other than that block, include those sentences too, joined with " [...] ".
+- cutoff_units: "percent" when the scale is written in percentages, "points" when it is written in
+  raw points, null when the syllabus gives letters with no numbers.
+- cutoffs: one entry per letter grade whose minimum the syllabus states, in the order printed. grade
+  is the label exactly as printed ("A", "A-", "B+", "F"); min is the lowest score that earns it. For
+  a printed range ("A = 93-100"), min is the lower bound. For a bottom grade written as "below 60 =
+  F", min is 0. [] when the syllabus states no numeric scale.
+- pass_fail_option_mentioned: whether the syllabus mentions a pass/fail or credit/no-credit option;
+  null when unaddressed.
+- curve_mentioned: true when the syllabus states that grades may be curved, scaled, adjusted, or
+  normalized relative to class performance, which makes the printed cutoffs non-binding; false when
+  the syllabus rules a curve out ("there is no curve in this course", "the scale is firm"); null when
+  a curve is not addressed. A stated rounding rule is not a curve.
+
+Never supply a scale the syllabus does not print, however standard it looks, and never convert
+between points and percentages.
+
+**notes**: one free-text field for anything ambiguous about the syllabus as a whole or about any
+specific record; name the component a note refers to; "" when nothing to flag. Do not report
+weight sums here; they are checked by a program.
+
+Quote policy for grading_scheme_verbatim, allowed_resources_verbatim, and attribute_evidence:
+verbatim in wording and word order; you may repair spacing lost in OCR; you may not change, add,
+or delete a word or number. Never paraphrase into these fields.
+
+## Category vocabulary
+
+Assign the ID whose definition matches the graded task. Boundary rules resolve neighboring pairs;
+apply them literally.
+
+| ID | Definition | Boundary rules |
+|---|---|---|
+| exam_quiz | A test of content knowledge taken under assessment conditions and graded on correctness: midterms, finals, tests, quizzes. | A quiz graded for completion rather than correctness, and any quiz over course logistics (a syllabus quiz), is homework_problem_set. Quizzes are exam_quiz by default; move them only when the syllabus states completion grading or the logistics subject. In-class polling (iClicker) graded on correctness is exam_quiz; graded for answering at all it is participation. Lab practicals are lab_or_field. |
+| paper | A standalone written prose composition graded on its content, argument, or analysis: essays, term papers, reports, literature reviews. | Recurring short writing (weekly responses, discussion posts, journals) is homework_problem_set when graded on content and participation when graded for engaging. A writeup whose main function is evidencing attendance at an event is attendance_writeup. Non-prose deliverables are project_or_artifact. |
+| homework_problem_set | Exercises completed outside class and graded: problem sets, worksheets, coding assignments, recurring short writing, completion-graded quizzes, graded peer reviews of classmates' work. | A coding assignment that runs for weeks and integrates the course material is project_or_artifact. |
+| lab_or_field | Work performed in a laboratory or field setting, and its direct write-ups: lab exercises, lab reports, field notebooks, lab practical exams. | The exam conditions of a practical are recorded in proctored and timed, not by moving it to exam_quiz. |
+| presentation | A graded live delivery to an audience: oral presentations, speeches, musical or theatrical performances, poster-session presentations. Delivery over synchronous video counts as live. | The presented artifact (slides, poster, written paper), when weighted separately, is its own record under its own category. When one weight covers both artifact and delivery, code the dominant graded element and say so in notes. |
+| project_or_artifact | An integrative deliverable or non-prose artifact: term projects, portfolios, posters, videos, designs, applications, substantial code. | A prose deliverable is paper. A graded live delivery is presentation. |
+| participation | Credit for engaging in class activities: discussion participation, polling graded for responding, in-class exercises graded for engagement. | Credit for presence alone is attendance. |
+| attendance | Credit for being present, with no submitted work beyond a presence check (sign-in sheet, seat check, attendance clicker). | |
+| attendance_writeup | Credit that requires BOTH attending an event and submitting a written account of it, where the writing mainly evidences attendance or engagement (speaker-series writeups, event reflections graded for submission). | When the writing is graded on analytical quality with essay-like expectations (rubric, length, argument), it is paper. The event attended plus the writeup form ONE component when the syllabus weights them together. |
+| other | A clearly described component that fits no category above. Always explain in notes. | |
+| unknown | The component is named in the grading scheme but the syllabus says too little to classify it. | Distinct from other: unknown means "cannot tell", other means "can tell, fits nothing". |
+
+## Modality vocabulary
+
+Modality is two facts joined: where the work is performed (during a class meeting, or outside
+class) and how it is submitted (physically, or online). Scheduled synchronous video sessions count
+as class meetings. For live presentations, the delivery is the submission.
+
+| ID | Definition |
+|---|---|
+| in_class_physical | Performed during a class meeting; submitted physically: paper exams, blue books, live presentations, artifacts handed in. |
+| in_class_online | Performed during a class meeting; submitted electronically: an LMS quiz taken in the classroom, in-class coding submitted online. |
+| online | Performed outside class; submitted electronically. |
+| take_home_physical | Performed outside class; submitted physically on paper or in person. |
+
+Modality rules:
+- null when the syllabus says neither where the work is done nor how it is submitted.
+- In-class default: an exam or quiz stated to happen in class, with no stated submission channel,
+  is in_class_physical. Choose in_class_online only when the syllabus states a device or LMS is
+  used.
+- An assignment completed or submitted "on Canvas" (or any LMS) outside class is online.
+- Hybrid work (drafted at home, finished in class): code where the graded work is dominantly
+  produced; if genuinely split, null plus a note.
+- Resource permissions and collaboration rules say nothing about modality; they live in open_book
+  and group.
+
+## Worked examples
+
+**Example 1: a closed-book midterm.** The grading table lists "Midterm 1 ....... 20%" and a later
+Exams section says "Midterms and the final are given in class and are closed-book. No notes or
+calculators are permitted."
+
+```json
+{
+  "component_name_raw": "Midterm 1",
+  "order_listed": 1,
+  "weight_percent": 20,
+  "points": null,
+  "is_extra_credit": false,
+  "category": "exam_quiz",
+  "modality": "in_class_physical",
+  "proctored": null,
+  "open_book": "closed",
+  "allowed_resources_verbatim": "Midterms and the final are given in class and are closed-book. No notes or calculators are permitted.",
+  "group": null,
+  "timed": null,
+  "attribute_evidence": "Midterms and the final are given in class and are closed-book. No notes or calculators are permitted.",
+  "confidence": 0.95
+}
+```
+(proctored stays null: in class was stated, monitoring was not. timed stays null: no duration was
+stated. attribute_evidence is filled because the exam rules came from outside the grading table.)
+
+**Example 2: an open-resource online quiz.** The syllabus says "Weekly quizzes (10% total):
+complete each week's quiz on Canvas by Sunday night. You may refer to your syllabus, classmates,
+or any other resources to complete the quiz. However, the final responses and submission must be
+your own."
+
+```json
+{
+  "component_name_raw": "Weekly quizzes",
+  "order_listed": 4,
+  "weight_percent": 10,
+  "points": null,
+  "is_extra_credit": false,
+  "category": "exam_quiz",
+  "modality": "online",
+  "proctored": null,
+  "open_book": "open",
+  "allowed_resources_verbatim": "You may refer to your syllabus, classmates, or any other resources to complete the quiz. However, the final responses and submission must be your own.",
+  "group": false,
+  "timed": null,
+  "attribute_evidence": "",
+  "confidence": 0.9
+}
+```
+(group is false, stated individually submitted. One record for all the weekly quizzes, per the
+roll-up rule.)
+
+**Example 3: attendance plus writeup.** The syllabus says "Attendance at and a write-up of 8
+speaker presentations during the spring 2023 semester. All presentations must be attended and all
+write ups submitted by April 21, 2023. (20%)"
+
+```json
+{
+  "component_name_raw": "Attendance at and a write-up of 8 speaker presentations",
+  "order_listed": 3,
+  "weight_percent": 20,
+  "points": null,
+  "is_extra_credit": false,
+  "category": "attendance_writeup",
+  "modality": null,
+  "proctored": null,
+  "open_book": null,
+  "allowed_resources_verbatim": "",
+  "group": null,
+  "timed": null,
+  "attribute_evidence": "",
+  "confidence": 0.85
+}
+```
+(One component: attendance and writeup are weighted together. modality is null: the syllabus says
+neither where the writeups are written nor how they are submitted; the due date is not a time
+limit.)
+
+## Output shape
+
+Your reply is exactly one JSON object with this shape and no other text:
+
+{
+  "syllabus_doc_id": "string",
+  "course_metadata_visible": {
+    "course_number": "string|null",
+    "course_title": "string|null",
+    "term": "string|null",
+    "instructors": ["string"]
+  },
+  "grading_scheme_verbatim": "string",
+  "grading_components": [
+    {
+      "component_name_raw": "string",
+      "order_listed": "integer",
+      "weight_percent": "number|null",
+      "points": "number|null",
+      "is_extra_credit": "boolean",
+      "category": "string",
+      "modality": "string|null",
+      "proctored": "boolean|null",
+      "open_book": "string|null",
+      "allowed_resources_verbatim": "string",
+      "group": "boolean|null",
+      "timed": "boolean|null",
+      "attribute_evidence": "string",
+      "confidence": "number"
+    }
+  ],
+  "grade_scale": {
+    "grade_scale_verbatim": "string",
+    "cutoff_units": "string|null",
+    "cutoffs": [
+      { "grade": "string", "min": "number" }
+    ],
+    "pass_fail_option_mentioned": "boolean|null",
+    "curve_mentioned": "boolean|null"
+  },
+  "notes": "string"
+}</pre>
+
+<h3>Prompt 2: extract AI policy</h3>
+<pre class="prompt">You are extracting the generative-AI policy of one university course syllabus.
+
+Your entire reply must be a single JSON object matching the schema at the end; it is parsed by a
+program. No prose outside the JSON.
+
+## What to look for
+
+Any language naming generative AI: a large language model, a chatbot or assistant built on one, or
+generative AI as a category. Keyword seed list (not exhaustive):
+ChatGPT, GPT, OpenAI, generative AI, genAI, generative artificial intelligence, artificial
+intelligence, AI tool, AI tools, large language model, LLM, Claude, Bard, Google Bard, Gemini,
+Bing Chat, Copilot, DALL-E, Midjourney, text generator, machine-generated. A term not on the list
+still counts when it names a generative tool.
+
+## What does not count as generative AI
+
+Tools that predate large language models are outside this definition. They never set ai_mentioned
+true and a rule about them is not an AI policy, however much space the syllabus gives them:
+- Spelling and grammar checkers, and writing-usage references (Grammarly).
+- Plagiarism-detection and enforcement software (Turnitin). Naming a detection tool is not an AI
+  policy. A syllabus whose only tool language names a detector is no_ai_mention.
+- Machine translation (Google Translate, online translators).
+- Commercial paper-writing services and homework-answer sites (essay mills, Chegg, Course Hero).
+
+When a syllabus names one of these AND names a generative tool, code it on the generative tool; the
+excluded tool changes nothing.
+
+## Institutional boilerplate
+
+Syllabi often paste a University, college, or department statement about AI instead of stating the
+instructor's own rule. Code the rule the syllabus contains, whoever wrote it:
+- The boilerplate names AI, so ai_mentioned is true, and it goes into ai_policy_verbatim like any
+  other AI passage.
+- When the boilerplate states a substantive rule, one that prohibits or permits a described use, code
+  that rule on its content, exactly as if the instructor had written it.
+- When it defers to the instructor without stating the instructor's rule ("AI tools must not be used
+  to complete academic work in a manner not allowed by the instructor"), policy_category is
+  vague_or_ambiguous, policy_scope is [unclear], every detail field is null, and
+  policy_clarity_score is low: a student cannot tell what is allowed.
+- When the syllabus carries BOTH boilerplate and the instructor's own rule, the instructor's rule
+  decides policy_category and policy_scope, and ai_policy_verbatim holds both passages.
+
+Generic integrity language that names no tool ("use of any tool or aid not
+explicitly authorized is prohibited") is captured by policy_category academic_integrity_only, with
+ai_mentioned false. Honor-code boilerplate without tool language ("no cheating", "your own work")
+is no_ai_mention.
+
+## The exclusive-list rule (all eleven detail fields)
+
+- true: the syllabus explicitly allows / requires / prohibits the thing.
+- false: the syllabus explicitly rules it out, OR states an exclusive allowed list ("only",
+  "limited to", a ban with named carve-outs) that omits it, OR a blanket ban covers it. A blanket
+  ban sets every permits_* field false and both prohibits_* fields true.
+- null: the syllabus does not address it. When ai_mentioned is false, every detail field is null.
+- A permissive mention WITHOUT exclusivity ("you may use AI for brainstorming") sets that one
+  field true and leaves the others null. With exclusivity ("AI may be used only for
+  brainstorming"), the unlisted permits_* fields are false.
+
+## Field guide
+
+**ai_mentioned**: true when the syllabus names generative AI: a large language model, a chatbot or
+assistant built on one, or generative AI as a category. Tools that predate large language models do
+not count (see What does not count as generative AI above).
+
+**ai_terms_found**: each distinct AI term the syllabus uses, verbatim, listed once; a term the
+syllabus repeats is listed once. Order does not matter. [] when ai_mentioned is false.
+
+**ai_policy_verbatim**: EVERY passage that addresses AI use, copied verbatim, in document order,
+with " [...] " joining non-contiguous passages; "" when ai_mentioned is false. You may repair OCR
+spacing; you may not change, add, or delete a word. Never paraphrase.
+
+**policy_category**: one Policy Category ID (table below).
+
+**policy_scope**: a list of every Policy Scope ID that applies (table below). Most syllabi that
+address AI carry more than one. Order does not matter.
+
+**requires_disclosure**: students must state that AI was used. Disclosure is telling the instructor
+AI was used; formal source-style attribution is requires_citation.
+**requires_citation**: AI output must be cited or attributed the way other sources are cited.
+**requires_prompt_appendix**: students must submit their prompts or the AI transcript.
+**permits_brainstorming**: AI may be used for idea generation or outlining.
+**permits_editing**: AI may be used to edit or polish text the student wrote, for grammar or
+style.
+**permits_coding_help**: AI assistance on code is allowed.
+**permits_final_text_generation**: AI-drafted text may be submitted as part of graded work.
+**prohibits_ai_on_exams**: AI is banned on exams or quizzes.
+**prohibits_ai_on_all_assignments**: AI is banned on all graded work.
+**teaches_ai_use**: the course instructs students in how to use AI. Teaching AI use does not by
+itself make ai_required true.
+**ai_required**: at least one assignment cannot be completed without using AI.
+
+**policy_clarity_score**: 0 to 1, how clearly the syllabus states the rule. 1 means explicit and
+complete (a reader knows exactly what is allowed, for what, under what conditions); 0 means vague,
+and 0 is also the score when the syllabus states no AI rule at all. Score clarity ONLY.
+Enforceability is not part of this score: a crisp rule that is hard to police ("no AI on take-home
+writeups") still scores high.
+
+**confidence**: confidence in this record, 0 to 1.
+
+**notes**: one free-text field for anything ambiguous; "" when nothing to flag.
+
+## Policy Category vocabulary
+
+| ID | Definition | Boundary rules |
+|---|---|---|
+| no_ai_mention | No language naming generative AI anywhere. | Honor-code boilerplate without tool language stays here, and so does a syllabus whose only tool language names an excluded pre-LLM tool. |
+| academic_integrity_only | The syllabus never names AI, but has integrity language broad enough to cover AI use ("use of any tool or aid not explicitly authorized is prohibited"). | NOT blanket_ban unless AI tools are specifically named. ai_mentioned is always false here, since the category requires that no AI tool is named. |
+| blanket_ban | AI is named and prohibited for all coursework. | |
+| partial_ban | AI is prohibited for some tasks and allowed, explicitly or by clear implication, for others ("allowed for brainstorming, banned for final writing"). | |
+| allowed_with_disclosure | AI is allowed broadly, conditional on disclosure, citation, or attribution ("use AI, but cite anything you generate"). | |
+| allowed_for_specific_tasks | AI is allowed only for enumerated uses. | The enumeration triggers the exclusive-list rule for the permits_* fields. |
+| encouraged_or_integrated | AI use is welcomed or built into course activities, without being mandatory. | |
+| required_ai_use | At least one assignment cannot be completed without using AI. | Requires MUST-use language; "we will explore AI tools" is encouraged_or_integrated. |
+| vague_or_ambiguous | AI is addressed but the rule is indeterminate ("discuss with the instructor before using AI"). | Institutional boilerplate that defers to the instructor without stating the instructor's rule lands here. |
+| other | A policy exists but fits none of the above. Explain in notes. | |
+
+## Policy Scope vocabulary
+
+| ID | Definition |
+|---|---|
+| coursewide | The policy governs all coursework. |
+| assignment_specific | The policy governs named assignments. |
+| exam_specific | The policy governs exams or quizzes only. |
+| writing_specific | The policy governs written work only. |
+| coding_specific | The policy governs code only. |
+| unclear | A policy exists but its scope is indeterminate. |
+| none | No AI policy exists (no_ai_mention or academic_integrity_only). |
+
+Scope rules:
+- Record every scope the policy covers.
+- Add coursewide when a rule governs all coursework. Do not also add the narrower IDs just because
+  that rule reaches them; add a narrower ID only when the syllabus states a separate rule for that
+  kind of work.
+- unclear and none each stand alone and are never combined with another ID. none is the only value
+  when no AI policy exists. unclear is the only value when a policy exists and no scope can be
+  determined for any part of it.
+
+## Decision rules
+
+- Syllabi from before spring 2023: almost always no_ai_mention, since generative AI tools were not
+  yet in common classroom use. When such a syllabus does name a text generator, ai_mentioned is true
+  and the category is usually vague_or_ambiguous.
+- "Use of any tool not explicitly authorized is prohibited": academic_integrity_only, NOT
+  blanket_ban, unless AI tools are specifically named.
+- Allowed for brainstorming, banned for final writing: partial_ban with permits_brainstorming
+  true, permits_final_text_generation false.
+- "Use AI to study but cite anything you generate": allowed_with_disclosure with
+  requires_citation true, scope [coursewide].
+- "Discuss with the instructor before using AI": vague_or_ambiguous.
+- "This course is built around using AI": encouraged_or_integrated, or required_ai_use only when
+  students MUST use AI to complete an assignment.
+
+## Worked examples
+
+**Example 1: an exclusive allowed list.** The syllabus says "You may use generative AI tools such
+as ChatGPT only to brainstorm ideas and to check grammar. Submitting AI-generated text as your own
+work is a violation of the academic integrity policy."
+
+```json
+{
+  "syllabus_doc_id": "example-1",
+  "ai_mentioned": true,
+  "ai_terms_found": ["generative AI tools", "ChatGPT", "AI-generated text"],
+  "ai_policy_verbatim": "You may use generative AI tools such as ChatGPT only to brainstorm ideas and to check grammar. Submitting AI-generated text as your own work is a violation of the academic integrity policy.",
+  "policy_category": "allowed_for_specific_tasks",
+  "policy_scope": ["coursewide"],
+  "requires_disclosure": null,
+  "requires_citation": null,
+  "requires_prompt_appendix": null,
+  "permits_brainstorming": true,
+  "permits_editing": true,
+  "permits_coding_help": false,
+  "permits_final_text_generation": false,
+  "prohibits_ai_on_exams": null,
+  "prohibits_ai_on_all_assignments": null,
+  "teaches_ai_use": null,
+  "ai_required": null,
+  "policy_clarity_score": 0.9,
+  "confidence": 0.95,
+  "notes": ""
+}
+```
+(permits_coding_help is false because "only to brainstorm ideas and to check grammar" is an
+exclusive list that omits it. The requires_* fields stay null: disclosure is not addressed.)
+
+**Example 2: no mention.** The syllabus names no generative AI tool, and says only "Students
+are expected to uphold the University honor code."
+
+```json
+{
+  "syllabus_doc_id": "example-2",
+  "ai_mentioned": false,
+  "ai_terms_found": [],
+  "ai_policy_verbatim": "",
+  "policy_category": "no_ai_mention",
+  "policy_scope": ["none"],
+  "requires_disclosure": null,
+  "requires_citation": null,
+  "requires_prompt_appendix": null,
+  "permits_brainstorming": null,
+  "permits_editing": null,
+  "permits_coding_help": null,
+  "permits_final_text_generation": null,
+  "prohibits_ai_on_exams": null,
+  "prohibits_ai_on_all_assignments": null,
+  "teaches_ai_use": null,
+  "ai_required": null,
+  "policy_clarity_score": 0.0,
+  "confidence": 0.98,
+  "notes": ""
+}
+```
+
+## Output shape
+
+Your reply is exactly one JSON object with this shape and no other text:
+
+{
+  "syllabus_doc_id": "string",
+  "ai_mentioned": "boolean",
+  "ai_terms_found": ["string"],
+  "ai_policy_verbatim": "string",
+  "policy_category": "string",
+  "policy_scope": ["string"],
+  "requires_disclosure": "boolean|null",
+  "requires_citation": "boolean|null",
+  "requires_prompt_appendix": "boolean|null",
+  "permits_brainstorming": "boolean|null",
+  "permits_editing": "boolean|null",
+  "permits_coding_help": "boolean|null",
+  "permits_final_text_generation": "boolean|null",
+  "prohibits_ai_on_exams": "boolean|null",
+  "prohibits_ai_on_all_assignments": "boolean|null",
+  "teaches_ai_use": "boolean|null",
+  "ai_required": "boolean|null",
+  "policy_clarity_score": "number",
+  "confidence": "number",
+  "notes": "string"
+}</pre>
+
+<h3>Prompt 3: classify a single assessment task</h3>
+<p class="note">Used in the iterate-accuracy loop to re-classify one mis-coded component from its
+syllabus excerpt. Its Category vocabulary, Modality vocabulary, three-state convention, and field
+definitions are byte-identical to the corresponding blocks of Prompt 1; only the framing and the
+output shape differ. User message: <span class="m">Excerpt: {{EXCERPT}}</span>.</p>
+<pre class="prompt">You classify a single university course assessment task, given the syllabus excerpt that
+describes it. Your entire reply is a single JSON object; no prose outside the JSON.
+
+[Category vocabulary: identical block to Prompt 1]
+[Modality vocabulary and rules: identical block to Prompt 1]
+[Three-state convention and the proctored / open_book / group / timed definitions: identical
+blocks to Prompt 1]
+
+Output shape:
+{
+  "category": "string",
+  "modality": "string|null",
+  "proctored": "boolean|null",
+  "open_book": "string|null",
+  "group": "boolean|null",
+  "timed": "boolean|null",
+  "evidence_quote": "string",
+  "confidence": "number",
+  "rationale_one_sentence": "string"
+}</pre>
+
+</section>
+
+<!-- ==================== BACKEND & REPO (PI-FACING) ==================== -->
+<section id="backend" class="screen">
+
+<h2>Ambiguities raised in the coding review</h2>
+<p>These six ambiguities came out of the coding review of a first batch of syllabi. Each has to be
+checked off as clearly settled by this document before the codebook is issued. Status flips to
+<b>Settled</b> on approval.</p>
+
+<div class="decision"><span class="dnum">A1.</span> <b>"How do we grade something that's called a
+quiz, but is really just un-proctored homework graded for completion? (e.g., syllabus quiz)"</b><br>
+<b>Resolution:</b> completion-graded quizzes and logistics (syllabus) quizzes are
+<span class="m">homework_problem_set</span>; quizzes default to <span class="m">exam_quiz</span>
+otherwise. No separate syllabus-quiz category.<br>
+<b>Settled by:</b> Category vocabulary, <span class="m">exam_quiz</span> boundary rules.<br>
+<b>Status:</b> draft resolution, awaiting PI review.</div>
+
+<div class="decision"><span class="dnum">A2.</span> <b>"Unsure which option to select for a
+paper/essay that students are writing at home. 'Take home?' 'Artifact submission?'
+'Attendance-based'?"</b><br>
+<b>Resolution:</b> category is decided by the task (<span class="m">paper</span>, or
+<span class="m">attendance_writeup</span> when the writing mainly evidences attendance); modality
+is decided by where-done x how-submitted (<span class="m">online</span> or
+<span class="m">take_home_physical</span>, or null when unstated). "Attendance-based" is not a
+modality; the choice this question describes never arises under these definitions.<br>
+<b>Settled by:</b> Category boundary rules (paper / attendance_writeup); Modality vocabulary and
+rules; Prompt 1 worked example 3.<br>
+<b>Status:</b> draft resolution, awaiting PI review.</div>
+
+<div class="decision"><span class="dnum">A3.</span> <b>"The policy is quite clear (AI not allowed
+for writeups) but not very enforceable (all writeups are done at home). Not sure how to communicate
+this as a number."</b><br>
+<b>Resolution:</b> <span class="m">policy_clarity_score</span> measures textual clarity only;
+enforceability is explicitly excluded and is derived in analysis from the assessment structure
+(modality, proctored), where it is measured better than any coder judgment. The example policy
+scores high.<br>
+<b>Settled by:</b> AI Policy field table, <span class="m">policy_clarity_score</span> definition.<br>
+<b>Status:</b> draft resolution, awaiting PI review.</div>
+
+<div class="decision"><span class="dnum">A4.</span> <b>"Attendance and write-up were lumped
+together as one category in the syllabus, so I am unclear about which modality to select."</b><br>
+<b>Resolution:</b> one component with category <span class="m">attendance_writeup</span> when the
+syllabus weights them together; modality follows the writeup's where-done x how-submitted facts and
+is null when the syllabus states neither. The quoted syllabus is Prompt 1 worked example 3.<br>
+<b>Settled by:</b> Category vocabulary (<span class="m">attendance_writeup</span>); Prompt 1 worked
+example 3.<br>
+<b>Status:</b> draft resolution, awaiting PI review.</div>
+
+<div class="decision"><span class="dnum">A5.</span> <b>"The writing seems directly AI substitutable
+but the content would require attendance, so I chose a score between attendance and writing."</b><br>
+<b>Resolution:</b> dissolved. No substitutability score exists in this codebook; neither coder
+rates it. The component's structure (<span class="m">attendance_writeup</span> x modality x
+condition fields) carries the information, and any scoring happens downstream in analysis.<br>
+<b>Settled by:</b> the field lists on the Grading Components tab, which contain no
+substitutability field.<br>
+<b>Status:</b> draft resolution, awaiting PI review.</div>
+
+<div class="decision"><span class="dnum">A6.</span> <b>"Do we need something to distinguish
+explicitly no resources allowed versus resources not mentioned? Maybe type 'none' for no resources
+allowed, so blank implies materials were not listed?"</b><br>
+<b>Resolution:</b> yes, the distinction is formalized: <span class="m">open_book</span> is
+four-valued (<span class="m">closed</span> = explicitly none, <span class="m">restricted</span>,
+<span class="m">open</span>, null/<span class="m">not_stated</span> = never mentioned), and
+<span class="m">allowed_resources_verbatim</span> captures the stated rule when one exists. In the
+workbook, <span class="m">not_stated</span> is an explicit dropdown value so a blank cell always
+means "not yet coded".<br>
+<b>Settled by:</b> Grading Components field table (<span class="m">open_book</span>,
+<span class="m">allowed_resources_verbatim</span>); Workflow, human coder step 4.<br>
+<b>Status:</b> draft resolution, awaiting PI review.</div>
+
+<h2>Changelog</h2>
+<ul>
+  <li><b>v2.0 (2026-08-17, DRAFT):</b> Full rewrite as a single-source-of-truth HTML after the
+      co-author coding review. Replaces the v1.0 Markdown codebook and its PDF build. All changes listed in the table below. Audit-subset LLM extractions
+      and workbook rows coded under v1.0 are invalidated by the category redesign and must be
+      re-run / re-coded.</li>
+  <li><b>v1.0 (2026-07-14):</b> Initial release for external coding. Workflow updated from
+      direct-JSON coding to workbook-based coding. Added the proposing-changes section.</li>
+</ul>
+
+<h2>Changes in v2.0 (from the 2026-08 co-author coding review)</h2>
+<table>
+  <tr><th>#</th><th>Change</th></tr>
+  <tr><td>1</td><td><span class="m">ai_policy_verbatim</span> (full policy text) replaces the short
+      <span class="m">evidence_quote</span> on the AI-policy side.</td></tr>
+  <tr><td>2</td><td><span class="m">page_number</span> dropped from both extractions.</td></tr>
+  <tr><td>3</td><td><span class="m">warnings</span> dropped. One response-level
+      <span class="m">notes</span> field per extraction covers judgment-call flagging; mechanical
+      checks (weight sums) moved to pipeline code.</td></tr>
+  <tr><td>4</td><td><span class="m">component_name_clean</span> dropped. Classification context
+      stays with the extractor (category, modality); label normalization, if ever needed, is a
+      post-hoc deterministic raw-to-clean dictionary over the universe of raw names, frozen as a
+      reviewed CSV.</td></tr>
+  <tr><td>5</td><td>Grading evidence captured once per syllabus
+      (<span class="m">grading_scheme_verbatim</span>); per-component
+      <span class="m">attribute_evidence</span> only for attributes coded from outside that
+      block.</td></tr>
+  <tr><td>6</td><td><span class="m">direct_ai_substitutability</span> dropped completely;
+      substitutability scoring moved downstream to analysis.</td></tr>
+  <tr><td>7</td><td>Three-state convention (true / false / null; workbook yes / no / not_stated)
+      stated globally; exclusive-list rule added for the AI-policy detail fields.</td></tr>
+  <tr><td>8</td><td><span class="m">order_listed</span> added: the component's position in the
+      grading breakdown.</td></tr>
+  <tr><td>9</td><td><span class="m">policy_scope</span> is multi-valued: a list of every scope the
+      policy covers, with <span class="m">coursewide</span> not implying the narrower IDs and
+      <span class="m">unclear</span> / <span class="m">none</span> standing alone. Single-valued
+      scope forced a coin flip on the common syllabus that rules on exams and papers
+      separately.</td></tr>
+  <tr><td>10</td><td><span class="m">ai_mentioned</span> covers generative AI only: large language
+      models, chatbots built on them, and generative AI as a category. Tools that check or correct
+      text without generating it do not count, and no such tool appears in the keyword seed list.
+      Pre-LLM tools are named as explicit exclusions instead: grammar checkers, plagiarism detection,
+      machine translation, and paper-writing services. This makes
+      <span class="m">academic_integrity_only</span> imply <span class="m">ai_mentioned</span> false
+      without exception.</td></tr>
+  <tr><td>11</td><td>Institutional boilerplate has a coding rule: it counts as AI language, it is
+      captured verbatim, and it is <span class="m">vague_or_ambiguous</span> /
+      <span class="m">unclear</span> when it defers to the instructor without stating the
+      instructor's rule. An instructor's own rule always outranks pasted boilerplate. Two of the 24
+      post-2022 syllabi in the hand-coding sample are this case.</td></tr>
+  <tr><td>12</td><td><span class="m">grade_scale</span> captures the whole scale:
+      <span class="m">grade_scale_verbatim</span>, <span class="m">cutoff_units</span>, and a
+      <span class="m">cutoffs</span> list of grade/minimum pairs, plus
+      <span class="m">pass_fail_option_mentioned</span> and the new
+      <span class="m">curve_mentioned</span>, which records whether the printed cutoffs are binding
+      at all. Replaces
+      <span class="m">uses_plus_minus</span>, <span class="m">a_cutoff</span>, and
+      <span class="m">a_minus_cutoff</span>, all three of which the cutoff list derives.
+      <span class="m">cutoff_units</span> is what keeps a 900-point threshold from being compared
+      against a 90-percent one.</td></tr>
+  <tr><td>13</td><td>Assessment types orthogonalized: 23 conflated categories and 14 modalities
+      replaced by 11 task categories, a 4-value where x how modality, and the condition fields
+      <span class="m">proctored</span> / <span class="m">open_book</span> /
+      <span class="m">group</span> / <span class="m">timed</span>. Encoding: JSON booleans with
+      null; <span class="m">open_book</span> is 4-level categorical. <span class="m">timed</span>
+      kept provisionally with an audit-based drop criterion. Artifact merged into
+      <span class="m">project_or_artifact</span>. Extra credit is a flag, not a category. Proctored
+      takes the narrow (explicit monitoring) definition.</td></tr>
+</table>
+
+<h2>v1.0 to v2.0 category mapping</h2>
+<p class="note">For regenerating the workbook and interpreting anything coded under v1.0. The old
+category tokens conflated task, location, and openness; the new coding splits them.</p>
+<table>
+  <tr><th>v1.0 component_category</th><th>v2.0 coding</th></tr>
+  <tr><td><span class="m">in_person_closed_book_exam</span></td><td>exam_quiz + in_class_physical + open_book closed</td></tr>
+  <tr><td><span class="m">in_person_open_book_exam</span></td><td>exam_quiz + in_class_physical + open_book open/restricted per syllabus</td></tr>
+  <tr><td><span class="m">online_proctored_exam</span></td><td>exam_quiz + online + proctored true</td></tr>
+  <tr><td><span class="m">online_unproctored_exam</span></td><td>exam_quiz + online + proctored false (if stated) or null</td></tr>
+  <tr><td><span class="m">take_home_exam</span></td><td>exam_quiz + online or take_home_physical per submission channel</td></tr>
+  <tr><td><span class="m">paper_or_essay</span></td><td>paper</td></tr>
+  <tr><td><span class="m">writing_assignment_short</span></td><td>homework_problem_set (or paper if standalone; see boundary rules)</td></tr>
+  <tr><td><span class="m">coding_assignment</span></td><td>homework_problem_set, or project_or_artifact if project-scale</td></tr>
+  <tr><td><span class="m">problem_set_homework</span></td><td>homework_problem_set</td></tr>
+  <tr><td><span class="m">online_quiz</span></td><td>exam_quiz + online (homework_problem_set if completion-graded)</td></tr>
+  <tr><td><span class="m">in_class_quiz</span></td><td>exam_quiz + in_class_physical (or in_class_online)</td></tr>
+  <tr><td><span class="m">project_or_portfolio</span></td><td>project_or_artifact</td></tr>
+  <tr><td><span class="m">presentation_or_oral_work</span></td><td>presentation</td></tr>
+  <tr><td><span class="m">lab_exam_or_practicum</span></td><td>lab_or_field</td></tr>
+  <tr><td><span class="m">lab_report</span></td><td>lab_or_field</td></tr>
+  <tr><td><span class="m">discussion_post</span></td><td>homework_problem_set or participation per boundary rules</td></tr>
+  <tr><td><span class="m">participation</span></td><td>participation</td></tr>
+  <tr><td><span class="m">attendance</span></td><td>attendance</td></tr>
+  <tr><td><span class="m">peer_review</span></td><td>homework_problem_set</td></tr>
+  <tr><td><span class="m">group_work</span></td><td>the underlying task's category + group true</td></tr>
+  <tr><td><span class="m">extra_credit</span></td><td>the underlying task's category + is_extra_credit true</td></tr>
+  <tr><td><span class="m">other</span> / <span class="m">unknown</span></td><td>other / unknown</td></tr>
+</table>
+
+<h2>Fields removed in v2.0</h2>
+<p><span class="m">component_name_clean</span>, <span class="m">assessment_modality</span> (old
+14-value list), <span class="m">location_or_delivery</span>, <span class="m">open_book_status</span>
+(free text), <span class="m">timing</span> (free text), <span class="m">group_or_individual</span>
+(free text), <span class="m">direct_ai_substitutability</span>, <span class="m">evidence_quote</span>
+(both extractions), <span class="m">page_number</span> (both), <span class="m">warnings</span>
+(both), and the three <span class="m">grade_scale</span> parts
+<span class="m">uses_plus_minus</span> / <span class="m">a_cutoff</span> /
+<span class="m">a_minus_cutoff</span>, which the <span class="m">cutoffs</span> list derives.</p>
+
+</section>
+
+<script>
+document.querySelectorAll('.tabs button').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.tabs button').forEach(function (b) { b.classList.remove('active'); });
+    document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
