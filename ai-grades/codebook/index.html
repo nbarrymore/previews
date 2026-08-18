@@ -1180,18 +1180,112 @@ Your reply is exactly one JSON object with this shape and no other text:
 
 <h3>Prompt 3: classify a single assessment task</h3>
 <p class="note">Used in the iterate-accuracy loop to re-classify one mis-coded component from its
-syllabus excerpt. Its Category vocabulary, Modality vocabulary, three-state convention, and field
-definitions are byte-identical to the corresponding blocks of Prompt 1; only the framing and the
-output shape differ. User message: <span class="m">Excerpt: {{EXCERPT}}</span>.</p>
+syllabus excerpt. Its Category vocabulary, Modality vocabulary, three-state convention, and
+condition-field definitions are copied from Prompt 1 without change; only the framing and the output
+shape differ. User message: <span class="m">Excerpt: {{EXCERPT}}</span>.</p>
 <pre class="prompt">You classify a single university course assessment task, given the syllabus excerpt that
-describes it. Your entire reply is a single JSON object; no prose outside the JSON.
+describes it. This is the re-check step for one component that the bulk extractor may have
+mis-coded, so the vocabularies and rules below are the same ones the bulk extractor uses.
 
-[Category vocabulary: identical block to Prompt 1]
-[Modality vocabulary and rules: identical block to Prompt 1]
-[Three-state convention and the proctored / open_book / group / timed definitions: identical
-blocks to Prompt 1]
+Your entire reply must be a single JSON object matching the schema at the end; it is parsed by a
+program. No prose outside the JSON.
 
-Output shape:
+You see one excerpt, not the whole syllabus. Code only what the excerpt states, and use null
+wherever it is silent, exactly as you would with the full document. Do not infer an attribute from
+what is typical for a task of this kind.
+
+## The three-state convention
+
+Applies to modality, proctored, open_book, group, and timed:
+- true (or a vocabulary value): the syllabus states it.
+- false (or "closed"): the syllabus explicitly rules it out, or gives an exclusive list that
+  omits it.
+- null: the syllabus does not address it. Never fill a field from what is typical for a course of
+  this kind; code only what this syllabus states. The one exception is the in-class submission
+  default in the Modality rules below.
+
+## Field guide
+
+**category**: one Category vocabulary ID (table below). Category describes the graded task only;
+where and how it happens lives in modality and the condition fields.
+
+**modality**: one Modality vocabulary ID, or null when the syllabus says neither where the work is
+done nor how it is submitted.
+
+**proctored**: true only when explicit monitoring is stated: proctoring software named, a testing
+center, or invigilation with identity checks. Being an in-class exam does not by itself make
+proctored true.
+
+**open_book**: "closed" when the syllabus explicitly allows no resources; "restricted" when
+resources are allowed with stated limits (one page of notes, a cheat sheet, "notes but no
+internet", calculator only); "open" when resources are unrestricted; null when the syllabus does
+not address resources.
+
+**group**: true when the graded submission is joint or the grade is shared, including anything the
+syllabus calls a group project; false when the syllabus states the submission is individual; null
+when unaddressed. "You may work with classmates, but the final responses and submission must be
+your own" is group = false: collaboration on the process does not make it group work, the
+submission decides.
+
+**timed**: true only when the syllabus states a duration shorter than the availability window
+("60 minutes once opened", "you will have 50 minutes"); a due date alone is not a time limit;
+null when unaddressed.
+
+**evidence_quote**: the sentence(s) of the excerpt that establish the category, verbatim. You may
+repair spacing lost in OCR; you may not change, add, or delete a word or number.
+
+**confidence**: your confidence in this classification, 0 to 1.
+
+**rationale_one_sentence**: one sentence naming the rule that decided the category. Cite the
+boundary rule when one applied.
+
+## Category vocabulary
+
+Assign the ID whose definition matches the graded task. Boundary rules resolve neighboring pairs;
+apply them literally.
+
+| ID | Definition | Boundary rules |
+|---|---|---|
+| exam_quiz | A test of content knowledge taken under assessment conditions and graded on correctness: midterms, finals, tests, quizzes. | A quiz graded for completion rather than correctness, and any quiz over course logistics (a syllabus quiz), is homework_problem_set. Quizzes are exam_quiz by default; move them only when the syllabus states completion grading or the logistics subject. In-class polling (iClicker) graded on correctness is exam_quiz; graded for answering at all it is participation. Lab practicals are lab_or_field. |
+| paper | A standalone written prose composition graded on its content, argument, or analysis: essays, term papers, reports, literature reviews. | Recurring short writing (weekly responses, discussion posts, journals) is homework_problem_set when graded on content and participation when graded for engaging. A writeup whose main function is evidencing attendance at an event is attendance_writeup. Non-prose deliverables are project_or_artifact. |
+| homework_problem_set | Exercises completed outside class and graded: problem sets, worksheets, coding assignments, recurring short writing, completion-graded quizzes, graded peer reviews of classmates' work. | A coding assignment that runs for weeks and integrates the course material is project_or_artifact. |
+| lab_or_field | Work performed in a laboratory or field setting, and its direct write-ups: lab exercises, lab reports, field notebooks, lab practical exams. | The exam conditions of a practical are recorded in proctored and timed, not by moving it to exam_quiz. |
+| presentation | A graded live delivery to an audience: oral presentations, speeches, musical or theatrical performances, poster-session presentations. Delivery over synchronous video counts as live. | The presented artifact (slides, poster, written paper), when weighted separately, is its own record under its own category. When one weight covers both artifact and delivery, code the dominant graded element and say so in notes. |
+| project_or_artifact | An integrative deliverable or non-prose artifact: term projects, portfolios, posters, videos, designs, applications, substantial code. | A prose deliverable is paper. A graded live delivery is presentation. |
+| participation | Credit for engaging in class activities: discussion participation, polling graded for responding, in-class exercises graded for engagement. | Credit for presence alone is attendance. |
+| attendance | Credit for being present, with no submitted work beyond a presence check (sign-in sheet, seat check, attendance clicker). | |
+| attendance_writeup | Credit that requires BOTH attending an event and submitting a written account of it, where the writing mainly evidences attendance or engagement (speaker-series writeups, event reflections graded for submission). | When the writing is graded on analytical quality with essay-like expectations (rubric, length, argument), it is paper. The event attended plus the writeup form ONE component when the syllabus weights them together. |
+| other | A clearly described component that fits no category above. Always explain in notes. | |
+| unknown | The component is named in the grading scheme but the syllabus says too little to classify it. | Distinct from other: unknown means "cannot tell", other means "can tell, fits nothing". |
+
+## Modality vocabulary
+
+Modality is two facts joined: where the work is performed (during a class meeting, or outside
+class) and how it is submitted (physically, or online). Scheduled synchronous video sessions count
+as class meetings. For live presentations, the delivery is the submission.
+
+| ID | Definition |
+|---|---|
+| in_class_physical | Performed during a class meeting; submitted physically: paper exams, blue books, live presentations, artifacts handed in. |
+| in_class_online | Performed during a class meeting; submitted electronically: an LMS quiz taken in the classroom, in-class coding submitted online. |
+| online | Performed outside class; submitted electronically. |
+| take_home_physical | Performed outside class; submitted physically on paper or in person. |
+
+Modality rules:
+- null when the syllabus says neither where the work is done nor how it is submitted.
+- In-class default: an exam or quiz stated to happen in class, with no stated submission channel,
+  is in_class_physical. Choose in_class_online only when the syllabus states a device or LMS is
+  used.
+- An assignment completed or submitted "on Canvas" (or any LMS) outside class is online.
+- Hybrid work (drafted at home, finished in class): code where the graded work is dominantly
+  produced; if genuinely split, null plus a note.
+- Resource permissions and collaboration rules say nothing about modality; they live in open_book
+  and group.
+
+## Output shape
+
+Your reply is exactly one JSON object with this shape and no other text:
+
 {
   "category": "string",
   "modality": "string|null",
