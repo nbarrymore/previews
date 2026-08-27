@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BGS 372 Seating Chart</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f6f5f2; --panel: #ffffff; --ink: #1f2430; --muted: #6b7280;
+    --line: #d8d5cd; --table-bg: #fbfaf7; --table-line: #c9c5ba;
+    --accent: #345b8c; --accent-ink: #ffffff; --extra: #9a6b1f;
+  }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    min-height: 100vh; padding: 14px 22px 20px;
+  }
+  header { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 10px; }
+  h1 { font-size: 1.5rem; font-weight: 650; letter-spacing: .01em; }
+  #meta { color: var(--muted); font-size: 1rem; }
+  #modeTag {
+    margin-left: auto; font-size: 1.15rem; font-weight: 650; color: var(--accent);
+    border: 2px solid var(--accent); border-radius: 999px; padding: 4px 18px;
+  }
+  .bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  .seg { display: inline-flex; border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+  button {
+    font: inherit; font-size: 1rem; font-weight: 600; cursor: pointer;
+    border: none; background: var(--panel); color: var(--ink); padding: 9px 20px;
+  }
+  .seg button + button { border-left: 1.5px solid var(--line); }
+  button.on { background: var(--accent); color: var(--accent-ink); }
+  .mode { border: 1.5px solid var(--line); border-radius: 10px; }
+  button:hover:not(.on) { background: #edeae2; }
+  .spacer { flex: 1; }
+
+  #front {
+    text-align: center; font-size: .85rem; letter-spacing: .35em; color: var(--muted);
+    border: 1.5px dashed var(--line); border-radius: 8px; padding: 5px 0; margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  #room { display: grid; grid-template-columns: 1fr 70px 1fr; gap: 8px; }
+  .side { display: flex; flex-direction: column; gap: 14px; }
+  #aisle {
+    writing-mode: vertical-rl; text-orientation: upright; display: flex;
+    align-items: center; justify-content: center; color: var(--muted);
+    font-size: .78rem; letter-spacing: .5em; text-transform: uppercase;
+    border-left: 1.5px dashed var(--line); border-right: 1.5px dashed var(--line);
+  }
+  .row { display: flex; gap: 10px; align-items: stretch; }
+  .side.right .row { justify-content: flex-start; }
+  .side.left .row { justify-content: flex-end; }
+  .rowghost { visibility: hidden; }
+  .table {
+    display: flex; gap: 6px; padding: 7px; border: 1.5px solid var(--table-line);
+    border-radius: 12px; background: var(--table-bg);
+    box-shadow: 0 1px 2px rgba(31,36,48,.06);
+  }
+  .seat {
+    width: 150px; min-height: 84px; border: 1.5px solid var(--line); border-radius: 8px;
+    background: var(--panel); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 5px 6px; line-height: 1.15;
+  }
+  .seat .fn { font-size: 1.2rem; font-weight: 650; }
+  .seat .ln { font-size: .88rem; color: var(--muted); }
+  footer { margin-top: 12px; color: var(--muted); font-size: .8rem; text-align: center; }
+  @media (max-width: 1500px) { .seat { width: 118px; min-height: 62px; } .seat .fn { font-size: .95rem; } .seat .ln { font-size: .82rem; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Seating Chart</h1>
+  <div id="meta"></div>
+  <div id="modeTag"></div>
+</header>
+<div class="bar">
+  <div class="seg" id="secSeg">
+    <button data-sec="s930">9:30 section</button>
+    <button data-sec="s1100">11:00 section</button>
+  </div>
+  <div class="spacer"></div>
+  <button class="mode" data-mode="fishbanks">Fishbanks</button>
+  <button class="mode" data-mode="enroads">En-ROADS</button>
+  <button class="mode" data-mode="random">Randomize</button>
+</div>
+<div id="front">Front of room · Screen</div>
+<div id="room">
+  <div class="side left" id="leftSide"></div>
+  <div id="aisle"></div>
+  <div class="side right" id="rightSide"></div>
+</div>
+<script>
+const DATA = {"s930": {"label": "BGS 372 — 9:30am", "meta": "TTh 9:30–11:00 · CBA 4.326", "students": [{"f": "Federico", "l": "Acosta", "a": false}, {"f": "Carolina", "l": "Aguilar", "a": false}, {"f": "Cecilia", "l": "Castillo", "a": false}, {"f": "Cameron", "l": "Clements", "a": false}, {"f": "Adelaida", "l": "De Pablo Gonzale", "a": false}, {"f": "Alexander", "l": "De Rivas", "a": true}, {"f": "Andrea", "l": "Diaz", "a": false}, {"f": "Kiera", "l": "Dixon", "a": true}, {"f": "William", "l": "Gibbens", "a": false}, {"f": "Diana", "l": "Guerrero", "a": false}, {"f": "Eraso Mongui", "l": "Ignacio", "a": false}, {"f": "Mackenzie", "l": "Ivy", "a": false}, {"f": "Sameeksha", "l": "Jayaprakash", "a": false}, {"f": "Abrihet", "l": "Jei Ayala", "a": false}, {"f": "Alexa", "l": "Jones", "a": false}, {"f": "Shaiz", "l": "Karedia", "a": false}, {"f": "Zara", "l": "Khan", "a": false}, {"f": "Soham", "l": "Lahiri", "a": true}, {"f": "Hayeon", "l": "Lee", "a": false}, {"f": "Titus", "l": "Li", "a": false}, {"f": "Rebecca", "l": "Martinez", "a": false}, {"f": "Quinn", "l": "McGuinness", "a": false}, {"f": "Chloe", "l": "Mercado", "a": true}, {"f": "Gloria", "l": "Moreno Montero", "a": false}, {"f": "Esme", "l": "Moreno-Bernacki", "a": false}, {"f": "Daniella", "l": "Nolla", "a": false}, {"f": "Jamie", "l": "Perez", "a": false}, {"f": "Karinne", "l": "Pfeffer", "a": false}, {"f": "Adithi", "l": "Reddy", "a": true}, {"f": "Brigid", "l": "Reichart", "a": false}, {"f": "Talia", "l": "Robbins", "a": false}, {"f": "Lola", "l": "Rodriguez", "a": false}, {"f": "Juan", "l": "Sanchez Alberti", "a": false}, {"f": "Yadier", "l": "Silva", "a": false}, {"f": "Katie", "l": "Stein", "a": false}, {"f": "Jennifer", "l": "Suarez", "a": false}, {"f": "Sabrina", "l": "Sun", "a": false}, {"f": "Kazmier", "l": "Szymanski", "a": true}, {"f": "Terrance", "l": "Thomas", "a": false}, {"f": "Ethan", "l": "Thompson", "a": false}, {"f": "Neena", "l": "Varanasi", "a": false}, {"f": "Micaela", "l": "Viro-Woodruff", "a": false}, {"f": "Shiwani", "l": "Vivek", "a": false}, {"f": "Fletcher", "l": "Vollmer", "a": false}, {"f": "Airis", "l": "Weir", "a": true}], "fixed": {"fishbanks": [39, 36, 35, 10, 26, 32, 16, 25, 22, 11, 15, 27, 17, 42, 30, 28, 4, 14, 20, 3, 38, 31, 43, 1, 7, 13, 5, 8, 2, 33, 21, 24, 37, 34, 0, 41, 9, 19, 29, 18, 44, 23, 12, 6, 40], "enroads": [43, 24, 10, 21, 7, 19, 14, 41, 1, 12, 11, 0, 8, 20, 13, 15, 9, 44, 38, 6, 42, 3, 29, 5, 23, 25, 4, 37, 2, 40, 16, 35, 18, 22, 34, 31, 36, 39, 27, 28, 33, 30, 32, 26, 17]}}, "s1100": {"label": "BGS 372 — 11:00am", "meta": "TTh 11:00–12:30 · CBA 4.326", "students": [{"f": "Rachel", "l": "Altman", "a": false}, {"f": "Sergio", "l": "Alvarado", "a": true}, {"f": "Eelina", "l": "Basu", "a": false}, {"f": "Jacolby", "l": "Becton", "a": false}, {"f": "Ryan", "l": "Bezdek", "a": true}, {"f": "Elizabeth", "l": "Black", "a": false}, {"f": "Nissi", "l": "Brooks", "a": false}, {"f": "Logan", "l": "Chandler", "a": false}, {"f": "Madeline", "l": "Clapp", "a": false}, {"f": "Christina", "l": "Cole", "a": false}, {"f": "Kendall", "l": "Floor", "a": false}, {"f": "Graciella", "l": "Sanchez", "a": false}, {"f": "Ariel", "l": "Green", "a": false}, {"f": "Natalie", "l": "Greenfield", "a": false}, {"f": "Isabella", "l": "Hesse", "a": false}, {"f": "Noor", "l": "Imran", "a": false}, {"f": "Audrey", "l": "Kaden", "a": false}, {"f": "Abby", "l": "Kirkland", "a": true}, {"f": "Charles", "l": "Litzenberger", "a": false}, {"f": "Angelina", "l": "Liu", "a": true}, {"f": "Seth", "l": "Love", "a": false}, {"f": "Layby", "l": "Magana", "a": false}, {"f": "Jon Paul", "l": "Maney", "a": false}, {"f": "Aria", "l": "Merchant", "a": false}, {"f": "Chloe", "l": "Moczygemba", "a": false}, {"f": "Olivia", "l": "Montemayor Gomez", "a": false}, {"f": "Alyson", "l": "Morales", "a": false}, {"f": "Alisha", "l": "Mulchandani", "a": true}, {"f": "Bianca", "l": "O'Bryant", "a": false}, {"f": "Laura", "l": "Olinger", "a": false}, {"f": "Ogechukwu", "l": "Ozuah", "a": false}, {"f": "Kong", "l": "Panhavatey", "a": false}, {"f": "Vaishnavi", "l": "Ramireddy", "a": false}, {"f": "Alejandra", "l": "Ramirez", "a": false}, {"f": "Ruby", "l": "Ramirez", "a": false}, {"f": "Diya", "l": "Reddy", "a": false}, {"f": "Angela", "l": "Reyna", "a": false}, {"f": "Olivia", "l": "Ring", "a": false}, {"f": "Kayla", "l": "Rojas", "a": false}, {"f": "Ronald", "l": "Rosaia", "a": true}, {"f": "Carter", "l": "Shipp", "a": false}, {"f": "Anya", "l": "Soriano", "a": false}, {"f": "Brianna", "l": "Torres", "a": true}, {"f": "Amelia", "l": "Wilkinson", "a": false}, {"f": "Enick", "l": "Williams", "a": false}], "fixed": {"fishbanks": [17, 22, 38, 21, 44, 12, 11, 18, 36, 1, 28, 31, 15, 2, 39, 33, 35, 20, 27, 25, 37, 29, 14, 6, 19, 32, 42, 26, 9, 24, 7, 8, 4, 43, 10, 30, 23, 34, 0, 40, 41, 13, 16, 3, 5], "enroads": [44, 24, 8, 34, 7, 6, 15, 27, 9, 18, 3, 23, 43, 39, 32, 38, 0, 42, 5, 21, 30, 37, 31, 10, 17, 12, 2, 20, 41, 4, 25, 28, 11, 35, 16, 40, 19, 26, 22, 33, 1, 13, 14, 36, 29]}}};
+
+/* Room geometry — canonical seat order matches the generator:
+   L1..L4 (3 + 2), then R1 (front: extra chair + 2 + 2), R2..R5 (2 + 3). */
+const LEFT_ROWS = [
+  null, // no front row on the left
+  { tables: [{n:3},{n:2}] },
+  { tables: [{n:3},{n:2}] },
+  { tables: [{n:3},{n:2}] },
+  { tables: [{n:3},{n:2}] },
+];
+const RIGHT_ROWS = [
+  { tables: [{n:2},{n:3}] },
+  { tables: [{n:2},{n:3}] },
+  { tables: [{n:2},{n:3}] },
+  { tables: [{n:2},{n:3}] },
+  { tables: [{n:2},{n:3}] },
+];
+const ROWS_SEATS = []; // row -> seat indices, same order the generator used
+{
+  let i = 0;
+  for (const r of LEFT_ROWS.concat(RIGHT_ROWS).filter(Boolean)) {
+    const seats = [];
+    for (const t of r.tables) for (let k = 0; k < t.n; k++) seats.push(i++);
+  ROWS_SEATS.push(seats);
+  }
+}
+const N_SEATS = 45;
+
+let curSec = "s930";
+let curMode = "fishbanks";
+const randomCache = {}; // section -> last randomized assignment
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function makeRandomAssignment(students) {
+  const absIdx = shuffle(students.map((s, i) => s.a ? i : -1).filter(i => i >= 0));
+  const othIdx = shuffle(students.map((s, i) => s.a ? -1 : i).filter(i => i >= 0));
+  const rowOrder = shuffle(ROWS_SEATS.map((_, i) => i));
+  const seats = new Array(N_SEATS).fill(-1);
+  absIdx.forEach((st, k) => {
+    const row = ROWS_SEATS[rowOrder[k]];
+    seats[row[Math.floor(Math.random() * row.length)]] = st;
+  });
+  let j = 0;
+  for (let s = 0; s < N_SEATS; s++) if (seats[s] === -1) seats[s] = othIdx[j++];
+  return seats;
+}
+
+function currentAssignment() {
+  const sec = DATA[curSec];
+  if (curMode === "random") {
+    if (!randomCache[curSec]) {
+      let stored = null;
+      try { stored = JSON.parse(localStorage.getItem("seat-rand-" + curSec)); } catch (e) {}
+      randomCache[curSec] = (Array.isArray(stored) && stored.length === N_SEATS)
+        ? stored : makeRandomAssignment(sec.students);
+    }
+    return randomCache[curSec];
+  }
+  return sec.fixed[curMode];
+}
+
+function rerandomize() {
+  randomCache[curSec] = makeRandomAssignment(DATA[curSec].students);
+  try { localStorage.setItem("seat-rand-" + curSec, JSON.stringify(randomCache[curSec])); } catch (e) {}
+}
+
+function seatEl(student) {
+  const d = document.createElement("div");
+  d.className = "seat";
+  d.innerHTML = `<span class="fn">${student.f}</span><span class="ln">${student.l}</span>`;
+  return d;
+}
+
+function render() {
+  const sec = DATA[curSec];
+  const assign = currentAssignment();
+  document.getElementById("meta").textContent = sec.label + " · " + sec.meta;
+  document.getElementById("modeTag").textContent =
+    curMode === "fishbanks" ? "Fishbanks" : curMode === "enroads" ? "En-ROADS" : "Random seating";
+  document.querySelectorAll("#secSeg button").forEach(b => b.classList.toggle("on", b.dataset.sec === curSec));
+  document.querySelectorAll("button.mode").forEach(b => b.classList.toggle("on", b.dataset.mode === curMode));
+
+  const left = document.getElementById("leftSide");
+  const right = document.getElementById("rightSide");
+  left.innerHTML = ""; right.innerHTML = "";
+  let seatCursor = 0;
+  const buildRow = (rowSpec) => {
+    const rowDiv = document.createElement("div");
+    rowDiv.className = "row";
+    for (const t of rowSpec.tables) {
+      const tDiv = document.createElement("div");
+      tDiv.className = "table";
+      for (let k = 0; k < t.n; k++) {
+        tDiv.appendChild(seatEl(sec.students[assign[seatCursor++]]));
+      }
+      rowDiv.appendChild(tDiv);
+    }
+    return rowDiv;
+  };
+  const ghost = () => {
+    const g = document.createElement("div");
+    g.className = "row rowghost";
+    g.innerHTML = '<div class="table"><div class="seat"><span class="fn">&nbsp;</span><span class="ln">&nbsp;</span></div></div>';
+    return g;
+  };
+  LEFT_ROWS.forEach(r => left.appendChild(r === null ? ghost() : buildRow(r)));
+  RIGHT_ROWS.forEach(r => right.appendChild(r === null ? ghost() : buildRow(r)));
+}
+
+document.querySelectorAll("#secSeg button").forEach(b =>
+  b.addEventListener("click", () => { curSec = b.dataset.sec; render(); }));
+document.querySelectorAll("button.mode").forEach(b =>
+  b.addEventListener("click", () => {
+    if (b.dataset.mode === "random") { curMode = "random"; rerandomize(); }
+    else curMode = b.dataset.mode;
+    render();
+  }));
+render();
+</script>
+</body>
+</html>
