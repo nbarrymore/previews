@@ -112,7 +112,7 @@
     <li><strong>Length and pay:</strong> about 20 minutes, paid at roughly $12 per hour, with a budget near
     $1,500.</li>
     <li><strong>Bonus:</strong> on each task, the top 10% of participants (by their best of three attempts)
-    earn a flat $1 bonus, set after data collection. Only the performance tasks carry a bonus.</li>
+    earn a flat $2 bonus, set after data collection. Only the performance tasks carry a bonus.</li>
   </ul>
 
   <h2>Other design choices</h2>
@@ -232,11 +232,23 @@
  *
  * Load order in local-test.html:
  *     <script src="lib/qualtrics-mock.js"><\/script>   <-- this file, FIRST
+ *     <script src="lib/qualtrics_api.js"><\/script>    <-- the QAPI shim
  *     <script src="lib/grid_search.js"><\/script>      <-- the real engine
  *     <script> ...the question JS that calls Qualtrics.SurveyEngine.addOnload... <\/script>
  *
  * In real Qualtrics this file is ABSENT; the genuine Qualtrics.SurveyEngine is
  * already on the page, so the task JS binds to it instead. Nothing here ships.
+ *
+ * FIDELITY RULE — read before adding anything here
+ * ------------------------------------------------
+ * This mock must expose each API member on the SAME object real Qualtrics does.
+ * The data setters and the lifecycle hooks are STATIC members of
+ * `Qualtrics.SurveyEngine`; they are NOT methods of the question instance that
+ * `this` refers to inside addOnload/addOnReady. An earlier version of this file
+ * put setJSEmbeddedData and addOnPageSubmit on the question instance, so task
+ * code written as `q.setJSEmbeddedData(...)` passed locally and would have
+ * thrown in production, losing every recorded value. Do not "helpfully" add a
+ * member to the instance to make some call site work — fix the call site.
  * ==========================================================================*/
 (function () {
   "use strict";
@@ -245,22 +257,18 @@
   // Embedded-data store the mock writes to; inspect it from the console as __QDATA.
   var QDATA = (window.__QDATA = window.__QDATA || {});
 
+  // Handlers registered through the STATIC hooks, as in real Qualtrics. Reset
+  // whenever the harness switches to a different task (see __mockSetContainer),
+  // so a previous task's handler cannot fire against the new one.
+  var pageSubmitFns = [];
+  var unloadFns = [];
+
   // A fake "question instance" — `this` inside addOnload/addOnReady in Qualtrics.
+  // Deliberately has NO data setters and NO lifecycle hooks; see the fidelity rule.
   function makeQuestion(container) {
-    var pageSubmitFns = [];
-    var unloadFns = [];
     return {
       getQuestionContainer: function () { return container; },
-
-      // Newer Qualtrics API (preferred): write a named embedded-data field.
-      setJSEmbeddedData: function (name, value) {
-        QDATA[name] = value;
-        renderDebug();
-      },
-
-      // addOnPageSubmit(fn) — fn runs when the participant clicks Next.
-      addOnPageSubmit: function (fn) { pageSubmitFns.push(fn); },
-      addOnUnload: function (fn) { unloadFns.push(fn); },
+      questionContainer: container,
 
       // Next / Previous button controls (mock equivalents).
       hideNextButton: function () { toggleBtn("MockNextButton", false); },
@@ -268,6 +276,7 @@
       disableNextButton: function () { setDisabled("MockNextButton", true); },
       enableNextButton: function () { setDisabled("MockNextButton", false); },
       hidePreviousButton: function () { toggleBtn("MockPrevButton", false); },
+      showPreviousButton: function () { toggleBtn("MockPrevButton", true); },
       clickNextButton: function () {
         // Simulate Next: fire page-submit handlers, then show what was recorded.
         pageSubmitFns.forEach(function (f) { try { f(); } catch (e) { console.error(e); } });
@@ -305,38 +314,57 @@
   // The single mock question on the page; the harness sets its container.
   var mockQuestion = null;
 
+  function ensureQuestion() {
+    if (!mockQuestion) {
+      mockQuestion = makeQuestion(
+        document.getElementById("MockQuestionBody") || document.body
+      );
+    }
+    return mockQuestion;
+  }
+
   window.Qualtrics = {
     __mock: true,
     SurveyEngine: {
-      // addOnload(fn): in Qualtrics, runs at load with `this` = the question.
+      // ---- lifecycle hooks (static in real Qualtrics) ----
+      // addOnload(fn): runs at load with `this` = the question instance.
       addOnload: function (fn) {
         // Defer to next tick so local-test.html can set the container first.
-        setTimeout(function () {
-          if (!mockQuestion) {
-            mockQuestion = makeQuestion(
-              document.getElementById("MockQuestionBody") || document.body
-            );
-          }
-          fn.call(mockQuestion);
-        }, 0);
+        setTimeout(function () { fn.call(ensureQuestion()); }, 0);
       },
       // addOnReady(fn): runs after the DOM is ready; same `this`.
       addOnReady: function (fn) {
-        setTimeout(function () {
-          if (mockQuestion) fn.call(mockQuestion);
-        }, 5);
+        setTimeout(function () { if (mockQuestion) fn.call(mockQuestion); }, 5);
       },
-      // Deprecated static setter — supported so legacy code paths still work locally.
+      // addOnPageSubmit(fn): fn runs when the participant clicks Next. This is
+      // where data writes belong -- writes in addOnUnload race the page POST.
+      addOnPageSubmit: function (fn) { pageSubmitFns.push(fn); },
+      addOnUnload: function (fn) { unloadFns.push(fn); },
+
+      // ---- embedded data (static in real Qualtrics) ----
+      // Current setter, and the only one that works in the New Survey Taking
+      // Experience. Engines reach this through QAPI.setED (lib/qualtrics_api.js).
+      setJSEmbeddedData: function (name, value) {
+        QDATA[name] = value;
+        renderDebug();
+      },
+      getJSEmbeddedData: function (name) {
+        return Object.prototype.hasOwnProperty.call(QDATA, name) ? QDATA[name] : null;
+      },
+      // Deprecated setter, kept because it still works in the legacy layout and
+      // QAPI falls back to it.
       setEmbeddedData: function (name, value) {
         QDATA[name] = value;
         renderDebug();
-        console.warn("setEmbeddedData is deprecated; use this.setJSEmbeddedData in task code.");
       }
     }
   };
 
-  // Let the harness register its container/question explicitly.
+  // Let the harness register its container/question explicitly. Switching tasks
+  // clears the handler queues so the previous task's writer cannot fire again.
   window.__mockSetContainer = function (el) {
+    pageSubmitFns = [];
+    unloadFns = [];
     mockQuestion = makeQuestion(el);
     return mockQuestion;
   };
@@ -727,10 +755,10 @@
       if (resultsWritten) return;
       resultsWritten = true;
       var elapsed = Math.min(config.timeLimitSec, (now() - startT) / 1000);
-      q.setJSEmbeddedData(config.fields.score, score);
-      q.setJSEmbeddedData(config.fields.time, elapsed.toFixed(2));
+      QAPI.setED(config.fields.score, score);
+      QAPI.setED(config.fields.time, elapsed.toFixed(2));
       if (config.fields.found) {
-        q.setJSEmbeddedData(config.fields.found, Object.keys(foundByCode).join("|"));
+        QAPI.setED(config.fields.found, Object.keys(foundByCode).join("|"));
       }
     }
 
@@ -749,7 +777,7 @@
     }
 
     // Record again at page submit as a backstop (handoff: write at submit, not load).
-    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+    QAPI.onSubmit(writeResults);
 
     /* ---- Next/Prev button handling ---- */
     function hideNav() {
@@ -943,9 +971,9 @@
     function writeResults() {
       if (resultsWritten) return;
       resultsWritten = true;
-      q.setJSEmbeddedData(config.fields.score, correct);
-      q.setJSEmbeddedData(config.fields.attempted, attempted);
-      q.setJSEmbeddedData(config.fields.time, config.timeLimitSec.toFixed
+      QAPI.setED(config.fields.score, correct);
+      QAPI.setED(config.fields.attempted, attempted);
+      QAPI.setED(config.fields.time, config.timeLimitSec.toFixed
         ? config.timeLimitSec.toFixed(2) : String(config.timeLimitSec));
     }
     function finish() {
@@ -959,7 +987,7 @@
         "</strong> correctly. Click <em>Next</em> to continue.";
       showNext();
     }
-    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+    QAPI.onSubmit(writeResults);
 
     function hideNav() {
       if (q.hideNextButton) q.hideNextButton();
@@ -1177,11 +1205,11 @@
       // Primary scored metric is NET correct (correct - incorrect): for a
       // two-choice task this is the unbiased correction for guessing, so
       // rapid random clicking yields ~0 in expectation. Components recorded too.
-      q.setJSEmbeddedData(config.fields.score, correct - incorrect);
-      if (config.fields.correct) q.setJSEmbeddedData(config.fields.correct, correct);
-      if (config.fields.incorrect) q.setJSEmbeddedData(config.fields.incorrect, incorrect);
-      q.setJSEmbeddedData(config.fields.attempted, attempted);
-      q.setJSEmbeddedData(config.fields.time, Number(config.timeLimitSec).toFixed(2));
+      QAPI.setED(config.fields.score, correct - incorrect);
+      if (config.fields.correct) QAPI.setED(config.fields.correct, correct);
+      if (config.fields.incorrect) QAPI.setED(config.fields.incorrect, incorrect);
+      QAPI.setED(config.fields.attempted, attempted);
+      QAPI.setED(config.fields.time, Number(config.timeLimitSec).toFixed(2));
     }
     function finish() {
       if (finished) return;
@@ -1194,7 +1222,7 @@
         "</strong> correctly. Click <em>Next</em> to continue.";
       showNext();
     }
-    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+    QAPI.onSubmit(writeResults);
 
     function hideNav() {
       if (q.hideNextButton) q.hideNextButton();
@@ -1365,9 +1393,9 @@
     function writeResults() {
       if (resultsWritten) return;
       resultsWritten = true;
-      q.setJSEmbeddedData(config.fields.score, correct);
-      q.setJSEmbeddedData(config.fields.attempted, attempted);
-      q.setJSEmbeddedData(config.fields.time, Number(config.timeLimitSec).toFixed(2));
+      QAPI.setED(config.fields.score, correct);
+      QAPI.setED(config.fields.attempted, attempted);
+      QAPI.setED(config.fields.time, Number(config.timeLimitSec).toFixed(2));
     }
     function finish() {
       if (finished) return;
@@ -1379,7 +1407,7 @@
       msg.innerHTML = "Time is up. You matched <strong>" + correct + "</strong> correctly. Click <em>Next</em> to continue.";
       showNext();
     }
-    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+    QAPI.onSubmit(writeResults);
 
     function hideNav() {
       if (q.hideNextButton) q.hideNextButton();
@@ -1492,8 +1520,8 @@
     }
     function writeResults(){
       if(resultsWritten) return; resultsWritten=true;
-      q.setJSEmbeddedData(config.fields.score, taps);
-      q.setJSEmbeddedData(config.fields.time, Number(limit).toFixed(2));
+      QAPI.setED(config.fields.score, taps);
+      QAPI.setED(config.fields.time, Number(limit).toFixed(2));
     }
     function finish(){
       if(finished) return; finished=true;
@@ -1505,7 +1533,7 @@
       msg.innerHTML="Time is up. You tapped <strong>"+taps+"</strong> times. Click <em>Next</em> to continue.";
       showNext();
     }
-    if(q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+    QAPI.onSubmit(writeResults);
 
     function hideNav(){ if(q.hideNextButton)q.hideNextButton(); if(q.hidePreviousButton)q.hidePreviousButton(); if(window.jQuery){jQuery("#NextButton").hide();jQuery("#PreviousButton").hide();} }
     function showNext(){ if(q.showNextButton)q.showNextButton(); if(window.jQuery)jQuery("#NextButton").show(); }
@@ -1629,14 +1657,14 @@
     }
     function flush(){
       // keep embedded data current as words come in (write at submit, not load)
-      q.setJSEmbeddedData(config.fields.count, words.length);
-      q.setJSEmbeddedData(config.fields.words, words.join("|"));
+      QAPI.setED(config.fields.count, words.length);
+      QAPI.setED(config.fields.words, words.join("|"));
     }
     function writeResults(){
       if(resultsWritten) return; resultsWritten=true;
-      q.setJSEmbeddedData(config.fields.count, words.length);
-      q.setJSEmbeddedData(config.fields.words, words.join("|"));
-      q.setJSEmbeddedData(config.fields.time, Number(config.timeLimitSec).toFixed(2));
+      QAPI.setED(config.fields.count, words.length);
+      QAPI.setED(config.fields.words, words.join("|"));
+      QAPI.setED(config.fields.time, Number(config.timeLimitSec).toFixed(2));
     }
     function finish(){
       if(finished) return; finished=true;
@@ -1647,7 +1675,7 @@
       msg.innerHTML="Time is up. You entered <strong>"+words.length+"</strong> words. Click <em>Next</em> to continue.";
       showNext();
     }
-    if(q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+    QAPI.onSubmit(writeResults);
 
     function hideNav(){ if(q.hideNextButton)q.hideNextButton(); if(q.hidePreviousButton)q.hidePreviousButton(); if(window.jQuery){jQuery("#NextButton").hide();jQuery("#PreviousButton").hide();} }
     function showNext(){ if(q.showNextButton)q.showNextButton(); if(window.jQuery)jQuery("#NextButton").show(); }
@@ -1971,7 +1999,7 @@
       var parts = key.split("|");
       var field = prefix + "_" + parts[0] + "_" + (parts[1] === "top10" ? "top10" : "perf");
       if (v === null || v === undefined) return;
-      q.setJSEmbeddedData(field, v);
+      QAPI.setED(field, v);
     }
     function complete() {
       for (var i = 0; i < requiredKeys.length; i++) {
@@ -1986,7 +2014,7 @@
     }
 
     // Flush everything at page submit too (backstop).
-    if (q.addOnPageSubmit) q.addOnPageSubmit(function () {
+    QAPI.onSubmit(function () {
       requiredKeys.forEach(function (k) { setVal(k, values[k]); });
     });
 
