@@ -1093,8 +1093,12 @@
     var ref = genChiral(size, rng);
     var same = (typeof forceSame === "boolean") ? forceSame : rng() < 0.5;
     var base = same ? ref : mirror(ref);
-    // rotate by k*90; for "same" trials require a non-zero rotation.
-    var k = same ? 1 + Math.floor(rng() * 3) : Math.floor(rng() * 4);
+    // Rotate by k*90. BOTH trial types require a non-zero rotation. When "mirror"
+    // trials were allowed k = 0, a quarter of them showed the comparison as a pure
+    // upright reflection, so "looks flipped but still upright => Mirror" was a
+    // shortcut that never misfired: free points with no mental rotation, and
+    // unequal difficulty between the two response categories.
+    var k = 1 + Math.floor(rng() * 3);
     var comp = base;
     for (var i = 0; i < k; i++) comp = rotate(comp);
     return { reference: ref, comparison: comp, answer: same ? "same" : "mirror" };
@@ -1209,7 +1213,11 @@
       if (config.fields.correct) QAPI.setED(config.fields.correct, correct);
       if (config.fields.incorrect) QAPI.setED(config.fields.incorrect, incorrect);
       QAPI.setED(config.fields.attempted, attempted);
-      QAPI.setED(config.fields.time, Number(config.timeLimitSec).toFixed(2));
+      // Real elapsed seconds, not the configured limit. There is no early-finish
+      // path here, so this is normally ~timeLimitSec -- but writing the constant
+      // made the column a literal and would have hidden a genuinely short round
+      // (an early submit, a reload, a browser that throttled the timer).
+      QAPI.setED(config.fields.time, ((now() - startT) / 1000).toFixed(2));
     }
     function finish() {
       if (finished) return;
@@ -1920,6 +1928,10 @@
 
     var tasks = config.tasks.slice();
     if (config.randomizeTasks !== false) shuffle(tasks);
+    // The presentation order IS data: without it, a position effect on the primary
+    // measure can be neither tested nor controlled for.
+    var taskOrder = tasks.map(function (t) { return t.id; });
+    var itemOrder = [];
 
     var icons = config.icons || {};
     tasks.forEach(function (task) {
@@ -1938,6 +1950,7 @@
       // The two items, optionally in randomized order.
       var kinds = ["top10", "perf"];
       if (config.randomizeItems !== false) shuffle(kinds);
+      itemOrder.push(task.id + ":" + kinds[0]);
       kinds.forEach(function (kind) {
         card.appendChild(kind === "top10" ? buildNum(task) : buildLikert(task));
       });
@@ -1957,6 +1970,13 @@
       var inp = document.createElement("input");
       inp.type = "number"; inp.min = it.scaleMin; inp.max = it.scaleMax; inp.step = 1;
       inp.setAttribute("inputmode", "numeric"); inp.setAttribute("autocomplete", "off");
+      // A focused number input takes the mouse wheel and increments itself. On a page
+      // this tall, answering a box and then scrolling on to the next card would
+      // silently change the answer just given -- invisible corruption of the primary
+      // measure. Drop focus rather than let the wheel reach the input.
+      inp.addEventListener("wheel", function () {
+        if (document.activeElement === inp) inp.blur();
+      }, { passive: true });
       var ends = el("span", "ends");
       ends.textContent = "(0 = all women … 50 = half and half … 100 = all men)";
       inp.addEventListener("input", function () {
@@ -2013,9 +2033,13 @@
       else { hint.textContent = "Please answer every item to continue."; hideNext(); }
     }
 
-    // Flush everything at page submit too (backstop).
+    // Flush everything at page submit too (backstop), and record the presentation
+    // orders. Field names are configurable so a second copy of this module (the
+    // sanity-check anchors, shown on their own page) does not overwrite the first.
     QAPI.onSubmit(function () {
       requiredKeys.forEach(function (k) { setVal(k, values[k]); });
+      QAPI.setED(config.orderField || (prefix + "_task_order"), taskOrder.join("|"));
+      QAPI.setED(config.itemOrderField || (prefix + "_item_order"), itemOrder.join("|"));
     });
 
     function hideNext() {
@@ -2046,7 +2070,8 @@ window.__html = {
   dsst: "<!-- Digit-symbol coding \u2014 Qualtrics Question TEXT (HTML view). One copy per attempt. -->\n<p style=\"font-size:15px;\">A key at the top pairs each number with a symbol. For each symbol shown, click the\nnumber it is paired with. Do as many as you can before time runs out; a new symbol appears right away.</p>\n\n<div id=\"ds-mount\"></div>\n",
   tap: "<!-- Finger tapping \u2014 Qualtrics Question TEXT (HTML view). One copy per attempt. -->\n<p style=\"font-size:15px;\">Tap the button (or press the space bar) as many times as you can before time runs out.\nThe timer starts on your first tap.</p>\n\n<div id=\"tap-mount\"></div>\n",
   fluency: "<!-- Verbal fluency \u2014 Qualtrics Question TEXT (HTML view). One copy per attempt. -->\n<p style=\"font-size:15px;\">Type as many words as you can that start with the given letter. Press Enter (or click\n<strong>Add</strong>) after each word. Real words only: no names of people or places, and no numbers. A\ndifferent letter is used each round.</p>\n\n<div id=\"vf-mount\"></div>\n",
-  perception: "<!-- Perception module \u2014 Qualtrics Question TEXT (HTML view). One question; the\n     engine renders every task with its two items, in randomized order. -->\n<p style=\"font-size:15px;\">For each task below, please answer two quick questions about people in general.\nThere are no right or wrong answers; we are only interested in your impressions.</p>\n\n<div id=\"perc-mount\"></div>\n"
+  perception: "<!-- Perception module \u2014 Qualtrics Question TEXT (HTML view). One question; the\n     engine renders every task with its two items, in randomized order. -->\n<p style=\"font-size:15px;\">For each task below, please answer two quick questions about people in general.\nThere are no right or wrong answers; we are only interested in your impressions.</p>\n\n<div id=\"perc-mount\"></div>\n",
+  perception_anchors: "<!-- Perception module, page 2 of 2 - Qualtrics Question TEXT (HTML view).\n     The two sanity-check extremes, on their own page after the cognitive tasks. -->\n<p style=\"font-size:15px;\">Two more, in the same format. Again, there are no right or wrong\nanswers &mdash; we are only interested in your impressions of people in general.</p>\n\n<div id=\"perc-mount\"></div>\n"
 };
 </script>
 <script>
@@ -2257,65 +2282,65 @@ window.__launch = {
 
 },
   perception: function(){
-/* Perception module — Qualtrics Question JAVASCRIPT (SOURCE; depends on Perception).
+/* Perception module, page 1 of 2 — Qualtrics Question JAVASCRIPT (SOURCE).
+ * Depends on Perception (lib/perception.js) and PERCEPTION (lib/perception_items.js).
  *
- * The human gender-typing measure is the primary focus of this study. Task
- * descriptions and item wording are reused from the synthetic-study instrument
- * (experiment/60_task_typing_2026/instruments/tasks.yaml and
- * perception_items.yaml) because the wording is clean and neutral; reusing it
- * also lets us compare against the LLM arm as a secondary analysis.
+ * The human gender-typing measure is the PRIMARY focus of this study. Item
+ * wording is reused from the synthetic-study instrument
+ * (experiment/60_task_typing_2026/instruments/perception_items.yaml) because it
+ * is clean and neutral, and reusing it lets us compare against the LLM arm as a
+ * secondary analysis.
  *
- * 17 tasks: the 7 measured performance tasks (word search, number-string search,
- * number-grid counting, mental rotation, digit-symbol coding, verbal fluency /
- * word generation, finger tapping) + spread anchors + 2 sanity-check extremes.
- * Add or remove a TASK by editing this array; the engine writes one field per
- * task per item (perc_<id>_top10, perc_<id>_perf).
+ * This page carries the 15 cognitive tasks. The 2 sanity-check extremes are a
+ * SEPARATE question on the next page (perception_anchors_question.js) so their
+ * near-0 and near-100 answers cannot act as visible reference poles while these
+ * judgements are being made. Edit the task list in lib/perception_items.js.
  *
- * Note: the mental-rotation description says "three-dimensional shapes" to match
- * the LLM instrument; our human performance task is a 2-D rotation proxy for the
- * same ability (flagged in the survey-flow / analysis notes). */
+ * The engine writes one field per task per item (perc_<id>_top10,
+ * perc_<id>_perf) plus the presentation orders (perc_task_order,
+ * perc_item_order).
+ */
 (function () {
-  var TASKS = [
-    // --- the four measured performance tasks ---
-    { id: "word_search",       name: "Word search",          description: "Finding hidden words in a grid of letters as quickly as possible." },
-    { id: "zip_search",        name: "Number-string search", description: "Finding a specific string of digits (like a ZIP code) hidden in a grid of digits, as quickly as possible." },
-    { id: "number_grid_count", name: "Number-grid counting", description: "Counting how many numbers in a grid meet a stated condition (for example, greater than 50) and typing the exact count, under time pressure." },
-    { id: "mental_rotation",   name: "Mental rotation",      description: "Deciding whether two three-dimensional shapes are the same object rotated, or mirror images." },
-    // --- spread anchors (female -> neutral -> male) ---
-    { id: "spelling",          name: "Spelling test",        description: "Spelling difficult words correctly." },
-    { id: "proofreading",      name: "Proofreading",         description: "Spotting spelling and grammar errors in a passage of text." },
-    { id: "dsst",              name: "Digit-symbol coding",  description: "Matching symbols to digits using a key, as quickly as possible." },
-    { id: "anagrams",          name: "Anagrams",             description: "Rearranging scrambled letters to form real words." },
-    { id: "stroop",            name: "Color-word task",      description: "Naming the ink color a word is printed in while ignoring what the word says." },
-    { id: "arithmetic",        name: "Mental arithmetic",    description: "Adding pairs of two-digit numbers quickly and accurately." },
-    { id: "ravens",            name: "Pattern matrices",     description: "Solving abstract visual pattern puzzles by choosing the piece that completes the pattern." },
-    { id: "verbal_fluency",    name: "Word generation",      description: "Naming as many words as possible that begin with a given letter, as quickly as possible." },
-    { id: "finger_tapping",    name: "Finger tapping",       description: "Tapping a key as many times as possible in a short period." },
-    { id: "emotion_recognition", name: "Emotion recognition", description: "Identifying the emotion someone is feeling from their facial expression." },
-    { id: "reaction_time",     name: "Reaction time",        description: "Pressing a button as quickly as possible the moment a signal appears." },
-    // --- sanity-check extremes ---
-    { id: "applying_makeup",   name: "Applying makeup",      description: "Applying makeup neatly and skillfully." },
-    { id: "lifting_heavy",     name: "Lifting heavy objects", description: "Lifting and carrying heavy objects." }
-  ];
-
-  var ITEMS = {
-    top10: {
-      id: "top10_men", scaleMin: 0, scaleMax: 100,
-      question: "Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?"
-    },
-    perf: {
-      id: "perf_belief", scaleMin: 1, scaleMax: 7,
-      question: "On average, who do you think performs better on this task?",
-      anchors: { 1: "women perform much better", 4: "men and women perform equally well", 7: "men perform much better" }
-    }
-  };
-
   Qualtrics.SurveyEngine.addOnload(function () {
     Perception.run(this, this.getQuestionContainer(), {
-      tasks: TASKS,
-      items: ITEMS,
+      tasks: PERCEPTION.COGNITIVE,
+      items: PERCEPTION.ITEMS,
       icons: (typeof TASK_ICONS !== "undefined") ? TASK_ICONS : {},
       fieldPrefix: "perc",
+      orderField: "perc_task_order",
+      itemOrderField: "perc_item_order",
+      randomizeTasks: true,
+      randomizeItems: true
+    });
+  });
+})();
+
+},
+  perception_anchors: function(){
+/* Perception module, page 2 of 2 — Qualtrics Question JAVASCRIPT (SOURCE).
+ * Depends on Perception (lib/perception.js) and PERCEPTION (lib/perception_items.js).
+ *
+ * The two sanity-check extremes ("Applying makeup", "Lifting heavy objects").
+ * They exist to confirm a respondent will use the full range of the scale: if
+ * these two do not come out near the poles, that respondent was not reading.
+ *
+ * They sit on their own page, AFTER the 15 cognitive tasks, so their extreme
+ * answers cannot serve as visible reference poles that compress the cognitive
+ * judgements toward the middle. Same engine, same items, same field prefix --
+ * each task still writes perc_<id>_top10 and perc_<id>_perf -- only the order
+ * fields differ, so this page cannot overwrite page 1's.
+ *
+ * Edit the anchor list in lib/perception_items.js.
+ */
+(function () {
+  Qualtrics.SurveyEngine.addOnload(function () {
+    Perception.run(this, this.getQuestionContainer(), {
+      tasks: PERCEPTION.ANCHORS,
+      items: PERCEPTION.ITEMS,
+      icons: (typeof TASK_ICONS !== "undefined") ? TASK_ICONS : {},
+      fieldPrefix: "perc",
+      orderField: "perc_anchor_order",
+      itemOrderField: "perc_anchor_item_order",
       randomizeTasks: true,
       randomizeItems: true
     });
