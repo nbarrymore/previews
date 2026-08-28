@@ -14,6 +14,15 @@
   li a { font-size: 17px; font-weight: 600; color: #1f6feb; text-decoration: none; }
   li a:hover { text-decoration: underline; }
   li .desc { color: #555; font-size: 14px; margin-top: 3px; }
+  li.group > details > summary { font-size: 17px; font-weight: 600; color: #222; cursor: pointer;
+    list-style: none; display: flex; align-items: center; gap: 8px; }
+  li.group > details > summary::-webkit-details-marker { display: none; }
+  li.group > details > summary::before { content: "\25B8"; color: #999; font-size: 12px;
+    display: inline-block; transition: transform .12s; }
+  li.group > details[open] > summary::before { transform: rotate(90deg); }
+  li.group ul { margin: 12px 0 0; }
+  li.group ul li { margin: 8px 0; background: #fafafa; }
+  li.group ul li:last-child { margin-bottom: 0; }
   footer { color: #999; font-size: 13px; margin-top: 32px; }
 </style>
 </head>
@@ -25,9 +34,21 @@
       <a href="ai-grades/codebook/">AI and grades (UT Austin): coding codebook</a>
       <div class="desc">Codebook for hand-coding and LLM-coding syllabi on grading components and generative-AI policy, including the exact extractor prompts and the decisions taken from the coding review.</div>
     </li>
-    <li>
-      <a href="ambition/task-gender-typing/">Task gender-typing (human): survey draft</a>
-      <div class="desc">Interactive draft of the survey: overview plus live, testable task and perception sections.</div>
+    <li class="group">
+      <details open>
+        <summary>Ambition</summary>
+        <div class="desc">Task gender-typing: the instrument mechanics, and the human survey draft.</div>
+        <ul>
+          <li>
+            <a href="ambition/task-gender-typing/">Task typing (functional tasks to review mechanics)</a>
+            <div class="desc">Interactive draft: overview plus live, testable task and perception sections.</div>
+          </li>
+          <li>
+            <a href="ambition/task-typing-survey-draft/">Task typing survey draft 8/28</a>
+            <div class="desc">The human-facing survey screen by screen, with a participant view for reading the flow and a code view carrying the Qualtrics build instructions.</div>
+          </li>
+        </ul>
+      </details>
     </li>
     <li>
       <a href="revelio-pdw/roundtable-matching/">Revelio PDW: batch-1 roundtable matching</a>

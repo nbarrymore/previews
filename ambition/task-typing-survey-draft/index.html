@@ -1,0 +1,2274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task gender-typing survey</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:#16181d;background:#eef0f4;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px 80px}
+header.top{background:#fff;border-bottom:1px solid #dcdfe6;padding:30px 0 24px;margin-bottom:26px}
+header.top .wrap{padding-bottom:0}
+h1{margin:0 0 4px;font-size:27px;letter-spacing:-.02em}
+.sub{color:#6a7080;margin:0 0 18px;font-size:15px}
+table.facts{border-collapse:collapse;font-size:14px;width:100%}
+table.facts th{text-align:left;color:#6a7080;font-weight:600;padding:5px 14px 5px 0;
+  white-space:nowrap;vertical-align:top;width:1%}
+table.facts td{padding:5px 0;vertical-align:top}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(238,240,244,.95);
+  backdrop-filter:blur(6px);border-bottom:1px solid #dcdfe6;padding:9px 0;margin-bottom:26px}
+.toolbar .wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:0}
+.toolbar button{font:inherit;font-size:13px;padding:5px 11px;border:1px solid #c3c8d2;
+  background:#fff;border-radius:6px;cursor:pointer;color:#2b2f38}
+.toolbar button:hover{background:#f5f6f9;border-color:#9aa1af}
+.toolbar .spacer{flex:1}
+.toc{font-size:13px;color:#6a7080}
+.toc a{color:#3556a8;text-decoration:none;margin-left:9px}
+.toc a:hover{text-decoration:underline}
+
+.block{margin-bottom:34px}
+.internal{background:#e2e5eb;border:1px solid #ccd1da;border-left:4px solid #8a93a6;
+  border-radius:7px;padding:12px 15px;margin-bottom:14px}
+.ihead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.inum{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#6a7080}
+.iname{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;
+  font-weight:600;color:#22262e}
+.ilabel{margin-left:auto;font-size:11px;color:#7b8394;font-style:italic}
+.opt{font-size:10.5px;font-weight:700;letter-spacing:.06em;background:#c8531f;color:#fff;
+  padding:2px 7px;border-radius:4px}
+.inote{font-size:13.5px;color:#4a505e;line-height:1.5}
+.inote code{background:#f2f3f6;padding:1px 4px;border-radius:3px;font-size:12.5px}
+
+.q{margin-bottom:16px}
+.qstrip{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:6px;font-size:12px}
+.tag{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#22262e;
+  color:#fff;padding:2px 7px;border-radius:4px;font-size:11.5px}
+.qtype{color:#6a7080}
+.flag{background:#dfe6f5;color:#2f4a86;padding:2px 7px;border-radius:4px;font-size:11px;
+  font-weight:600}
+.qnote{font-size:13px;color:#5b6270;background:#f6f7fa;border:1px dashed #ccd1da;
+  border-radius:6px;padding:9px 12px;margin-bottom:9px;line-height:1.5}
+.qnote code{background:#eceef3;padding:1px 4px;border-radius:3px;font-size:12.5px}
+
+.screen{background:#fff;border:1px solid #d3d7e0;border-radius:9px;padding:26px 30px;
+  box-shadow:0 1px 3px rgba(20,24,35,.06)}
+.screen p{margin:0 0 13px}
+.screen p:last-of-type{margin-bottom:0}
+.screen mark{background:#fff2a8;padding:1px 3px}
+.nextrow{margin-top:24px;padding-top:16px;border-top:1px solid #eceef3;text-align:right}
+.nextbtn{display:inline-block;background:#3556a8;color:#fff;border-radius:5px;
+  padding:6px 17px;font-size:15px}
+
+ul.choices{list-style:none;margin:14px 0 0;padding:0}
+ul.choices li{display:flex;align-items:flex-start;gap:10px;padding:5px 0;font-size:15.5px}
+.dot{flex:none;width:15px;height:15px;border:1.5px solid #9aa1af;border-radius:50%;
+  background:#fff;margin-top:3px}
+ul.checkbox .dot{border-radius:3px}
+.te{margin-top:13px;display:flex;align-items:center;gap:9px}
+.tebox{display:inline-block;width:190px;height:34px;border:1.5px solid #9aa1af;
+  border-radius:4px;background:#fff}
+.tebox.sm{width:78px}
+.teunit{color:#6a7080;font-size:14px}
+
+.tblwrap{overflow-x:auto;margin-top:14px}
+table.matrix{border-collapse:collapse;width:100%;font-size:14px}
+table.matrix th{background:#f6f7fa;border:1px solid #e3e6ec;padding:8px 9px;
+  font-weight:600;color:#4a505e;font-size:13px;text-align:center}
+table.matrix td{border:1px solid #e3e6ec;padding:9px}
+table.matrix td.stem{max-width:330px}
+table.matrix td.cell{text-align:center}
+table.matrix td.cell .dot{margin:0 auto}
+
+.perc-task{border:1px solid #e3e6ec;border-radius:8px;padding:16px 18px;margin:16px 0;
+  background:#fcfcfd}
+.perc-head{display:flex;gap:13px;align-items:flex-start;margin-bottom:14px}
+.perc-n{font-size:11px;color:#8a93a6;font-weight:700;letter-spacing:.05em;
+  white-space:nowrap;padding-top:3px}
+.perc-name{font-weight:650;font-size:16px}
+.perc-desc{font-size:14px;color:#5b6270;margin-top:2px}
+.perc-item{margin-top:15px;padding-top:13px;border-top:1px solid #eceef3}
+.perc-q{font-size:15px;margin-bottom:4px}
+.likert{display:flex;gap:5px;margin-top:11px;flex-wrap:wrap}
+.lk{flex:1;min-width:74px;text-align:center}
+.lkv{font-size:13px;color:#6a7080;margin-bottom:5px}
+.lk .dot{margin:0 auto}
+.lka{font-size:11.5px;color:#7b8394;margin-top:6px;line-height:1.35}
+
+details.code{margin-top:9px;border:1px solid #d3d7e0;border-radius:7px;background:#fff;
+  overflow:hidden}
+details.code summary{cursor:pointer;padding:9px 13px;font-size:13px;color:#3f4552;
+  display:flex;align-items:center;gap:8px;list-style:none;user-select:none}
+details.code summary::-webkit-details-marker{display:none}
+details.code summary:hover{background:#f6f7fa}
+.chev{display:inline-block;transition:transform .12s;color:#8a93a6;font-size:11px}
+details.code[open] .chev{transform:rotate(90deg)}
+.bytes{margin-left:auto;color:#9aa1af;font-size:11.5px}
+.codewrap{position:relative;border-top:1px solid #eceef3}
+button.copy{position:absolute;top:9px;right:9px;z-index:2;font:inherit;font-size:11.5px;
+  padding:4px 10px;background:#2b3240;color:#fff;border:1px solid #4a5364;border-radius:5px;
+  cursor:pointer;opacity:.85}
+button.copy:hover{opacity:1}
+button.copy.ok{background:#1d7a45;border-color:#1d7a45}
+details.code pre{margin:0;padding:15px 16px;background:#171a21;color:#dfe3ea;
+  overflow-x:auto;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  max-height:460px}
+.hint{font-size:13px;color:#5b6270;background:#fff8e6;border:1px solid #f0dfae;
+  border-radius:6px;padding:9px 12px;margin-top:9px}
+.hint code{background:#f6eecf;padding:1px 4px;border-radius:3px}
+.missing{font-size:13px;color:#8a3c22;background:#fdeee8;border:1px solid #f3cdbe;
+  border-radius:6px;padding:9px 12px;margin-top:9px}
+table.flow{border-collapse:collapse;width:100%;font-size:14px}
+table.flow td{border-bottom:1px solid #eceef3;padding:8px 10px;vertical-align:top}
+table.flow tr:last-child td{border-bottom:none}
+table.flow tr.critical td{background:#fff8e6}
+td.fkind{white-space:nowrap;font-weight:600;color:#3f4552;width:1%}
+table.flow code{background:#f2f3f6;padding:1px 4px;border-radius:3px;font-size:12.5px}
+.screen.flow{padding:10px 14px}
+.fields{display:flex;flex-wrap:wrap;gap:5px}
+.field{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11.5px;
+  background:#f2f3f6;border:1px solid #e3e6ec;border-radius:4px;padding:2px 6px;color:#3f4552}
+
+/* ---- view toggle ---------------------------------------------------------- */
+.viewtoggle{display:inline-flex;border:1px solid #c3c8d2;border-radius:7px;overflow:hidden;
+  background:#fff}
+.viewtoggle button{border:none;border-radius:0;padding:6px 13px;font-size:13px;
+  background:#fff;color:#5b6270}
+.viewtoggle button + button{border-left:1px solid #dcdfe6}
+.viewtoggle button.on{background:#3556a8;color:#fff;font-weight:600}
+.viewtoggle button.on:hover{background:#2e4b93;border-color:#3556a8}
+.viewhint{font-size:12.5px;color:#7b8394;font-style:italic}
+.screennum{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:#9aa1af;margin-bottom:6px}
+
+/* Participant view: only what a respondent actually sees, in order. */
+body.mode-participant .internal,
+body.mode-participant .qstrip,
+body.mode-participant .qnote,
+body.mode-participant details.code,
+body.mode-participant .hint,
+body.mode-participant .missing,
+body.mode-participant .codetools,
+body.mode-participant #blk-flow,
+body.mode-participant .pipe-src{display:none}
+body.mode-participant .q{margin-bottom:26px}
+body.mode-participant .block{margin-bottom:26px}
+
+/* Code view: the build detail, and pipes shown as pipes. */
+body.mode-code .screennum,
+body.mode-code .pipe-eg{display:none}
+.pipe-src{background:#f2f3f6;padding:1px 5px;border-radius:3px;font-size:13px;color:#3f4552}
+
+/* ---- setup steps + the setup/survey divider ------------------------------- */
+ol.steps{counter-reset:st;list-style:none;margin:0 0 22px;padding:0}
+ol.steps li{counter-increment:st;position:relative;padding:0 0 14px 42px;margin:0}
+ol.steps li::before{content:counter(st);position:absolute;left:0;top:0;width:26px;height:26px;
+  border-radius:50%;background:#3556a8;color:#fff;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center}
+ol.steps li::after{content:"";position:absolute;left:13px;top:30px;bottom:0;width:1px;
+  background:#ccd1da}
+ol.steps li:last-child{padding-bottom:0}
+ol.steps li:last-child::after{display:none}
+.stitle{font-weight:650;font-size:15px;padding-top:3px;margin-bottom:3px}
+.sbody{font-size:13.5px;color:#4a505e;line-height:1.5}
+.sbody code{background:#f2f3f6;padding:1px 4px;border-radius:3px;font-size:12.5px;
+  margin-right:3px}
+.iaction{font-size:14px;font-weight:600;color:#22262e;background:#fff;border:1px solid #ccd1da;
+  border-radius:5px;padding:7px 11px;margin-bottom:8px}
+.iaction code{background:#f2f3f6;padding:1px 5px;border-radius:3px}
+.divider{margin:34px 0 24px;padding:16px 0 0;border-top:3px solid #22262e}
+.dsub{font-size:13.5px;color:#6a7080}
+body.mode-participant .dcode{display:none}
+body.mode-participant .divider{margin-top:0}
+
+/* ---- several questions on one page --------------------------------------- */
+.qsep{height:1px;background:#eceef3;margin:24px 0}
+.qmeta{margin-top:9px}
+.qmeta + .qmeta{margin-top:16px;padding-top:14px;border-top:1px dashed #dcdfe6}
+.pagenote{font-size:12px;color:#7b8394;font-style:italic;margin-bottom:6px}
+body.mode-participant .pagenote{display:none}
+
+/* ---- repeats + task previews --------------------------------------------- */
+.reps{font-weight:600;letter-spacing:0;text-transform:none;color:#8a93a6}
+.previewnote{font-size:12px;color:#7b8394;font-style:italic;margin-bottom:6px}
+.rot-wrap{font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto}
+.rot-stims{display:flex;justify-content:center;gap:22px;align-items:center;margin:14px 0}
+.rot-btns{display:flex;justify-content:center;gap:12px;margin-top:14px}
+.rot-btn{border:1.5px solid #9aa1af;border-radius:6px;padding:8px 16px;font-size:15px;
+  background:#fff;color:#3f4552}
+.gs-wrap table.gs-grid{margin:0 auto}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid #dcdfe6;color:#8a93a6;
+  font-size:12.5px}
+@media print{
+  body{background:#fff}
+  .toolbar{display:none}
+  details.code{display:none}
+  .screennum{color:#8a93a6}
+  .screen{box-shadow:none}
+}
+
+/* --- task illustrations, from lib/perception.js --- */
+.perc-img{margin:20px 0 8px;display:flex;flex-direction:column;align-items:center;}
+.perc-img table{border-collapse:collapse;margin:0 auto;}
+.perc-img td{border:1px solid #ccc;width:26px;height:26px;text-align:center;font:16px Arial;font-weight:600;color:#333;}
+.perc-img td.n{width:34px;font:14px 'Courier New',monospace;}
+.perc-img td.hl{background:#c9f3cf;color:#147a2b;}
+.perc-img .cap{font:13px Arial;color:#666;text-align:center;margin-top:8px;}
+.perc-img .word{font:18px Arial;color:#333;text-align:center;line-height:1.45;}
+.perc-img .txt{font:14px Arial;color:#333;text-align:left;line-height:1.5;}
+/* --- grid-search chrome, from lib/grid_search.js --- */
+.gs-wrap{font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;}
+.gs-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+.gs-timer{font-size:20px;font-weight:700;color:#b00;min-width:90px;}
+.gs-timer.low{color:#d00;animation:gsblink 1s steps(2,start) infinite;}
+@keyframes gsblink{50%{opacity:.35;}}
+.gs-progress{font-size:15px;color:#333;}
+.gs-targets{list-style:none;padding:0;margin:0 0 12px 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:15px;}
+.gs-targets li{font-weight:600;letter-spacing:1px;}
+.gs-targets li .lbl{font-weight:400;color:#666;letter-spacing:0;}
+.gs-targets li.done{color:#999;text-decoration:line-through;}
+table.gs-grid{border-collapse:collapse;margin:0 auto;user-select:none;-webkit-user-select:none;-ms-user-select:none;touch-action:none;}
+table.gs-grid td{width:38px;height:38px;text-align:center;vertical-align:middle;border:1px solid #ccc;
+font-size:20px;font-weight:600;cursor:pointer;color:#222;background:#fff;}
+table.gs-grid td.gs-selecting{background:#cfe3ff;}
+table.gs-grid td.gs-found{background:#c9f3cf;color:#147a2b;}
+.gs-msg{margin-top:12px;min-height:22px;font-size:15px;color:#444;text-align:center;}
+.gs-cur{margin-top:6px;height:20px;font:15px monospace;color:#555;text-align:center;letter-spacing:2px;}</style>
+</head>
+<body class="mode-participant">
+<header class="top"><div class="wrap"><h1>Task gender-typing survey</h1><p class="sub">Human survey draft for co-author review</p><table class="facts"><tr><th>Sample</th><td>N ≈ 250 on Prolific, balanced by sex (≈125 men / ≈125 women)</td></tr><tr><th>Device</th><td>Desktop or laptop only — the grid task needs a real pointer</td></tr><tr><th>Length</th><td>≈ 15 minutes</td></tr><tr><th>Pay</th><td>Flat rate at Prolific's recommended ≈$12/hr, plus a $2 bonus to the top 10% on <em>each</em> timed task (best of three attempts, ranked after collection, paid via Prolific)</td></tr><tr><th>Approval</th><td>Runs under the existing UT IRB approval, with a rewritten Procedures paragraph. UT IRB only — not UMD.</td></tr></table></div></header>
+<div class="toolbar"><div class="wrap"><div class="viewtoggle"><button id="vp" type="button" class="on">Participant view</button><button id="vc" type="button">View with code</button></div><span class="viewhint" id="vhint"></span><span class="spacer"></span><span class="codetools"><button id="expand" type="button">Expand all code</button><button id="collapse" type="button">Collapse all code</button><span class="toc">Blocks:<a href="#blk-consent">consent</a><a href="#blk-anti_ai">anti_ai</a><a href="#blk-prolific_id">prolific_id</a><a href="#blk-task_zip">task_zip</a><a href="#blk-task_rotation">task_rotation</a><a href="#blk-perception">perception</a><a href="#blk-demographics">demographics</a><a href="#blk-debrief">debrief</a></span></span></div></div>
+<div class="wrap">
+<section class="block setup" id="blk-flow"><div class="internal"><div class="ihead"><span class="inum">Part 1 of 2 &mdash; for Yongyi</span><span class="iname">Setup: build this first</span><span class="ilabel">no participant sees any of this</span></div><div class="inote">This survey is delivered as a <b>QSF file</b> &mdash; Qualtrics Survey Format, a single file holding an entire survey, exported from one Qualtrics account and imported into another. Importing it rebuilds every block, question and flow element in one step, so nothing has to be assembled by hand. The steps below are the order to work in; the code boxes throughout Part 2 are there to verify the import and to repair anything that did not survive it.</div></div><ol class="steps"><li><div class="stitle">Check two account permissions</div><div class="sbody"><b>Allow JavaScript</b> and <b>Allow All HTML Markup</b>, under account settings. Do this before anything else. Without them the import fails when the file carries custom code, or &mdash; worse &mdash; it succeeds and then renders blank for participants while still looking correct in the editor.</div></li><li><div class="stitle">Import the QSF file into a throwaway draft survey first</div><div class="sbody">That import is the real test, and it is the whole build in one step: it creates every block, every question, the Survey Flow, and the embedded-data declarations. If it imports clean and previews correctly, steps 3&ndash;6 are already done and you only need step 7. Everything below exists so you can <i>check</i> the import, and rebuild by hand anything that did not survive it.</div></li><li><div class="stitle">Survey Flow &rarr; declare the embedded data</div><div class="sbody">One <b>Set Embedded Data</b> element, first in the flow, listing all 68 fields shown further down &mdash; <b>every value left blank</b>. Then a second element capturing <code>PROLIFIC_PID</code> from the Prolific URL parameter.</div></li><li><div class="stitle">Create the blocks, in this order</div><div class="sbody"><code>consent</code><code>anti_ai</code><code>prolific_id</code><code>task_zip</code><code>task_rotation</code><code>perception</code><code>demographics</code><code>debrief</code> &nbsp;&mdash; one block per section below. Each block section tells you how many questions it holds, what type each one is, and gives you its HTML and JavaScript to paste.</div></li><li><div class="stitle">Paste each question</div><div class="sbody">For every question: set the <b>question type</b> shown on its label, paste the <b>HTML</b> into the question's HTML View, and where a JavaScript box is shown, paste that into the question's JavaScript editor. Set the <b>export tag</b> to the name on the dark label &mdash; the analysis code keys on those names.</div></li><li><div class="stitle">Add the branches and the ending</div><div class="sbody">The consent decline branch, the comprehension retry branch, and the attention-check branch, all shown in the flow table below, then an <b>End of Survey</b> element redirecting to the Prolific completion URL.</div></li><li><div class="stitle">Test before launch</div><div class="sbody">One full <b>Preview</b> click-through. Confirm every embedded-data field actually records a value &mdash; a blank column means the field was never declared, which is the most common way a task silently loses all its data. Then a small Prolific soft launch to measure the median completion time, and set the reward to it.</div></li></ol><div class="qstrip"><span class="tag">the finished Survey Flow</span><span class="qtype">what it should look like when you are done</span></div><div class="screen flow"><div class="tblwrap"><table class="flow"><tr class="critical"><td class="fkind">Set Embedded Data</td><td>All 68 fields listed below, <b>every value left blank</b>. This must be the first element in the flow.</td></tr><tr class=""><td class="fkind">Set Embedded Data</td><td><code>PROLIFIC_PID</code> captured from the Prolific URL parameter.</td></tr><tr class=""><td class="fkind">Block</td><td><code>consent</code></td></tr><tr class=""><td class="fkind">Branch</td><td>If <code>consent_agree</code> = &ldquo;I do not agree&rdquo; &rarr; <b>End of Survey</b>, flagged <code>Screened</code>, redirecting to the Prolific screen-out URL.</td></tr><tr class=""><td class="fkind">Block</td><td><code>anti_ai</code></td></tr><tr class=""><td class="fkind">Block</td><td><code>prolific_id</code></td></tr><tr class=""><td class="fkind">Set Embedded Data</td><td><code>module_order</code> = <code>perf_first</code>. To switch to a 50/50 order randomization later, replace this element with a Randomizer over the two module orders and branch on the value.</td></tr><tr class=""><td class="fkind">Block</td><td><code>task_zip</code> &nbsp;<span class='opt'>PERFORMANCE MODULE</span></td></tr><tr class=""><td class="fkind">Branch</td><td>If either comprehension answer is wrong &rarr; the duplicated retry block, then set <code>comp_retry</code> = 1.</td></tr><tr class=""><td class="fkind">Block</td><td><code>task_rotation</code> &nbsp;<span class='opt'>PERFORMANCE MODULE</span></td></tr><tr class=""><td class="fkind">Block</td><td><code>perception</code></td></tr><tr class=""><td class="fkind">Block</td><td><code>demographics</code></td></tr><tr class=""><td class="fkind">Branch</td><td>If the attention-check row = &ldquo;Disagree&rdquo; &rarr; set <code>attn_imc</code> = 1. The grid and this branch must sit in separate blocks, and <code>attn_imc</code> must be declared before the branch.</td></tr><tr class=""><td class="fkind">Block</td><td><code>debrief</code></td></tr><tr class=""><td class="fkind">End of Survey</td><td>Redirect to the Prolific completion URL.</td></tr></table></div></div><div class="qstrip"><span class="tag">embedded data</span><span class="qtype">68 fields</span><span class="flag">declare every value BLANK</span></div><div class="qnote">Declare all of these in that single <b>Set Embedded Data</b> element at the top of the flow, with <b>empty</b> values. Do <b>not</b> give them a default such as <code>-1</code>. The previous build did, and a <code>-1</code> in the export then means three indistinguishable things: the JS never ran, the write never committed, or the participant never reached that question. A blank makes all three visibly missing. This list is generated from the same source the task JS derives its field names from, so the two cannot disagree.</div><div class="screen"><div class="fields"><span class="field">PROLIFIC_PID</span><span class="field">module_order</span><span class="field">anti_llm_acknowledged</span><span class="field">task_order</span><span class="field">comp_select</span><span class="field">comp_bonus</span><span class="field">comp_retry</span><span class="field">attn_imc</span><span class="field">Q_TerminateFlag</span><span class="field">zip_a1_score</span><span class="field">zip_a1_time</span><span class="field">zip_a1_found</span><span class="field">zip_a2_score</span><span class="field">zip_a2_time</span><span class="field">zip_a2_found</span><span class="field">zip_a3_score</span><span class="field">zip_a3_time</span><span class="field">zip_a3_found</span><span class="field">rot_a1_score</span><span class="field">rot_a1_correct</span><span class="field">rot_a1_incorrect</span><span class="field">rot_a1_attempted</span><span class="field">rot_a1_time</span><span class="field">rot_a2_score</span><span class="field">rot_a2_correct</span><span class="field">rot_a2_incorrect</span><span class="field">rot_a2_attempted</span><span class="field">rot_a2_time</span><span class="field">rot_a3_score</span><span class="field">rot_a3_correct</span><span class="field">rot_a3_incorrect</span><span class="field">rot_a3_attempted</span><span class="field">rot_a3_time</span><span class="field">perc_word_search_top10</span><span class="field">perc_word_search_perf</span><span class="field">perc_zip_search_top10</span><span class="field">perc_zip_search_perf</span><span class="field">perc_number_grid_count_top10</span><span class="field">perc_number_grid_count_perf</span><span class="field">perc_mental_rotation_top10</span><span class="field">perc_mental_rotation_perf</span><span class="field">perc_spelling_top10</span><span class="field">perc_spelling_perf</span><span class="field">perc_proofreading_top10</span><span class="field">perc_proofreading_perf</span><span class="field">perc_dsst_top10</span><span class="field">perc_dsst_perf</span><span class="field">perc_anagrams_top10</span><span class="field">perc_anagrams_perf</span><span class="field">perc_stroop_top10</span><span class="field">perc_stroop_perf</span><span class="field">perc_arithmetic_top10</span><span class="field">perc_arithmetic_perf</span><span class="field">perc_ravens_top10</span><span class="field">perc_ravens_perf</span><span class="field">perc_verbal_fluency_top10</span><span class="field">perc_verbal_fluency_perf</span><span class="field">perc_finger_tapping_top10</span><span class="field">perc_finger_tapping_perf</span><span class="field">perc_emotion_recognition_top10</span><span class="field">perc_emotion_recognition_perf</span><span class="field">perc_reaction_time_top10</span><span class="field">perc_reaction_time_perf</span><span class="field">perc_applying_makeup_top10</span><span class="field">perc_applying_makeup_perf</span><span class="field">perc_lifting_heavy_top10</span><span class="field">perc_lifting_heavy_perf</span><span class="field">perc_task_order</span></div></div></section><div class="divider"><div class="dsub">Everything below this line is what a participant sees, in order. <span class="dcode">Each gray box names the Qualtrics block to create and what it records; the collapsed boxes hold the code to paste.</span></div></div>
+<section class="block" id="blk-consent">
+<div class="internal"><div class="ihead"><span class="inum">Block 1</span><span class="iname">consent</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>consent</code> holding 2 questions on 1 page, in the order below.</div><div class="inote">Runs under the existing UT IRB approval with the Procedures paragraph rewritten for this study. Branch on the agreement question: “I do not agree” goes straight to an End of Survey element flagged Screened.</div></div>
+<div class="q">
+<div class="screennum">Screen 1 of 20</div>
+<div class="pagenote">2 questions on this one page — no page break between them.</div>
+<div class="screen"><p>The following message outlines the purpose of the study and asks for your consent
+to participate. To indicate that you accept, click the button at the bottom of the page.</p>
+
+<p><strong>Purpose of the Study</strong><br>
+This research is being conducted by Nathan Barrymore, Cristian Dez&#337; and Yongyi Lin at the
+University of Maryland and at the University of Texas. We are inviting you to participate in this
+research project to generate new knowledge. The purpose of this research project is to better
+understand performance and problem-solving.</p>
+
+<p><strong>Procedures</strong><br>
+The survey will take approximately <strong>15 minutes</strong>. You will be asked to answer questions
+about your impressions of a range of everyday thinking tasks &mdash; for each task, whether you think
+men or women tend to perform better &mdash; and to answer some demographic questions.</p>
+
+<p>You will also complete <strong>two short timed tasks</strong>: finding a five-digit number hidden in
+a grid of digits, and deciding whether two shapes are the same shape rotated or mirror images. You
+will attempt each task three times, with a new puzzle each time. On each of the two tasks, the top 10%
+of participants earn a <strong>$2 bonus</strong>, based on your best of three attempts, paid after the
+study is complete.</p>
+
+<p><strong>Risks</strong><br>
+There are no known risks from participating in this research study. If you do not wish to answer any
+questions you may end your participation in the study at any time.</p>
+
+<p><strong>Benefits</strong><br>
+There are no direct benefits from participating in this research. However, possible benefits include
+learning more about the research process and generating new knowledge about organizations and
+performance. We hope that, in the future, other people might benefit from this study through an
+improved understanding of problem-solving.</p>
+
+<p><strong>Confidentiality</strong><br>
+Any potential loss of confidentiality will be minimized. Only researchers will have access to the
+data. The confidentiality of the subjects participating in the experiments will be maintained. Data
+will be stored in an electronic folder on a password protected network directory. Subjects&rsquo; names
+will not be associated with the data collected at any time, so it will be impossible to identify the
+responses of individual subjects. The data collected will be associated only with randomly assigned
+subject ID numbers that cannot be used to identify individual subjects. The data will be analyzed by
+experimental condition rather than by individual subject. Any personally identifiable information will
+be deleted when all research articles associated with this project are published.</p>
+
+<p><strong>Right to Withdraw and Questions</strong><br>
+If we write a report or article about this research project, your identity will be protected to the
+maximum extent possible. Your information may be shared with representatives of the University of
+Maryland, the University of Texas, or governmental authorities if you or someone else is in danger or
+if we are required to do so by law. Your participation in this research is completely voluntary. You
+may choose not to take part at all. If you decide to participate in this research, you may stop
+participating at any time. If you decide not to participate in this study or if you stop participating
+at any time, you will not be penalized or lose any benefits to which you otherwise qualify. If you
+decide to stop taking part in the study, if you have questions, concerns, or complaints, or if you
+need to report an injury related to the research, please contact the investigator: Nathan Barrymore,
+University of Texas at Austin, universityresearchexperiments@gmail.com</p>
+
+<p><strong>Participant Rights</strong><br>
+If you have questions about your rights as a research participant, wish to discuss your concerns with
+someone other than the researchers, or wish to report a research-related injury, please contact the
+Institutional Review Board at The University of Texas at Austin. E-mail: irb@austin.utexas.edu.
+Telephone: 512-232-1543. This research has been reviewed according to the University of Texas at
+Austin IRB procedures for research involving human subjects. By clicking below, you agree that you are
+at least 18 years of age, have read the consent form, and voluntarily agree to participate in the
+study. You may print a copy of this page for your records.</p>
+<div class="qsep"></div>
+<p>Do you agree to participate in this study?</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>I agree to participate</span></li>
+<li><span class="dot"></span><span>I do not agree to participate</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">irb</span><span class="qtype">Descriptive Text (DB)</span></div>
+<div class="qnote">CONSENT — Qualtrics Question TEXT (HTML view). Descriptive Text (DB) question. Body text below is reused VERBATIM from the UT-IRB-approved consent on the existing Study 2 survey (QID1, DataExportTag "irb") except: - Procedures: rewritten for this study (approved scope change). - Participant Rights: UT IRB contact, NOT UMD. E-mail verified 2026-08-28 against research.utexas.edu; mailing address deliberately omitted. CONFIRM THE PHONE NUMBER against UT's own consent template (HRP-UT920a, in the UTRMS-IRB Library): UT publishes 512-232-1543 as the participant IRB line, but also 512-471-8871 (ORSC) and 512-471-2877 (research office), and the approved template is the authority. Do not reword the Risks / Benefits / Confidentiality / Withdrawal sections.</div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">4.4 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;The following message outlines the purpose of the study and asks for your consent
+to participate. To indicate that you accept, click the button at the bottom of the page.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Purpose of the Study&lt;/strong&gt;&lt;br&gt;
+This research is being conducted by Nathan Barrymore, Cristian Dez&amp;#337; and Yongyi Lin at the
+University of Maryland and at the University of Texas. We are inviting you to participate in this
+research project to generate new knowledge. The purpose of this research project is to better
+understand performance and problem-solving.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Procedures&lt;/strong&gt;&lt;br&gt;
+The survey will take approximately &lt;strong&gt;15 minutes&lt;/strong&gt;. You will be asked to answer questions
+about your impressions of a range of everyday thinking tasks &amp;mdash; for each task, whether you think
+men or women tend to perform better &amp;mdash; and to answer some demographic questions.&lt;/p&gt;
+
+&lt;p&gt;You will also complete &lt;strong&gt;two short timed tasks&lt;/strong&gt;: finding a five-digit number hidden in
+a grid of digits, and deciding whether two shapes are the same shape rotated or mirror images. You
+will attempt each task three times, with a new puzzle each time. On each of the two tasks, the top 10%
+of participants earn a &lt;strong&gt;$2 bonus&lt;/strong&gt;, based on your best of three attempts, paid after the
+study is complete.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Risks&lt;/strong&gt;&lt;br&gt;
+There are no known risks from participating in this research study. If you do not wish to answer any
+questions you may end your participation in the study at any time.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Benefits&lt;/strong&gt;&lt;br&gt;
+There are no direct benefits from participating in this research. However, possible benefits include
+learning more about the research process and generating new knowledge about organizations and
+performance. We hope that, in the future, other people might benefit from this study through an
+improved understanding of problem-solving.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Confidentiality&lt;/strong&gt;&lt;br&gt;
+Any potential loss of confidentiality will be minimized. Only researchers will have access to the
+data. The confidentiality of the subjects participating in the experiments will be maintained. Data
+will be stored in an electronic folder on a password protected network directory. Subjects&amp;rsquo; names
+will not be associated with the data collected at any time, so it will be impossible to identify the
+responses of individual subjects. The data collected will be associated only with randomly assigned
+subject ID numbers that cannot be used to identify individual subjects. The data will be analyzed by
+experimental condition rather than by individual subject. Any personally identifiable information will
+be deleted when all research articles associated with this project are published.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Right to Withdraw and Questions&lt;/strong&gt;&lt;br&gt;
+If we write a report or article about this research project, your identity will be protected to the
+maximum extent possible. Your information may be shared with representatives of the University of
+Maryland, the University of Texas, or governmental authorities if you or someone else is in danger or
+if we are required to do so by law. Your participation in this research is completely voluntary. You
+may choose not to take part at all. If you decide to participate in this research, you may stop
+participating at any time. If you decide not to participate in this study or if you stop participating
+at any time, you will not be penalized or lose any benefits to which you otherwise qualify. If you
+decide to stop taking part in the study, if you have questions, concerns, or complaints, or if you
+need to report an injury related to the research, please contact the investigator: Nathan Barrymore,
+University of Texas at Austin, universityresearchexperiments@gmail.com&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Participant Rights&lt;/strong&gt;&lt;br&gt;
+If you have questions about your rights as a research participant, wish to discuss your concerns with
+someone other than the researchers, or wish to report a research-related injury, please contact the
+Institutional Review Board at The University of Texas at Austin. E-mail: irb@austin.utexas.edu.
+Telephone: 512-232-1543. This research has been reviewed according to the University of Texas at
+Austin IRB procedures for research involving human subjects. By clicking below, you agree that you are
+at least 18 years of age, have read the consent form, and voluntarily agree to participate in the
+study. You may print a copy of this page for your records.&lt;/p&gt;</code></pre></div></details></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">consent_agree</span><span class="qtype">Multiple Choice (MC / SAVR)</span><span class="flag">Force Response</span></div>
+<div class="qnote">Sits at the bottom of the consent page, not on a screen of its own: put it in the same block with <b>no page break</b> after the consent text, so the participant reads and agrees in one place.<br>CONSENT AGREEMENT — Multiple Choice (MC/SAVR), Force Response. Branch in the Survey Flow: if "I do not agree" -> End of Survey (screened out).<br><b>Records:</b> <code>(Survey Flow branches on this answer)</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">49 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;Do you agree to participate in this study?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+</section>
+<section class="block" id="blk-anti_ai">
+<div class="internal"><div class="ihead"><span class="inum">Block 2</span><span class="iname">anti_ai</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>anti_ai</code> holding 1 question, in the order below.</div><div class="inote">Keep immediately after consent, before anything else.</div></div>
+<div class="q">
+<div class="screennum">Screen 2 of 20</div>
+<div class="screen"><p><strong>Before you begin</strong></p>
+<p>This study measures what <em>people</em> think, and how <em>people</em> perform. For the results to
+mean anything, we need your own honest impressions and your own unaided effort.</p>
+<p>Please do not use ChatGPT or any other AI assistant, and do not ask another person for help, at any
+point in this survey. There are no right or wrong answers to the opinion questions, so there is nothing
+to look up. On the two timed tasks, outside help would make the data unusable.</p>
+<p>We are not able to detect this perfectly, so we are simply asking you directly.</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>I agree to complete this survey on my own, without AI and without help from others</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">anti_llm_acknowledged</span><span class="qtype">Multiple Choice (MC / SAVR)</span><span class="flag">Force Response</span></div>
+<div class="qnote">ANTI-AI PLEDGE — Multiple Choice (MC/SAVR), Force Response. Writes anti_llm_acknowledged. Keep immediately after consent.<br><b>Records:</b> <code>anti_llm_acknowledged</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">604 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;&lt;strong&gt;Before you begin&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This study measures what &lt;em&gt;people&lt;/em&gt; think, and how &lt;em&gt;people&lt;/em&gt; perform. For the results to
+mean anything, we need your own honest impressions and your own unaided effort.&lt;/p&gt;
+&lt;p&gt;Please do not use ChatGPT or any other AI assistant, and do not ask another person for help, at any
+point in this survey. There are no right or wrong answers to the opinion questions, so there is nothing
+to look up. On the two timed tasks, outside help would make the data unusable.&lt;/p&gt;
+&lt;p&gt;We are not able to detect this perfectly, so we are simply asking you directly.&lt;/p&gt;</code></pre></div></details></div>
+</div>
+</section>
+<section class="block" id="blk-prolific_id">
+<div class="internal"><div class="ihead"><span class="inum">Block 3</span><span class="iname">prolific_id</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>prolific_id</code> holding 1 question, in the order below.</div><div class="inote">PROLIFIC_PID is captured from the URL by an Embedded Data element at the very top of the Survey Flow. This screen only confirms it arrived, so a missing ID is caught before the participant spends 15 minutes. The piped field shows the participant their own ID.</div></div>
+<div class="q">
+<div class="screennum">Screen 3 of 20</div>
+<div class="screen"><p>Your Prolific ID has been recorded as:</p>
+<p style="font-size:20px;font-weight:600;text-align:center;margin:18px 0;"><span class="pipe"><code class="pipe-src">${e://Field/PROLIFIC_PID}</code><span class="pipe-eg">5f3a9c2e14b07d8619ae4f22</span></span></p>
+<p>If that box is empty, please return to Prolific and re-enter the study using the link there, so we
+can pay you. If it shows your ID, click Next to begin.</p><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">pid_confirm</span><span class="qtype">Descriptive Text (DB)</span></div>
+<div class="qnote">PROLIFIC ID CONFIRMATION — Descriptive Text (DB). PROLIFIC_PID arrives as a URL parameter and is captured by an Embedded Data element at the top of the Survey Flow. This screen only confirms it landed, so a missing ID is caught before the participant spends 15 minutes.<br><b>Records:</b> <code>PROLIFIC_PID (set from the URL at the top of the flow, not here)</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">311 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;Your Prolific ID has been recorded as:&lt;/p&gt;
+&lt;p style=&quot;font-size:20px;font-weight:600;text-align:center;margin:18px 0;&quot;&gt;${e://Field/PROLIFIC_PID}&lt;/p&gt;
+&lt;p&gt;If that box is empty, please return to Prolific and re-enter the study using the link there, so we
+can pay you. If it shows your ID, click Next to begin.&lt;/p&gt;</code></pre></div></details></div>
+</div>
+</section>
+<section class="block" id="blk-task_zip">
+<div class="internal"><div class="ihead"><span class="inum">Block 4</span><span class="iname">task_zip</span><span class="opt">PERFORMANCE MODULE</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>task_zip</code> holding 4 questions on 3 pages, in the order below.</div><div class="inote">Timed task, three attempts, new puzzle each time. The only line that differs between the three attempt questions is  var ATTEMPT = 1;  → 2 → 3 ; every field name derives from it. This module goes BEFORE the perception block — asking who performs better immediately before a paid timed task is a stereotype-threat prime and would bias the very gap we are measuring.</div></div>
+<div class="q">
+<div class="screennum">Screen 4 of 20</div>
+<div class="screen"><div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;font-size:15px;line-height:1.5;color:#222;">
+  <h3 style="margin:0 0 10px;">Task: ZIP-code search</h3>
+  <p>You will see a grid of digits and a short list of ZIP codes. Your job is to find each ZIP code
+  hidden in the grid as quickly as you can.</p>
+  <p>Each ZIP code is five digits in a row, running in a straight line: <strong>across, down, or
+  diagonally, in any direction</strong> (including backwards). To select one, you can either:</p>
+  <ul>
+    <li><strong>Click and drag</strong> across its five digits, or</li>
+    <li><strong>Click the first digit, then click the last digit.</strong></li>
+  </ul>
+
+  <p style="margin-top:18px;"><strong>Worked example.</strong> In the grid below, the ZIP code
+  <strong>90210</strong> runs left to right in the middle row. Selecting it (by dragging across it,
+  or clicking the <em>9</em> then the <em>0</em>) turns it green and crosses it off the list:</p>
+
+  <table style="border-collapse:collapse;margin:10px auto;font:20px Arial;font-weight:600;">
+    <tr><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">4</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">8</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">1</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">3</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">6</td></tr>
+    <tr><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;">9</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;">0</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;">2</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;">1</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;">0</td></tr>
+    <tr><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">2</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">7</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">5</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">0</td><td style="border:1px solid #ccc;width:36px;height:36px;text-align:center;">4</td></tr>
+  </table>
+
+  <p style="margin-top:18px;">You will do this task <strong>three times</strong>, each for a short fixed time, with a
+  new grid each time. The same ZIP codes are used each time, so you can get faster with practice.
+  Most people improve across the three rounds, so keep going even if the first round feels hard.</p>
+  <p>On each task, the <strong>top 10% of participants earn a $2 bonus</strong>, based on your best of the
+  three rounds.</p>
+  <p>Click <strong>Next</strong> when you are ready to begin.</p>
+</div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">zip_instructions</span><span class="qtype">Descriptive Text (DB)</span></div>
+<div class="qnote">ZIP-code search INSTRUCTIONS (shown once before the first attempt). Static worked example; no timer, no scoring. Paste into a question's HTML View.</div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">3.0 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;div style=&quot;font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;font-size:15px;line-height:1.5;color:#222;&quot;&gt;
+  &lt;h3 style=&quot;margin:0 0 10px;&quot;&gt;Task: ZIP-code search&lt;/h3&gt;
+  &lt;p&gt;You will see a grid of digits and a short list of ZIP codes. Your job is to find each ZIP code
+  hidden in the grid as quickly as you can.&lt;/p&gt;
+  &lt;p&gt;Each ZIP code is five digits in a row, running in a straight line: &lt;strong&gt;across, down, or
+  diagonally, in any direction&lt;/strong&gt; (including backwards). To select one, you can either:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Click and drag&lt;/strong&gt; across its five digits, or&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Click the first digit, then click the last digit.&lt;/strong&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p style=&quot;margin-top:18px;&quot;&gt;&lt;strong&gt;Worked example.&lt;/strong&gt; In the grid below, the ZIP code
+  &lt;strong&gt;90210&lt;/strong&gt; runs left to right in the middle row. Selecting it (by dragging across it,
+  or clicking the &lt;em&gt;9&lt;/em&gt; then the &lt;em&gt;0&lt;/em&gt;) turns it green and crosses it off the list:&lt;/p&gt;
+
+  &lt;table style=&quot;border-collapse:collapse;margin:10px auto;font:20px Arial;font-weight:600;&quot;&gt;
+    &lt;tr&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;4&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;8&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;1&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;3&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;6&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;&quot;&gt;9&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;&quot;&gt;0&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;&quot;&gt;2&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;&quot;&gt;1&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;background:#c9f3cf;color:#147a2b;&quot;&gt;0&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;2&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;7&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;5&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;0&lt;/td&gt;&lt;td style=&quot;border:1px solid #ccc;width:36px;height:36px;text-align:center;&quot;&gt;4&lt;/td&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+
+  &lt;p style=&quot;margin-top:18px;&quot;&gt;You will do this task &lt;strong&gt;three times&lt;/strong&gt;, each for a short fixed time, with a
+  new grid each time. The same ZIP codes are used each time, so you can get faster with practice.
+  Most people improve across the three rounds, so keep going even if the first round feels hard.&lt;/p&gt;
+  &lt;p&gt;On each task, the &lt;strong&gt;top 10% of participants earn a $2 bonus&lt;/strong&gt;, based on your best of the
+  three rounds.&lt;/p&gt;
+  &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt; when you are ready to begin.&lt;/p&gt;
+&lt;/div&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screen 5 of 20</div>
+<div class="pagenote">2 questions on this one page — no page break between them.</div>
+<div class="screen"><p>Before you start: how do you record an answer in this task?</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>Click and drag across the five digits, or click the first digit and then the last</span></li>
+<li><span class="dot"></span><span>Type the code into a box</span></li>
+<li><span class="dot"></span><span>Click each digit one at a time</span></li>
+</ul>
+<div class="qsep"></div>
+<p>And what earns the $2 bonus on a task?</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>Scoring in the top 10% of participants, on my best of three rounds</span></li>
+<li><span class="dot"></span><span>Finishing the study</span></li>
+<li><span class="dot"></span><span>Answering every question</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">comp_select</span><span class="qtype">Multiple Choice (MC / SAVR)</span><span class="flag">Force Response</span></div>
+<div class="qnote">Forced-correct with one retry. Build it as a duplicated block plus branch logic rather than custom validation, so attempt 1 and attempt 2 arrive as separate export columns and the retry cannot loop forever.<br><b>Records:</b> <code>comp_select</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">66 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;Before you start: how do you record an answer in this task?&lt;/p&gt;</code></pre></div></details></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">comp_bonus</span><span class="qtype">Multiple Choice (MC / SAVR)</span><span class="flag">Force Response</span></div>
+<div class="qnote"><b>Records:</b> <code>comp_bonus</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">45 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;And what earns the $2 bonus on a task?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screens 6–8 of 20 <span class="reps">(the same screen 3 times — one per attempt, a new puzzle each time)</span></div>
+<div class="previewnote">The puzzle below is an example. The live task generates a fresh one for every attempt.</div>
+<div class="screen"><p style="font-size:15px;">Find each ZIP code in the grid. Either <strong>click and drag</strong> across its five digits, or
+<strong>click the first digit and then the last digit</strong>. Codes run in a straight line (across, down,
+or diagonally) and in any direction.</p>
+
+<div id="gs-mount"></div>
+<div class="gs-wrap"><div class="gs-top"><div class='gs-progress'>Found <strong><span>0</span></strong> of 5</div><div class="gs-timer">45s</div></div><ul class="gs-targets"><li>9 0 2 1 0 <span class='lbl'>(Beverly Hills, CA)</span></li><li>6 0 6 0 1 <span class='lbl'>(Chicago, IL)</span></li><li>1 0 0 0 1 <span class='lbl'>(New York, NY)</span></li><li>2 0 0 0 1 <span class='lbl'>(Washington, DC)</span></li><li>9 4 1 0 2 <span class='lbl'>(San Francisco, CA)</span></li></ul><table class="gs-grid"><tr><td>5</td><td>3</td><td>2</td><td>0</td><td>9</td><td>1</td><td>9</td></tr><tr><td>8</td><td>9</td><td>6</td><td>1</td><td>4</td><td>0</td><td>2</td></tr><tr><td>0</td><td>4</td><td>2</td><td>2</td><td>7</td><td>0</td><td>6</td></tr><tr><td>3</td><td>1</td><td>9</td><td>0</td><td>0</td><td>0</td><td>4</td></tr><tr><td>7</td><td>0</td><td>5</td><td>9</td><td>0</td><td>1</td><td>0</td></tr><tr><td>8</td><td>2</td><td>3</td><td>7</td><td>2</td><td>0</td><td>9</td></tr><tr><td>6</td><td>0</td><td>6</td><td>0</td><td>1</td><td>3</td><td>1</td></tr></table><div class="gs-cur"></div><div class="gs-msg"></div></div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">zip_a1</span><span class="qtype">Descriptive Text (DB) + question JS</span><span class="flag">×3 copies</span></div>
+<div class="qnote">ZIP-code search — Qualtrics Question TEXT (HTML view). One copy per attempt (1,2,3); the only thing that differs across copies is the attempt number in the JS config. The engine builds the grid, target list, timer, and status into #gs-mount below.<br><b>Records:</b> <code>zip_a1_score</code>, <code>zip_a1_time</code>, <code>zip_a1_found</code>, <code>… and zip_a2_*, zip_a3_* from copies 2 and 3</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">300 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p style=&quot;font-size:15px;&quot;&gt;Find each ZIP code in the grid. Either &lt;strong&gt;click and drag&lt;/strong&gt; across its five digits, or
+&lt;strong&gt;click the first digit and then the last digit&lt;/strong&gt;. Codes run in a straight line (across, down,
+or diagonally) and in any direction.&lt;/p&gt;
+
+&lt;div id=&quot;gs-mount&quot;&gt;&lt;/div&gt;</code></pre></div></details>
+<details class="code"><summary><span class="chev">▸</span>JavaScript to paste into the question's JS editor  (dist/zip_attempt1.js)<span class="bytes">19.1 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="javascript"><code>/* AUTO-GENERATED by build_dist.py — do not edit here. Edit the source
+ * (lib/*.js + tasks/*/*_question.js) and re-run build_dist.py. */
+
+/* ============================================================================
+ * grid_search.js — robust grid drag-select search task (ZIP codes / words).
+ * ----------------------------------------------------------------------------
+ * One engine drives both the number-string (ZIP) search and the word search.
+ * The participant drags across a straight line of cells; on release the line
+ * is read in both directions and matched against the remaining targets.
+ *
+ * Design notes (fixes for the old build&#x27;s bugs):
+ *   - Hit-detection works on explicit cell COORDINATES and the underlying grid
+ *     data, never by scanning CSS class strings (old bug: some targets, e.g.
+ *     LA, failed to register because className equality was brittle).
+ *   - Matches BOTH directions, so dragging end-to-start also counts.
+ *   - mouseup is bound to the document, so releasing off-grid still finalizes.
+ *   - Found cells carry a separate class and are never disturbed by later drags.
+ *   - Results are written with the question instance&#x27;s setJSEmbeddedData to
+ *     explicit, clearly named fields (no read-modify-write append, no -1
+ *     default that sticks). Each attempt is its own question -&gt; its own fields.
+ *
+ * Pure functions (generateGrid / pathCells / readPath / matchTarget) take an
+ * injectable RNG and touch no DOM, so they are unit-tested under node. The DOM
+ * wiring lives in run().
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === &quot;object&quot; &amp;&amp; module.exports) module.exports = factory();
+  else root.GridSearch = factory();
+})(typeof self !== &quot;undefined&quot; ? self : this, function () {
+  &quot;use strict&quot;;
+
+  /* ---------------------------------------------------------------- pure ---- */
+
+  // Deterministic RNG (mulberry32) for reproducible tests / grids.
+  function makeRng(seed) {
+    var s = seed &gt;&gt;&gt; 0;
+    return function () {
+      s |= 0; s = (s + 0x6d2b79f5) | 0;
+      var t = Math.imul(s ^ (s &gt;&gt;&gt; 15), 1 | s);
+      t = (t + Math.imul(t ^ (t &gt;&gt;&gt; 7), 61 | t)) ^ t;
+      return ((t ^ (t &gt;&gt;&gt; 14)) &gt;&gt;&gt; 0) / 4294967296;
+    };
+  }
+
+  var DIRS = [
+    [0, 1], [0, -1], [1, 0], [-1, 0],
+    [1, 1], [1, -1], [-1, 1], [-1, -1]
+  ];
+
+  function shuffle(arr, rng) {
+    for (var i = arr.length - 1; i &gt; 0; i--) {
+      var j = Math.floor(rng() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  // Place every target string into an n x n grid (random cell + direction).
+  // Overlap is allowed only where the shared cell holds the same character.
+  // Returns {grid: char[][], placements:[{target,r,c,dr,dc}]}.
+  function generateGrid(targets, n, fillFn, rng) {
+    rng = rng || Math.random;
+    for (var attempt = 0; attempt &lt; 300; attempt++) {
+      var grid = [];
+      for (var r = 0; r &lt; n; r++) grid.push(new Array(n).fill(null));
+      var placements = [];
+      var allPlaced = true;
+
+      for (var ti = 0; ti &lt; targets.length; ti++) {
+        var s = String(targets[ti]);
+        var L = s.length;
+        var starts = [];
+        for (var rr = 0; rr &lt; n; rr++) for (var cc = 0; cc &lt; n; cc++) starts.push([rr, cc]);
+        shuffle(starts, rng);
+
+        var placed = false;
+        for (var si = 0; si &lt; starts.length &amp;&amp; !placed; si++) {
+          var r0 = starts[si][0], c0 = starts[si][1];
+          var dirs = shuffle(DIRS.slice(), rng);
+          for (var di = 0; di &lt; dirs.length &amp;&amp; !placed; di++) {
+            var dr = dirs[di][0], dc = dirs[di][1];
+            var rEnd = r0 + dr * (L - 1), cEnd = c0 + dc * (L - 1);
+            if (rEnd &lt; 0 || rEnd &gt;= n || cEnd &lt; 0 || cEnd &gt;= n) continue;
+            var fits = true;
+            for (var k = 0; k &lt; L; k++) {
+              var g = grid[r0 + dr * k][c0 + dc * k];
+              if (g !== null &amp;&amp; g !== s.charAt(k)) { fits = false; break; }
+            }
+            if (!fits) continue;
+            for (var k2 = 0; k2 &lt; L; k2++) grid[r0 + dr * k2][c0 + dc * k2] = s.charAt(k2);
+            placements.push({ target: s, r: r0, c: c0, dr: dr, dc: dc });
+            placed = true;
+          }
+        }
+        if (!placed) { allPlaced = false; break; }
+      }
+      if (!allPlaced) continue;
+
+      for (var r2 = 0; r2 &lt; n; r2++) for (var c2 = 0; c2 &lt; n; c2++) {
+        if (grid[r2][c2] === null) grid[r2][c2] = fillFn(rng);
+      }
+      return { grid: grid, placements: placements };
+    }
+    throw new Error(&quot;generateGrid: could not place all targets in &quot; + n + &quot;x&quot; + n);
+  }
+
+  // Cells on the straight line start-&gt;end (inclusive), or null if not a
+  // horizontal / vertical / 45-degree-diagonal line.
+  function pathCells(start, end) {
+    var dr = end.r - start.r, dc = end.c - start.c;
+    var adr = Math.abs(dr), adc = Math.abs(dc);
+    if (!(dr === 0 || dc === 0 || adr === adc)) return null;
+    var len = Math.max(adr, adc);
+    var sr = dr === 0 ? 0 : dr / adr;
+    var sc = dc === 0 ? 0 : dc / adc;
+    var out = [];
+    for (var k = 0; k &lt;= len; k++) out.push({ r: start.r + sr * k, c: start.c + sc * k });
+    return out;
+  }
+
+  function readPath(grid, cells) {
+    var s = &quot;&quot;;
+    for (var i = 0; i &lt; cells.length; i++) s += grid[cells[i].r][cells[i].c];
+    return s;
+  }
+
+  // Match str (in either direction) against remaining targets; return it or null.
+  function matchTarget(str, remaining) {
+    var rev = str.split(&quot;&quot;).reverse().join(&quot;&quot;);
+    for (var i = 0; i &lt; remaining.length; i++) {
+      if (remaining[i] === str || remaining[i] === rev) return remaining[i];
+    }
+    return null;
+  }
+
+  function digitFill(rng) { return String(Math.floor(rng() * 10)); }
+  var LETTERS = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;
+  function letterFill(rng) { return LETTERS.charAt(Math.floor(rng() * 26)); }
+
+  /* ----------------------------------------------------------------- CSS ---- */
+
+  var CSS_ID = &quot;gs-style&quot;;
+  var CSS = [
+    &quot;.gs-wrap{font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;}&quot;,
+    &quot;.gs-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}&quot;,
+    &quot;.gs-timer{font-size:20px;font-weight:700;color:#b00;min-width:90px;}&quot;,
+    &quot;.gs-timer.low{color:#d00;animation:gsblink 1s steps(2,start) infinite;}&quot;,
+    &quot;@keyframes gsblink{50%{opacity:.35;}}&quot;,
+    &quot;.gs-progress{font-size:15px;color:#333;}&quot;,
+    &quot;.gs-targets{list-style:none;padding:0;margin:0 0 12px 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:15px;}&quot;,
+    &quot;.gs-targets li{font-weight:600;letter-spacing:1px;}&quot;,
+    &quot;.gs-targets li .lbl{font-weight:400;color:#666;letter-spacing:0;}&quot;,
+    &quot;.gs-targets li.done{color:#999;text-decoration:line-through;}&quot;,
+    &quot;table.gs-grid{border-collapse:collapse;margin:0 auto;user-select:none;-webkit-user-select:none;-ms-user-select:none;touch-action:none;}&quot;,
+    &quot;table.gs-grid td{width:38px;height:38px;text-align:center;vertical-align:middle;border:1px solid #ccc;&quot;,
+    &quot;font-size:20px;font-weight:600;cursor:pointer;color:#222;background:#fff;}&quot;,
+    &quot;table.gs-grid td.gs-selecting{background:#cfe3ff;}&quot;,
+    &quot;table.gs-grid td.gs-found{background:#c9f3cf;color:#147a2b;}&quot;,
+    &quot;.gs-msg{margin-top:12px;min-height:22px;font-size:15px;color:#444;text-align:center;}&quot;,
+    &quot;.gs-cur{margin-top:6px;height:20px;font:15px monospace;color:#555;text-align:center;letter-spacing:2px;}&quot;
+  ].join(&quot;\n&quot;);
+
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement(&quot;style&quot;);
+    st.id = CSS_ID; st.type = &quot;text/css&quot;;
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  /* ------------------------------------------------------------- DOM run ---- */
+
+  // q        : the Qualtrics question instance (`this` inside addOnload)
+  // container: the question container element
+  // config   : {
+  //   taskId:&quot;zip&quot;, attempt:1, fill:&quot;digits&quot;|&quot;letters&quot;, gridSize:7,
+  //   timeLimitSec:45,
+  //   targets:[{code:&quot;10001&quot;, label:&quot;New York, NY&quot;}, ...],
+  //   fields:{score:&quot;zip_a1_score&quot;, time:&quot;zip_a1_time&quot;, found:&quot;zip_a1_found&quot;},
+  //   showLabels:true
+  // }
+  function run(q, container, config) {
+    ensureCss();
+    var now = (typeof performance !== &quot;undefined&quot; &amp;&amp; performance.now)
+      ? function () { return performance.now(); } : function () { return Date.now(); };
+
+    var n = config.gridSize;
+    var fillFn = config.fill === &quot;letters&quot; ? letterFill : digitFill;
+    var codes = config.targets.map(function (t) { return String(t.code); });
+    var gen = generateGrid(codes, n, fillFn, Math.random);
+    var grid = gen.grid;
+
+    var remaining = codes.slice();
+    var foundByCode = {};
+    var foundCells = {};            // &quot;r,c&quot; -&gt; true
+    var score = 0;
+    var finished = false;
+    var startT = now();
+    var deadline = startT + config.timeLimitSec * 1000;
+    var timerId = null;
+    var resultsWritten = false;
+
+    /* ---- build DOM ---- */
+    // Mount into #gs-mount if the question provides one (keeps any heading
+    // above it); otherwise take over the whole container.
+    var mount = (container.querySelector &amp;&amp; container.querySelector(&quot;#gs-mount&quot;)) || container;
+    mount.innerHTML = &quot;&quot;;
+    var wrap = el(&quot;div&quot;, &quot;gs-wrap&quot;);
+
+    var top = el(&quot;div&quot;, &quot;gs-top&quot;);
+    var prog = el(&quot;div&quot;, &quot;gs-progress&quot;);
+    prog.innerHTML = &quot;Found &lt;strong&gt;&lt;span id=&#x27;gs-score&#x27;&gt;0&lt;/span&gt;&lt;/strong&gt; of &quot; + codes.length;
+    var timer = el(&quot;div&quot;, &quot;gs-timer&quot;);
+    timer.id = &quot;gs-timer&quot;;
+    top.appendChild(prog); top.appendChild(timer);
+    wrap.appendChild(top);
+
+    var list = el(&quot;ul&quot;, &quot;gs-targets&quot;);
+    var liByCode = {};
+    codes.forEach(function (code, i) {
+      var li = el(&quot;li&quot;);
+      var lbl = config.showLabels &amp;&amp; config.targets[i].label
+        ? &quot; &lt;span class=&#x27;lbl&#x27;&gt;(&quot; + config.targets[i].label + &quot;)&lt;/span&gt;&quot; : &quot;&quot;;
+      li.innerHTML = spaced(code) + lbl;
+      list.appendChild(li);
+      liByCode[code] = li;
+    });
+    wrap.appendChild(list);
+
+    var tbl = document.createElement(&quot;table&quot;);
+    tbl.className = &quot;gs-grid&quot;;
+    for (var r = 0; r &lt; n; r++) {
+      var tr = tbl.insertRow(-1);
+      for (var c = 0; c &lt; n; c++) {
+        var td = tr.insertCell(-1);
+        td.textContent = grid[r][c];
+        td.setAttribute(&quot;data-r&quot;, r);
+        td.setAttribute(&quot;data-c&quot;, c);
+      }
+    }
+    wrap.appendChild(tbl);
+
+    var cur = el(&quot;div&quot;, &quot;gs-cur&quot;); cur.id = &quot;gs-cur&quot;;
+    wrap.appendChild(cur);
+    var msg = el(&quot;div&quot;, &quot;gs-msg&quot;); msg.id = &quot;gs-msg&quot;;
+    wrap.appendChild(msg);
+
+    mount.appendChild(wrap);
+
+    /* ---- selection ----
+       Supports BOTH click-and-drag AND click-first-cell / click-last-cell
+       (two-click). The two-click mode is touchpad- and touch-friendly; the drag
+       mode is natural with a mouse. Hit-detection uses explicit cell
+       coordinates, never CSS-class scanning. */
+    var anchor = null;     // first cell of the in-progress selection
+    var armed = false;     // anchor was set by a click; awaiting the second click
+    var mouseDown = false;
+    var didDrag = false;
+    var lastCell = null;   // most recent cell under the pointer
+    var curPath = [];
+
+    function cellEl(r, c) { return tbl.rows[r].cells[c]; }
+    function key(p) { return p.r + &quot;,&quot; + p.c; }
+    function same(a, b) { return a &amp;&amp; b &amp;&amp; a.r === b.r &amp;&amp; a.c === b.c; }
+
+    function clearSelecting() {
+      for (var i = 0; i &lt; curPath.length; i++) {
+        var p = curPath[i];
+        if (!foundCells[key(p)]) cellEl(p.r, p.c).classList.remove(&quot;gs-selecting&quot;);
+      }
+      curPath = [];
+    }
+    function renderPath(cells) {
+      clearSelecting();
+      if (!cells || !cells.length) { cur.textContent = &quot;&quot;; return; }
+      for (var i = 0; i &lt; cells.length; i++) {
+        var p = cells[i];
+        if (!foundCells[key(p)]) cellEl(p.r, p.c).classList.add(&quot;gs-selecting&quot;);
+      }
+      curPath = cells;
+      cur.textContent = spaced(readPath(grid, cells));
+    }
+
+    function cellFromEvent(ev) {
+      var t = ev.target;
+      var td = t &amp;&amp; t.closest ? t.closest(&quot;td&quot;) : t;
+      if (!td || !tbl.contains(td)) return null;   // tbody-safe membership test
+      return { r: +td.getAttribute(&quot;data-r&quot;), c: +td.getAttribute(&quot;data-c&quot;) };
+    }
+    function reset() { anchor = null; armed = false; didDrag = false; clearSelecting(); cur.textContent = &quot;&quot;; }
+    function commit(endCell) {
+      var p = pathCells(anchor, endCell);
+      if (p) { renderPath(p); finalizeSelection(); }
+      reset();
+    }
+
+    function onDown(ev) {
+      if (finished) return;
+      var cell = cellFromEvent(ev); if (!cell) return;
+      if (ev.preventDefault) ev.preventDefault();
+      mouseDown = true;
+      if (!anchor) { anchor = cell; lastCell = cell; didDrag = false; renderPath([cell]); }
+      else { lastCell = cell; didDrag = false; }   // press for the second click
+    }
+    function onMove(ev) {
+      if (finished || !anchor) return;
+      var cell = cellFromEvent(ev); if (!cell) return;
+      lastCell = cell;
+      if (mouseDown) {                       // dragging
+        if (!same(cell, anchor)) didDrag = true;
+        var p = pathCells(anchor, cell); if (p) renderPath(p);
+      } else if (armed) {                    // two-click: preview line to hovered cell
+        var p2 = pathCells(anchor, cell); if (p2) renderPath(p2);
+      }
+    }
+    function onUp(ev) {
+      if (finished || !mouseDown) return;
+      mouseDown = false;
+      if (!anchor) return;
+      var cell = (ev &amp;&amp; cellFromEvent(ev)) || lastCell;
+      if (didDrag) { commit(cell || lastCell); }   // drag selection
+      else if (!armed) { armed = true; }           // first click: arm, keep anchor lit
+      else if (same(cell, anchor)) { reset(); }    // click anchor again: cancel
+      else { commit(cell); }                       // second click elsewhere: select line
+    }
+
+    function finalizeSelection() {
+      if (curPath.length &gt;= 2) {
+        var str = readPath(grid, curPath);
+        var hit = matchTarget(str, remaining);
+        if (hit) {
+          foundByCode[hit] = true;
+          remaining.splice(remaining.indexOf(hit), 1);
+          score++;
+          for (var i = 0; i &lt; curPath.length; i++) {
+            var p = curPath[i];
+            foundCells[key(p)] = true;
+            var c = cellEl(p.r, p.c);
+            c.classList.remove(&quot;gs-selecting&quot;);
+            c.classList.add(&quot;gs-found&quot;);
+          }
+          if (liByCode[hit]) liByCode[hit].classList.add(&quot;done&quot;);
+          document.getElementById(&quot;gs-score&quot;).textContent = score;
+          flash(msg, &quot;Found &quot; + spaced(hit) + &quot;  (&quot; + score + &quot; of &quot; + codes.length + &quot;)&quot;);
+          if (score &gt;= codes.length) return finish(true);
+        }
+      }
+      clearSelecting();
+      cur.textContent = &quot;&quot;;
+    }
+
+    // Mouse: down on grid, move over cells (for drag + two-click preview), up on document.
+    tbl.addEventListener(&quot;mousedown&quot;, onDown);
+    tbl.addEventListener(&quot;mouseover&quot;, onMove);
+    document.addEventListener(&quot;mouseup&quot;, onUp);
+    // Touch / pen via pointer events (tap-first / tap-last, or drag).
+    tbl.addEventListener(&quot;pointerdown&quot;, function (e) { if (e.pointerType !== &quot;mouse&quot;) onDown(e); });
+    document.addEventListener(&quot;pointermove&quot;, function (e) {
+      if (e.pointerType === &quot;mouse&quot; || !mouseDown) return;
+      var t = document.elementFromPoint(e.clientX, e.clientY);
+      onMove({ target: t });
+    });
+    document.addEventListener(&quot;pointerup&quot;, function (e) { if (e.pointerType !== &quot;mouse&quot;) onUp(e); });
+
+    /* ---- timer ---- */
+    function fmt(ms) { return Math.max(0, Math.ceil(ms / 1000)); }
+    function tick() {
+      var rem = deadline - now();
+      var secs = fmt(rem);
+      timer.textContent = secs + &quot;s&quot;;
+      if (secs &lt;= 5) timer.classList.add(&quot;low&quot;); else timer.classList.remove(&quot;low&quot;);
+      if (rem &lt;= 0) finish(false);
+    }
+    tick();
+    timerId = setInterval(tick, 200);
+
+    /* ---- finish + record ---- */
+    function writeResults() {
+      if (resultsWritten) return;
+      resultsWritten = true;
+      var elapsed = Math.min(config.timeLimitSec, (now() - startT) / 1000);
+      q.setJSEmbeddedData(config.fields.score, score);
+      q.setJSEmbeddedData(config.fields.time, elapsed.toFixed(2));
+      if (config.fields.found) {
+        q.setJSEmbeddedData(config.fields.found, Object.keys(foundByCode).join(&quot;|&quot;));
+      }
+    }
+
+    function finish(allFound) {
+      if (finished) return;
+      finished = true;
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      timer.textContent = &quot;0s&quot;; timer.classList.remove(&quot;low&quot;);
+      clearSelecting();
+      writeResults();
+      msg.innerHTML = allFound
+        ? &quot;&lt;strong&gt;You found all &quot; + codes.length + &quot;!&lt;/strong&gt; Click &lt;em&gt;Next&lt;/em&gt; to continue.&quot;
+        : &quot;Time is up. You found &lt;strong&gt;&quot; + score + &quot; of &quot; + codes.length +
+          &quot;&lt;/strong&gt;. Click &lt;em&gt;Next&lt;/em&gt; to continue.&quot;;
+      showNext();
+    }
+
+    // Record again at page submit as a backstop (handoff: write at submit, not load).
+    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+
+    /* ---- Next/Prev button handling ---- */
+    function hideNav() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (q.hidePreviousButton) q.hidePreviousButton();
+      if (window.jQuery) { jQuery(&quot;#NextButton&quot;).hide(); jQuery(&quot;#PreviousButton&quot;).hide(); }
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery(&quot;#NextButton&quot;).show();
+    }
+    hideNav();
+  }
+
+  /* ----------------------------------------------------------- helpers ---- */
+  function el(tag, cls) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    return e;
+  }
+  function spaced(s) { return String(s).split(&quot;&quot;).join(&quot; &quot;); } // thin-space between chars
+  function flash(node, text) { node.textContent = text; }
+
+  return {
+    makeRng: makeRng,
+    generateGrid: generateGrid,
+    pathCells: pathCells,
+    readPath: readPath,
+    matchTarget: matchTarget,
+    digitFill: digitFill,
+    letterFill: letterFill,
+    run: run
+  };
+});
+
+/* ZIP-code search — Qualtrics Question JAVASCRIPT.
+ * SOURCE form (depends on GridSearch from lib/grid_search.js). The dist build
+ * inlines the engine so the pasted question is self-contained.
+ *
+ * Make THREE copies of this question (attempts 1, 2, 3). The ONLY line that
+ * differs across the three copies is `var ATTEMPT = ...;`. Everything else —
+ * including the recorded field names — is derived from it, so there is no
+ * read-modify-write of embedded data and nothing can stick at a stale value. */
+(function () {
+  var ATTEMPT = 1; // &lt;-- set to 1, 2, or 3 per copy. Nothing else changes.
+
+  // Five fixed cities, reused every attempt (learning across attempts is wanted).
+  // New York (10001, many 0s/1s) is placed 3rd so it is not the first sticking
+  // point that kills persistence.
+  var TARGETS = [
+    { code: &quot;90210&quot;, label: &quot;Beverly Hills, CA&quot; },
+    { code: &quot;60601&quot;, label: &quot;Chicago, IL&quot; },
+    { code: &quot;10001&quot;, label: &quot;New York, NY&quot; },
+    { code: &quot;20001&quot;, label: &quot;Washington, DC&quot; },
+    { code: &quot;94102&quot;, label: &quot;San Francisco, CA&quot; }
+  ];
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    GridSearch.run(this, this.getQuestionContainer(), {
+      taskId: &quot;zip&quot;,
+      attempt: ATTEMPT,
+      fill: &quot;digits&quot;,
+      gridSize: 7,
+      timeLimitSec: 45,
+      showLabels: true,
+      targets: TARGETS,
+      fields: {
+        score: &quot;zip_a&quot; + ATTEMPT + &quot;_score&quot;,
+        time: &quot;zip_a&quot; + ATTEMPT + &quot;_time&quot;,
+        found: &quot;zip_a&quot; + ATTEMPT + &quot;_found&quot;
+      }
+    });
+  });
+})();</code></pre></div></details>
+<div class="hint">Make 3 copies of this question. The <b>only</b> difference between them is the line <code>var ATTEMPT = 1;</code> → <code>2</code> → <code>3</code>. Every field name derives from it, so nothing else changes.</div></div>
+</div>
+</section>
+<section class="block" id="blk-task_rotation">
+<div class="internal"><div class="ihead"><span class="inum">Block 5</span><span class="iname">task_rotation</span><span class="opt">PERFORMANCE MODULE</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>task_rotation</code> holding 2 questions, in the order below.</div><div class="inote">Second timed task, three attempts. Scored as net correct (correct − incorrect) so guessing is not rewarded. For the reported ability measure use the AVERAGE of the three attempts, not the max — the max is upward-biased for high-variance responders. Best-of-three is for the bonus only.</div></div>
+<div class="q">
+<div class="screennum">Screen 9 of 20</div>
+<div class="screen"><div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;font-size:15px;line-height:1.5;color:#222;">
+  <h3 style="margin:0 0 10px;">Task: Mental rotation</h3>
+  <p>You will see two shapes side by side. Decide whether the shape on the right is the
+  <strong>same</strong> shape as the one on the left, just turned (rotated), or whether it is the
+  shape's <strong>mirror image</strong>. Click <strong>Same</strong> or <strong>Mirror image</strong>;
+  a new pair appears right away.</p>
+
+  <p style="margin-top:16px;"><strong>Example 1 — Same shape, rotated.</strong> The right shape is the
+  left shape turned a quarter-turn. The correct answer is <strong>Same</strong>:</p>
+  <div style="display:flex;gap:24px;align-items:center;justify-content:center;margin:8px 0;">
+    <!-- reference: X. / X. / XX -->
+    <svg width="56" height="80" viewBox="-4 -4 56 80"><rect x="0" y="0" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="0" y="24" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="0" y="48" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="24" y="48" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/></svg>
+    <span style="color:#888;">vs</span>
+    <!-- same, rotated 90deg: XXX / X.. -->
+    <svg width="80" height="56" viewBox="-4 -4 80 56"><rect x="0" y="0" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="24" y="0" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="48" y="0" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="0" y="24" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/></svg>
+  </div>
+
+  <p style="margin-top:16px;"><strong>Example 2 — Mirror image.</strong> The right shape cannot be made
+  by turning the left shape; it is flipped. The correct answer is <strong>Mirror image</strong>:</p>
+  <div style="display:flex;gap:24px;align-items:center;justify-content:center;margin:8px 0;">
+    <!-- reference: X. / X. / XX -->
+    <svg width="56" height="80" viewBox="-4 -4 56 80"><rect x="0" y="0" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="0" y="24" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="0" y="48" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="24" y="48" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/></svg>
+    <span style="color:#888;">vs</span>
+    <!-- mirror: .X / .X / XX -->
+    <svg width="56" height="80" viewBox="-4 -4 56 80"><rect x="24" y="0" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="24" y="24" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="0" y="48" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/><rect x="24" y="48" width="24" height="24" fill="#3b6fb0" stroke="#1c3c63" stroke-width="2"/></svg>
+  </div>
+
+  <p style="margin-top:18px;"><strong>Each correct answer earns a point and each wrong answer loses a
+  point</strong>, so answering at random will not help: answer carefully rather than guessing.</p>
+  <p>You will do this task <strong>three times</strong>, each for a short fixed time. On each task, the
+  <strong>top 10% of participants earn a $2 bonus</strong>, based on your best of the three rounds.</p>
+  <p>Click <strong>Next</strong> when you are ready to begin.</p>
+</div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">rot_instructions</span><span class="qtype">Descriptive Text (DB)</span></div>
+<div class="qnote">Mental rotation INSTRUCTIONS (shown once before the first attempt). Static worked examples.</div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">3.5 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;div style=&quot;font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;font-size:15px;line-height:1.5;color:#222;&quot;&gt;
+  &lt;h3 style=&quot;margin:0 0 10px;&quot;&gt;Task: Mental rotation&lt;/h3&gt;
+  &lt;p&gt;You will see two shapes side by side. Decide whether the shape on the right is the
+  &lt;strong&gt;same&lt;/strong&gt; shape as the one on the left, just turned (rotated), or whether it is the
+  shape&#x27;s &lt;strong&gt;mirror image&lt;/strong&gt;. Click &lt;strong&gt;Same&lt;/strong&gt; or &lt;strong&gt;Mirror image&lt;/strong&gt;;
+  a new pair appears right away.&lt;/p&gt;
+
+  &lt;p style=&quot;margin-top:16px;&quot;&gt;&lt;strong&gt;Example 1 — Same shape, rotated.&lt;/strong&gt; The right shape is the
+  left shape turned a quarter-turn. The correct answer is &lt;strong&gt;Same&lt;/strong&gt;:&lt;/p&gt;
+  &lt;div style=&quot;display:flex;gap:24px;align-items:center;justify-content:center;margin:8px 0;&quot;&gt;
+    &lt;!-- reference: X. / X. / XX --&gt;
+    &lt;svg width=&quot;56&quot; height=&quot;80&quot; viewBox=&quot;-4 -4 56 80&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;0&quot; y=&quot;24&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;0&quot; y=&quot;48&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;24&quot; y=&quot;48&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;/svg&gt;
+    &lt;span style=&quot;color:#888;&quot;&gt;vs&lt;/span&gt;
+    &lt;!-- same, rotated 90deg: XXX / X.. --&gt;
+    &lt;svg width=&quot;80&quot; height=&quot;56&quot; viewBox=&quot;-4 -4 80 56&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;24&quot; y=&quot;0&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;48&quot; y=&quot;0&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;0&quot; y=&quot;24&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;/svg&gt;
+  &lt;/div&gt;
+
+  &lt;p style=&quot;margin-top:16px;&quot;&gt;&lt;strong&gt;Example 2 — Mirror image.&lt;/strong&gt; The right shape cannot be made
+  by turning the left shape; it is flipped. The correct answer is &lt;strong&gt;Mirror image&lt;/strong&gt;:&lt;/p&gt;
+  &lt;div style=&quot;display:flex;gap:24px;align-items:center;justify-content:center;margin:8px 0;&quot;&gt;
+    &lt;!-- reference: X. / X. / XX --&gt;
+    &lt;svg width=&quot;56&quot; height=&quot;80&quot; viewBox=&quot;-4 -4 56 80&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;0&quot; y=&quot;24&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;0&quot; y=&quot;48&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;24&quot; y=&quot;48&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;/svg&gt;
+    &lt;span style=&quot;color:#888;&quot;&gt;vs&lt;/span&gt;
+    &lt;!-- mirror: .X / .X / XX --&gt;
+    &lt;svg width=&quot;56&quot; height=&quot;80&quot; viewBox=&quot;-4 -4 56 80&quot;&gt;&lt;rect x=&quot;24&quot; y=&quot;0&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;24&quot; y=&quot;24&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;0&quot; y=&quot;48&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;rect x=&quot;24&quot; y=&quot;48&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;#3b6fb0&quot; stroke=&quot;#1c3c63&quot; stroke-width=&quot;2&quot;/&gt;&lt;/svg&gt;
+  &lt;/div&gt;
+
+  &lt;p style=&quot;margin-top:18px;&quot;&gt;&lt;strong&gt;Each correct answer earns a point and each wrong answer loses a
+  point&lt;/strong&gt;, so answering at random will not help: answer carefully rather than guessing.&lt;/p&gt;
+  &lt;p&gt;You will do this task &lt;strong&gt;three times&lt;/strong&gt;, each for a short fixed time. On each task, the
+  &lt;strong&gt;top 10% of participants earn a $2 bonus&lt;/strong&gt;, based on your best of the three rounds.&lt;/p&gt;
+  &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt; when you are ready to begin.&lt;/p&gt;
+&lt;/div&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screens 10–12 of 20 <span class="reps">(the same screen 3 times — one per attempt, a new puzzle each time)</span></div>
+<div class="previewnote">The puzzle below is an example. The live task generates a fresh one for every attempt.</div>
+<div class="screen"><p style="font-size:15px;">Two shapes appear side by side. Decide whether the right shape is the
+<strong>same</strong> shape rotated, or its <strong>mirror image</strong>. Click your answer; a new pair
+appears right away.</p>
+<p style="font-size:15px;">Each correct answer is worth a point and <strong>each wrong answer subtracts a point</strong>, so
+answering at random will not help your score: answer carefully rather than guessing.</p>
+
+<div id="rot-mount"></div>
+<div class="rot-wrap"><div class="gs-top"><div class='gs-progress'>Item <strong><span>1</span></strong></div><div class="gs-timer">45s</div></div><div class="rot-stims"><svg width='150' height='66' viewBox='-4 -4 150 66'><g fill='#3b6fb0' stroke='#1c3c63' stroke-width='1.5'><rect x='0' y='0' width='18' height='18'/><rect x='0' y='18' width='18' height='18'/><rect x='0' y='36' width='18' height='18'/><rect x='18' y='36' width='18' height='18'/><rect x='86' y='0' width='18' height='18'/><rect x='104' y='0' width='18' height='18'/><rect x='122' y='0' width='18' height='18'/><rect x='86' y='18' width='18' height='18'/></g><text x='52' y='32' font-size='14' fill='#888'>vs</text></svg><div class='cap'>same shape, or mirror image?</div></div><div class="rot-btns"><span class="rot-btn">Same shape, rotated</span><span class="rot-btn">Mirror image</span></div></div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">rot_a1</span><span class="qtype">Descriptive Text (DB) + question JS</span><span class="flag">×3 copies</span></div>
+<div class="qnote">Mental rotation — Qualtrics Question TEXT (HTML view). One copy per attempt.<br><b>Records:</b> <code>rot_a1_score (net)</code>, <code>rot_a1_correct</code>, <code>rot_a1_incorrect</code>, <code>rot_a1_attempted</code>, <code>rot_a1_time</code>, <code>… and rot_a2_*, rot_a3_* from copies 2 and 3</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">467 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p style=&quot;font-size:15px;&quot;&gt;Two shapes appear side by side. Decide whether the right shape is the
+&lt;strong&gt;same&lt;/strong&gt; shape rotated, or its &lt;strong&gt;mirror image&lt;/strong&gt;. Click your answer; a new pair
+appears right away.&lt;/p&gt;
+&lt;p style=&quot;font-size:15px;&quot;&gt;Each correct answer is worth a point and &lt;strong&gt;each wrong answer subtracts a point&lt;/strong&gt;, so
+answering at random will not help your score: answer carefully rather than guessing.&lt;/p&gt;
+
+&lt;div id=&quot;rot-mount&quot;&gt;&lt;/div&gt;</code></pre></div></details>
+<details class="code"><summary><span class="chev">▸</span>JavaScript to paste into the question's JS editor  (dist/rotation_attempt1.js)<span class="bytes">11.9 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="javascript"><code>/* AUTO-GENERATED by build_dist.py — do not edit here. Edit the source
+ * (lib/*.js + tasks/*/*_question.js) and re-run build_dist.py. */
+
+/* ============================================================================
+ * rotation.js — mental-rotation task (same-vs-mirror judgement).
+ * ----------------------------------------------------------------------------
+ * Each trial shows two shapes side by side. The right shape is the left shape
+ * either ROTATED (a &quot;same&quot; trial) or MIRRORED and rotated (a &quot;mirror&quot; trial).
+ * The participant clicks &quot;Same&quot; or &quot;Mirror.&quot; As many as possible in a fixed
+ * time; score = number correct (we also record attempts).
+ *
+ * Stimuli are random polyominoes generated on the fly (license-clean, no
+ * external assets, fully self-contained). Reference shapes are constrained to
+ * be CHIRAL — i.e. their mirror image is not equal to any of their own
+ * rotations — so &quot;same&quot; vs &quot;mirror&quot; is always unambiguous. &quot;Same&quot; trials use a
+ * non-zero rotation, so a genuine mental rotation is required.
+ *
+ * Note: this is a 2-D polyomino implementation. If a stronger, more classic
+ * 3-D Shepard-Metzler male-advantage stimulus is preferred, that is a separate
+ * stimulus generator; the task scaffolding here (timer, scoring, fields) is
+ * reusable either way.
+ *
+ * Pure logic (normalize / rotate / mirror / chirality / makeTrial) takes an
+ * injectable RNG and touches no DOM; DOM wiring is in run().
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === &quot;object&quot; &amp;&amp; module.exports) module.exports = factory();
+  else root.Rotation = factory();
+})(typeof self !== &quot;undefined&quot; ? self : this, function () {
+  &quot;use strict&quot;;
+
+  /* ---------------------------------------------------------------- pure ---- */
+  function normalize(cells) {
+    var minR = Infinity, minC = Infinity;
+    cells.forEach(function (p) { if (p[0] &lt; minR) minR = p[0]; if (p[1] &lt; minC) minC = p[1]; });
+    return cells.map(function (p) { return [p[0] - minR, p[1] - minC]; })
+      .sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+  }
+  function key(cells) { return normalize(cells).map(function (p) { return p[0] + &quot;:&quot; + p[1]; }).join(&quot;,&quot;); }
+  // 90-degree rotation: (r,c) -&gt; (c, -r), then renormalize.
+  function rotate(cells) { return normalize(cells.map(function (p) { return [p[1], -p[0]]; })); }
+  // reflection across a vertical axis: (r,c) -&gt; (r, -c).
+  function mirror(cells) { return normalize(cells.map(function (p) { return [p[0], -p[1]]; })); }
+
+  function rotations(cells) {
+    var out = [cells], cur = cells;
+    for (var i = 0; i &lt; 3; i++) { cur = rotate(cur); out.push(cur); }
+    return out;
+  }
+  // chiral = mirror image is not congruent to any rotation of the shape.
+  function isChiral(cells) {
+    var rotKeys = {};
+    rotations(cells).forEach(function (r) { rotKeys[key(r)] = true; });
+    return !rotKeys[key(mirror(cells))];
+  }
+
+  // Random polyomino of `size` connected cells via random growth.
+  function genPolyomino(size, rng) {
+    rng = rng || Math.random;
+    var occ = { &quot;0:0&quot;: true }, cells = [[0, 0]];
+    var DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    var guard = 0;
+    while (cells.length &lt; size &amp;&amp; guard++ &lt; 5000) {
+      var base = cells[Math.floor(rng() * cells.length)];
+      var d = DIRS[Math.floor(rng() * 4)];
+      var nr = base[0] + d[0], nc = base[1] + d[1], k = nr + &quot;:&quot; + nc;
+      if (!occ[k]) { occ[k] = true; cells.push([nr, nc]); }
+    }
+    return normalize(cells);
+  }
+  function genChiral(size, rng) {
+    for (var i = 0; i &lt; 200; i++) {
+      var p = genPolyomino(size, rng);
+      if (isChiral(p)) return p;
+    }
+    return genPolyomino(size, rng); // fallback (rare)
+  }
+
+  // makeTrial -&gt; { reference, comparison, answer:&quot;same&quot;|&quot;mirror&quot; }
+  function makeTrial(size, rng, forceSame) {
+    rng = rng || Math.random;
+    var ref = genChiral(size, rng);
+    var same = (typeof forceSame === &quot;boolean&quot;) ? forceSame : rng() &lt; 0.5;
+    var base = same ? ref : mirror(ref);
+    // rotate by k*90; for &quot;same&quot; trials require a non-zero rotation.
+    var k = same ? 1 + Math.floor(rng() * 3) : Math.floor(rng() * 4);
+    var comp = base;
+    for (var i = 0; i &lt; k; i++) comp = rotate(comp);
+    return { reference: ref, comparison: comp, answer: same ? &quot;same&quot; : &quot;mirror&quot; };
+  }
+
+  /* ----------------------------------------------------------------- CSS ---- */
+  var CSS_ID = &quot;rot-style&quot;;
+  var CSS = [
+    &quot;.rot-wrap{font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;}&quot;,
+    &quot;.rot-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}&quot;,
+    &quot;.rot-timer{font-size:20px;font-weight:700;color:#b00;min-width:90px;text-align:right;}&quot;,
+    &quot;.rot-timer.low{color:#d00;animation:rotblink 1s steps(2,start) infinite;}&quot;,
+    &quot;@keyframes rotblink{50%{opacity:.35;}}&quot;,
+    &quot;.rot-progress{font-size:15px;color:#333;}&quot;,
+    &quot;.rot-stims{display:flex;gap:28px;justify-content:center;align-items:center;margin:10px 0 18px;}&quot;,
+    &quot;.rot-stims svg{background:#fff;border:1px solid #e2e2e2;border-radius:6px;}&quot;,
+    &quot;.rot-vs{font-size:15px;color:#888;}&quot;,
+    &quot;.rot-btns{display:flex;gap:16px;justify-content:center;}&quot;,
+    &quot;.rot-btns button{font-size:17px;padding:10px 26px;border-radius:6px;border:2px solid #1f6feb;&quot;,
+    &quot;background:#fff;color:#1f6feb;cursor:pointer;min-width:120px;}&quot;,
+    &quot;.rot-btns button:hover{background:#eef4ff;}&quot;,
+    &quot;.rot-msg{margin-top:14px;min-height:22px;font-size:15px;color:#444;text-align:center;}&quot;
+  ].join(&quot;\n&quot;);
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement(&quot;style&quot;);
+    st.id = CSS_ID; st.type = &quot;text/css&quot;;
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  function svgFor(cells, px) {
+    var maxR = 0, maxC = 0;
+    cells.forEach(function (p) { if (p[0] &gt; maxR) maxR = p[0]; if (p[1] &gt; maxC) maxC = p[1]; });
+    var W = (maxC + 1) * px, H = (maxR + 1) * px, pad = 8;
+    var rects = cells.map(function (p) {
+      return &quot;&lt;rect x=&#x27;&quot; + (p[1] * px) + &quot;&#x27; y=&#x27;&quot; + (p[0] * px) + &quot;&#x27; width=&#x27;&quot; + px + &quot;&#x27; height=&#x27;&quot; + px +
+        &quot;&#x27; fill=&#x27;#3b6fb0&#x27; stroke=&#x27;#1c3c63&#x27; stroke-width=&#x27;2&#x27;/&gt;&quot;;
+    }).join(&quot;&quot;);
+    return &quot;&lt;svg width=&#x27;&quot; + (W + 2 * pad) + &quot;&#x27; height=&#x27;&quot; + (H + 2 * pad) +
+      &quot;&#x27; viewBox=&#x27;&quot; + (-pad) + &quot; &quot; + (-pad) + &quot; &quot; + (W + 2 * pad) + &quot; &quot; + (H + 2 * pad) + &quot;&#x27;&gt;&quot; + rects + &quot;&lt;/svg&gt;&quot;;
+  }
+
+  /* ------------------------------------------------------------- DOM run ---- */
+  // config: { taskId:&quot;rotation&quot;, attempt:1, timeLimitSec:45, shapeSize:6, cellPx:30,
+  //           fields:{ score:&quot;rot_a1_score&quot;, attempted:&quot;rot_a1_attempted&quot;, time:&quot;rot_a1_time&quot; } }
+  function run(q, container, config) {
+    ensureCss();
+    var now = (typeof performance !== &quot;undefined&quot; &amp;&amp; performance.now)
+      ? function () { return performance.now(); } : function () { return Date.now(); };
+    var rng = Math.random;
+    var size = config.shapeSize || 6, px = config.cellPx || 30;
+
+    var correct = 0, incorrect = 0, attempted = 0, finished = false, resultsWritten = false;
+    var startT = now(), deadline = startT + config.timeLimitSec * 1000, timerId = null;
+    var trial = null;
+
+    var mount = (container.querySelector &amp;&amp; container.querySelector(&quot;#rot-mount&quot;)) || container;
+    mount.innerHTML = &quot;&quot;;
+    var wrap = el(&quot;div&quot;, &quot;rot-wrap&quot;);
+
+    var top = el(&quot;div&quot;, &quot;rot-top&quot;);
+    var prog = el(&quot;div&quot;, &quot;rot-progress&quot;);
+    prog.innerHTML = &quot;Completed: &lt;strong&gt;&lt;span id=&#x27;rot-answered&#x27;&gt;0&lt;/span&gt;&lt;/strong&gt;&quot;;
+    var timer = el(&quot;div&quot;, &quot;rot-timer&quot;); timer.id = &quot;rot-timer&quot;;
+    top.appendChild(prog); top.appendChild(timer);
+    wrap.appendChild(top);
+
+    var stims = el(&quot;div&quot;, &quot;rot-stims&quot;); stims.id = &quot;rot-stims&quot;; wrap.appendChild(stims);
+
+    var btns = el(&quot;div&quot;, &quot;rot-btns&quot;);
+    var bSame = document.createElement(&quot;button&quot;); bSame.type = &quot;button&quot;; bSame.textContent = &quot;Same&quot;;
+    var bMir = document.createElement(&quot;button&quot;); bMir.type = &quot;button&quot;; bMir.textContent = &quot;Mirror image&quot;;
+    btns.appendChild(bSame); btns.appendChild(bMir);
+    wrap.appendChild(btns);
+
+    var msg = el(&quot;div&quot;, &quot;rot-msg&quot;); msg.id = &quot;rot-msg&quot;; wrap.appendChild(msg);
+    mount.appendChild(wrap);
+
+    function newTrial() {
+      trial = makeTrial(size, rng);
+      stims.innerHTML = svgFor(trial.reference, px) +
+        &quot;&lt;span class=&#x27;rot-vs&#x27;&gt;vs&lt;/span&gt;&quot; + svgFor(trial.comparison, px);
+    }
+    // No per-trial feedback and no error-contingent delay: guessing is handled
+    // purely by net scoring (correct - incorrect) at the end. This keeps the
+    // task a clean ability snapshot with one well-understood scoring rule.
+    function answer(ans) {
+      if (finished) return;
+      attempted++;
+      if (ans === trial.answer) correct++; else incorrect++;
+      document.getElementById(&quot;rot-answered&quot;).textContent = attempted;
+      newTrial();
+    }
+    bSame.addEventListener(&quot;click&quot;, function () { answer(&quot;same&quot;); });
+    bMir.addEventListener(&quot;click&quot;, function () { answer(&quot;mirror&quot;); });
+
+    function tick() {
+      var rem = deadline - now();
+      var secs = Math.max(0, Math.ceil(rem / 1000));
+      timer.textContent = secs + &quot;s&quot;;
+      if (secs &lt;= 5) timer.classList.add(&quot;low&quot;); else timer.classList.remove(&quot;low&quot;);
+      if (rem &lt;= 0) finish();
+    }
+    function writeResults() {
+      if (resultsWritten) return;
+      resultsWritten = true;
+      // Primary scored metric is NET correct (correct - incorrect): for a
+      // two-choice task this is the unbiased correction for guessing, so
+      // rapid random clicking yields ~0 in expectation. Components recorded too.
+      q.setJSEmbeddedData(config.fields.score, correct - incorrect);
+      if (config.fields.correct) q.setJSEmbeddedData(config.fields.correct, correct);
+      if (config.fields.incorrect) q.setJSEmbeddedData(config.fields.incorrect, incorrect);
+      q.setJSEmbeddedData(config.fields.attempted, attempted);
+      q.setJSEmbeddedData(config.fields.time, Number(config.timeLimitSec).toFixed(2));
+    }
+    function finish() {
+      if (finished) return;
+      finished = true;
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      timer.textContent = &quot;0s&quot;; timer.classList.remove(&quot;low&quot;);
+      bSame.disabled = true; bMir.disabled = true;
+      writeResults();
+      msg.innerHTML = &quot;Time is up. You answered &lt;strong&gt;&quot; + correct +
+        &quot;&lt;/strong&gt; correctly. Click &lt;em&gt;Next&lt;/em&gt; to continue.&quot;;
+      showNext();
+    }
+    if (q.addOnPageSubmit) q.addOnPageSubmit(writeResults);
+
+    function hideNav() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (q.hidePreviousButton) q.hidePreviousButton();
+      if (window.jQuery) { jQuery(&quot;#NextButton&quot;).hide(); jQuery(&quot;#PreviousButton&quot;).hide(); }
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery(&quot;#NextButton&quot;).show();
+    }
+
+    hideNav();
+    newTrial();
+    tick();
+    timerId = setInterval(tick, 200);
+  }
+
+  function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+
+  return {
+    normalize: normalize, key: key, rotate: rotate, mirror: mirror,
+    rotations: rotations, isChiral: isChiral, genPolyomino: genPolyomino,
+    genChiral: genChiral, makeTrial: makeTrial, run: run
+  };
+});
+
+/* Mental rotation — Qualtrics Question JAVASCRIPT (SOURCE; depends on Rotation).
+ * Same 3-attempt pattern: the ONLY line that changes across the three copies is
+ * `var ATTEMPT = ...;`. Short timer (~45s) keeps the whole study near 20 min. */
+(function () {
+  var ATTEMPT = 1; // &lt;-- set to 1, 2, or 3 per copy. Nothing else changes.
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    Rotation.run(this, this.getQuestionContainer(), {
+      taskId: &quot;rotation&quot;,
+      attempt: ATTEMPT,
+      timeLimitSec: 45,
+      shapeSize: 6,   // cells per polyomino
+      cellPx: 30,
+      fields: {
+        score: &quot;rot_a&quot; + ATTEMPT + &quot;_score&quot;,        // NET = correct - incorrect (scored metric)
+        correct: &quot;rot_a&quot; + ATTEMPT + &quot;_correct&quot;,
+        incorrect: &quot;rot_a&quot; + ATTEMPT + &quot;_incorrect&quot;,
+        attempted: &quot;rot_a&quot; + ATTEMPT + &quot;_attempted&quot;,
+        time: &quot;rot_a&quot; + ATTEMPT + &quot;_time&quot;
+      }
+    });
+  });
+})();</code></pre></div></details>
+<div class="hint">Make 3 copies of this question. The <b>only</b> difference between them is the line <code>var ATTEMPT = 1;</code> → <code>2</code> → <code>3</code>. Every field name derives from it, so nothing else changes.</div></div>
+</div>
+</section>
+<section class="block" id="blk-perception">
+<div class="internal"><div class="ihead"><span class="inum">Block 6</span><span class="iname">perception</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>perception</code> holding 1 question, in the order below.</div><div class="inote">THE PRIMARY MEASURE. One single Qualtrics question; the JS renders all 17 tasks with their two items each, on one page, with task order and item order randomized per respondent. Kept as one custom-JS question rather than Loop &amp; Merge because the task icons are inline SVG generated in lib/task_icons.js — they cannot travel inside a QSF as image-library URLs, and Loop &amp; Merge would cost 17 page loads instead of 1.</div></div>
+<div class="q">
+<div class="screennum">Screen 13 of 20 <span class="reps">(the 17 tasks appear in a random order, and so do the two questions within each task — redrawn for every participant)</span></div>
+<div class="screen"><p style="font-size:15px;">For each task below, please answer two quick questions about people in general.
+There are no right or wrong answers; we are only interested in your impressions.</p>
+
+<div id="perc-mount"></div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">1 of 17</span><div><div class="perc-name">Word search</div><div class="perc-desc">Finding hidden words in a grid of letters as quickly as possible.</div></div></div>
+<div class="perc-img"><table><tr><td>K</td><td>B</td><td>T</td><td>M</td><td>A</td><td>P</td></tr><tr><td>L</td><td>N</td><td>D</td><td>S</td><td>E</td><td>O</td></tr><tr><td class='hl'>R</td><td class='hl'>I</td><td class='hl'>V</td><td class='hl'>E</td><td class='hl'>R</td><td>G</td></tr><tr><td>A</td><td>C</td><td>F</td><td>H</td><td>J</td><td>Q</td></tr><tr><td>W</td><td>X</td><td>Z</td><td>Y</td><td>U</td><td>I</td></tr><tr><td>P</td><td>L</td><td>O</td><td>N</td><td>T</td><td>S</td></tr></table><div class='cap'>find: RIVER</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">2 of 17</span><div><div class="perc-name">Number-string search</div><div class="perc-desc">Finding a specific string of digits (like a ZIP code) hidden in a grid of digits, as quickly as possible.</div></div></div>
+<div class="perc-img"><table><tr><td class='hl'>9</td><td>3</td><td>7</td><td>1</td><td>4</td><td>8</td></tr><tr><td>2</td><td class='hl'>0</td><td>5</td><td>6</td><td>0</td><td>3</td></tr><tr><td>4</td><td>8</td><td class='hl'>2</td><td>9</td><td>1</td><td>7</td></tr><tr><td>1</td><td>5</td><td>0</td><td class='hl'>1</td><td>7</td><td>6</td></tr><tr><td>7</td><td>2</td><td>6</td><td>4</td><td class='hl'>0</td><td>9</td></tr><tr><td>3</td><td>9</td><td>1</td><td>8</td><td>5</td><td>2</td></tr></table><div class='cap'>find: 90210</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">3 of 17</span><div><div class="perc-name">Number-grid counting</div><div class="perc-desc">Counting how many numbers in a grid meet a stated condition (for example, greater than 50) and typing the exact count, under time pressure.</div></div></div>
+<div class="perc-img"><table><tr><td class='n'>12</td><td class='n hl'>72</td><td class='n'>39</td><td class='n hl'>64</td><td class='n'>18</td></tr><tr><td class='n hl'>51</td><td class='n'>23</td><td class='n hl'>88</td><td class='n'>47</td><td class='n hl'>90</td></tr><tr><td class='n'>33</td><td class='n hl'>56</td><td class='n'>21</td><td class='n hl'>70</td><td class='n'>14</td></tr><tr><td class='n'>49</td><td class='n hl'>63</td><td class='n'>30</td><td class='n hl'>82</td><td class='n'>27</td></tr><tr><td class='n hl'>75</td><td class='n'>11</td><td class='n hl'>58</td><td class='n'>44</td><td class='n hl'>60</td></tr></table><div class='cap'>How many are greater than 50?</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">4 of 17</span><div><div class="perc-name">Mental rotation</div><div class="perc-desc">Deciding whether two three-dimensional shapes are the same object rotated, or mirror images.</div></div></div>
+<div class="perc-img"><svg width='150' height='66' viewBox='-4 -4 150 66'><g fill='#3b6fb0' stroke='#1c3c63' stroke-width='1.5'><rect x='0' y='0' width='18' height='18'/><rect x='0' y='18' width='18' height='18'/><rect x='0' y='36' width='18' height='18'/><rect x='18' y='36' width='18' height='18'/><rect x='86' y='0' width='18' height='18'/><rect x='104' y='0' width='18' height='18'/><rect x='122' y='0' width='18' height='18'/><rect x='86' y='18' width='18' height='18'/></g><text x='52' y='32' font-size='14' fill='#888'>vs</text></svg><div class='cap'>same shape, or mirror image?</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">5 of 17</span><div><div class="perc-name">Spelling test</div><div class="perc-desc">Spelling difficult words correctly.</div></div></div>
+<div class="perc-img"><div class='word'>Spell aloud:<br><b>&ldquo;rhythm&rdquo;</b> <span style='color:#147a2b'>&#10003;</span></div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">6 of 17</span><div><div class="perc-name">Proofreading</div><div class="perc-desc">Spotting spelling and grammar errors in a passage of text.</div></div></div>
+<div class="perc-img"><div class='txt'>Find the error:<br>&ldquo;The quick brown fox <span style='color:#c00'>jamps</span> over the lazy dog.&rdquo;</div><div class='cap'>jamps &rarr; jumps</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">7 of 17</span><div><div class="perc-name">Digit-symbol coding</div><div class="perc-desc">Matching symbols to digits using a key, as quickly as possible.</div></div></div>
+<div class="perc-img"><div class='cap' style='margin-bottom:4px'>Key</div><table><tr><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><td>&#9675;</td><td>&#9651;</td><td>&#9633;</td><td>&#10005;</td></tr></table><div class='cap' style='margin:8px 0 4px'>Fill each box using the key:</div><table><tr><td>&#9651;</td><td>&#10005;</td><td>&#9675;</td><td>&#9633;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">8 of 17</span><div><div class="perc-name">Anagrams</div><div class="perc-desc">Rearranging scrambled letters to form real words.</div></div></div>
+<div class="perc-img"><div class='word'>Unscramble:<br><b>P A E L P</b></div><div class='cap'>P A E L P &rarr; APPLE</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">9 of 17</span><div><div class="perc-name">Color-word task</div><div class="perc-desc">Naming the ink color a word is printed in while ignoring what the word says.</div></div></div>
+<div class="perc-img"><div class='word' style='font-size:22px;font-weight:700'><span style='color:#1f6feb'>RED</span>&nbsp;&nbsp;<span style='color:#147a2b'>BLUE</span></div><div class='cap'>Name the ink color (not the word)</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">10 of 17</span><div><div class="perc-name">Mental arithmetic</div><div class="perc-desc">Adding pairs of two-digit numbers quickly and accurately.</div></div></div>
+<div class="perc-img"><div class='word' style='font-size:22px'>47 + 38 = ?</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">11 of 17</span><div><div class="perc-name">Pattern matrices</div><div class="perc-desc">Solving abstract visual pattern puzzles by choosing the piece that completes the pattern.</div></div></div>
+<div class="perc-img"><svg width='150' height='150' viewBox='0 0 114 114'><rect x='0.5' y='0.5' width='113' height='113' fill='#fff' stroke='#bbb'/><g stroke='#ddd'><line x1='38' y1='0' x2='38' y2='114'/><line x1='76' y1='0' x2='76' y2='114'/><line x1='0' y1='38' x2='114' y2='38'/><line x1='0' y1='76' x2='114' y2='76'/></g><g fill='#3b6fb0'><circle cx='19' cy='19' r='3.5'/><circle cx='49' cy='19' r='3.5'/><circle cx='65' cy='19' r='3.5'/><circle cx='95' cy='10' r='3.5'/><circle cx='87' cy='27' r='3.5'/><circle cx='103' cy='27' r='3.5'/><circle cx='11' cy='57' r='3.5'/><circle cx='27' cy='57' r='3.5'/><circle cx='57' cy='48' r='3.5'/><circle cx='49' cy='65' r='3.5'/><circle cx='65' cy='65' r='3.5'/><circle cx='87' cy='49' r='3.5'/><circle cx='103' cy='49' r='3.5'/><circle cx='87' cy='65' r='3.5'/><circle cx='103' cy='65' r='3.5'/><circle cx='19' cy='86' r='3.5'/><circle cx='11' cy='103' r='3.5'/><circle cx='27' cy='103' r='3.5'/><circle cx='49' cy='87' r='3.5'/><circle cx='65' cy='87' r='3.5'/><circle cx='49' cy='103' r='3.5'/><circle cx='65' cy='103' r='3.5'/></g><text x='86' y='104' font-size='26' fill='#999'>?</text></svg><div class='cap'>which piece completes the pattern?</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">12 of 17</span><div><div class="perc-name">Word generation</div><div class="perc-desc">Naming as many words as possible that begin with a given letter, as quickly as possible.</div></div></div>
+<div class="perc-img"><div class='word'>Words starting with <b>F</b>:</div><div class='txt' style='text-align:center'>fish, family, forest, funny&hellip;</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">13 of 17</span><div><div class="perc-name">Finger tapping</div><div class="perc-desc">Tapping a key as many times as possible in a short period.</div></div></div>
+<div class="perc-img"><svg width='80' height='80' viewBox='0 0 80 80'><circle cx='40' cy='40' r='24' fill='#eef4ff' stroke='#1f6feb' stroke-width='3'/><text x='40' y='45' text-anchor='middle' font-size='13' font-weight='700' fill='#1f6feb'>TAP</text></svg><div class='cap'>tap as fast as you can</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">14 of 17</span><div><div class="perc-name">Emotion recognition</div><div class="perc-desc">Identifying the emotion someone is feeling from their facial expression.</div></div></div>
+<div class="perc-img"><svg width='124' height='58' viewBox='0 0 124 58'><g fill='none' stroke='#333' stroke-width='2'><circle cx='22' cy='26' r='18'/><circle cx='92' cy='26' r='18'/></g><g fill='#333'><circle cx='16' cy='21' r='2'/><circle cx='28' cy='21' r='2'/><circle cx='86' cy='21' r='2'/><circle cx='98' cy='21' r='2'/></g><path d='M13 31 Q22 39 31 31' fill='none' stroke='#333' stroke-width='2'/><path d='M83 35 Q92 29 101 35' fill='none' stroke='#333' stroke-width='2'/><text x='57' y='32' font-size='20' fill='#999'>?</text></svg><div class='cap'>which emotion?</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">15 of 17</span><div><div class="perc-name">Reaction time</div><div class="perc-desc">Pressing a button as quickly as possible the moment a signal appears.</div></div></div>
+<div class="perc-img"><svg width='54' height='96' viewBox='0 0 54 96'><rect x='11' y='4' width='32' height='88' rx='8' fill='#2b2b2b'/><circle cx='27' cy='26' r='11' fill='#7a2620'/><circle cx='27' cy='66' r='11' fill='#27ae60'/></svg><div class='cap'>press the moment it turns green</div></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">16 of 17</span><div><div class="perc-name">Applying makeup</div><div class="perc-desc">Applying makeup neatly and skillfully.</div></div></div>
+<div class="perc-img"><svg width='52' height='52' viewBox='0 0 24 24'><path fill='#c24a63' d='M9 23c-.55 0-1-.45-1-1v-9c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1zm1-12c-.55 0-1-.45-1-1V5.25S11 3 11.75 1c1.08.67 2.17 1.33 2.71 2.83S15 7.67 15 10c0 .55-.45 1-1 1z'/></svg></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div>
+<div class="perc-task">
+<div class="perc-head"><span class="perc-n">17 of 17</span><div><div class="perc-name">Lifting heavy objects</div><div class="perc-desc">Lifting and carrying heavy objects.</div></div></div>
+<div class="perc-img"><svg width='60' height='60' viewBox='0 0 24 24'><path fill='#454552' d='M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43l-1.43-1.43L22 16.29z'/></svg></div>
+<div class="perc-item"><div class="perc-q">Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?</div>
+<div class="te"><span class="tebox sm"></span><span class="teunit">of 100 are men</span></div></div>
+<div class="perc-item"><div class="perc-q">On average, who do you think performs better on this task?</div>
+<div class="likert">
+<div class="lk"><div class="lkv">1</div><span class="dot"></span><div class="lka">women perform much better</div></div>
+<div class="lk"><div class="lkv">2</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">3</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">4</div><span class="dot"></span><div class="lka">men and women perform equally well</div></div>
+<div class="lk"><div class="lkv">5</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">6</div><span class="dot"></span><div class="lka"></div></div>
+<div class="lk"><div class="lkv">7</div><span class="dot"></span><div class="lka">men perform much better</div></div>
+</div></div>
+</div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">perception</span><span class="qtype">Descriptive Text (DB) + question JS</span></div>
+<div class="qnote">Perception module — Qualtrics Question TEXT (HTML view). One question; the engine renders every task with its two items, in randomized order.<br><b>Records:</b> <code>perc_&lt;task_id&gt;_top10 and perc_&lt;task_id&gt;_perf for each of the 17 tasks — 34 fields</code>, <code>perc_task_order</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">220 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p style=&quot;font-size:15px;&quot;&gt;For each task below, please answer two quick questions about people in general.
+There are no right or wrong answers; we are only interested in your impressions.&lt;/p&gt;
+
+&lt;div id=&quot;perc-mount&quot;&gt;&lt;/div&gt;</code></pre></div></details>
+<details class="code"><summary><span class="chev">▸</span>JavaScript to paste into the question's JS editor  (dist/perception.js)<span class="bytes">22.3 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="javascript"><code>/* AUTO-GENERATED by build_dist.py — do not edit here. Edit the source
+ * (lib/*.js + tasks/*/*_question.js) and re-run build_dist.py. */
+
+/* ============================================================================
+ * task_icons.js — task illustrations for the perception module (one per task).
+ * Person-free (depict the task artifact, never a person), inline HTML/SVG
+ * (self-contained, no external hosting). Sized to be detailed enough that a
+ * respondent can imagine actually doing the task. Styling comes from the
+ * perception engine&#x27;s CSS under .perc-img.
+ *
+ * Dumbbell/lipstick are Material Design Icons (Apache-2.0); see the synthetic
+ * study&#x27;s img/LICENSES.md. To change any image, edit its entry here.
+ * ==========================================================================*/
+(function (root) {
+  &quot;use strict&quot;;
+  var I = {};
+
+  // --- focal tasks: a mini version of the actual artifact ---
+
+  // 6x6 letter grid, the word RIVER highlighted across the third row.
+  I.word_search =
+    &quot;&lt;table&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;K&lt;/td&gt;&lt;td&gt;B&lt;/td&gt;&lt;td&gt;T&lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;A&lt;/td&gt;&lt;td&gt;P&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;L&lt;/td&gt;&lt;td&gt;N&lt;/td&gt;&lt;td&gt;D&lt;/td&gt;&lt;td&gt;S&lt;/td&gt;&lt;td&gt;E&lt;/td&gt;&lt;td&gt;O&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;hl&#x27;&gt;R&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;I&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;V&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;E&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;R&lt;/td&gt;&lt;td&gt;G&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;A&lt;/td&gt;&lt;td&gt;C&lt;/td&gt;&lt;td&gt;F&lt;/td&gt;&lt;td&gt;H&lt;/td&gt;&lt;td&gt;J&lt;/td&gt;&lt;td&gt;Q&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;W&lt;/td&gt;&lt;td&gt;X&lt;/td&gt;&lt;td&gt;Z&lt;/td&gt;&lt;td&gt;Y&lt;/td&gt;&lt;td&gt;U&lt;/td&gt;&lt;td&gt;I&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;P&lt;/td&gt;&lt;td&gt;L&lt;/td&gt;&lt;td&gt;O&lt;/td&gt;&lt;td&gt;N&lt;/td&gt;&lt;td&gt;T&lt;/td&gt;&lt;td&gt;S&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;find: RIVER&lt;/div&gt;&quot;;
+
+  // 6x6 digit grid, the code 90210 highlighted down the diagonal.
+  I.zip_search =
+    &quot;&lt;table&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;hl&#x27;&gt;9&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;0&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;2&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;1&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td class=&#x27;hl&#x27;&gt;0&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;find: 90210&lt;/div&gt;&quot;;
+
+  // 5x5 number grid, values greater than 50 highlighted.
+  I.number_grid_count =
+    &quot;&lt;table&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;n&#x27;&gt;12&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;72&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;39&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;64&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;18&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;n hl&#x27;&gt;51&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;23&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;88&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;47&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;90&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;n&#x27;&gt;33&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;56&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;21&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;70&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;14&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;n&#x27;&gt;49&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;63&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;30&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;82&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;27&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td class=&#x27;n hl&#x27;&gt;75&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;11&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;58&lt;/td&gt;&lt;td class=&#x27;n&#x27;&gt;44&lt;/td&gt;&lt;td class=&#x27;n hl&#x27;&gt;60&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;How many are greater than 50?&lt;/div&gt;&quot;;
+
+  // Two shapes: the right one is the left rotated a quarter-turn.
+  I.mental_rotation =
+    &quot;&lt;svg width=&#x27;150&#x27; height=&#x27;66&#x27; viewBox=&#x27;-4 -4 150 66&#x27;&gt;&quot; +
+    &quot;&lt;g fill=&#x27;#3b6fb0&#x27; stroke=&#x27;#1c3c63&#x27; stroke-width=&#x27;1.5&#x27;&gt;&quot; +
+    // reference: X. / X. / XX  (cell 18)
+    &quot;&lt;rect x=&#x27;0&#x27; y=&#x27;0&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&lt;rect x=&#x27;0&#x27; y=&#x27;18&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&quot; +
+    &quot;&lt;rect x=&#x27;0&#x27; y=&#x27;36&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&lt;rect x=&#x27;18&#x27; y=&#x27;36&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&quot; +
+    // rotated: XXX / X..
+    &quot;&lt;rect x=&#x27;86&#x27; y=&#x27;0&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&lt;rect x=&#x27;104&#x27; y=&#x27;0&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&quot; +
+    &quot;&lt;rect x=&#x27;122&#x27; y=&#x27;0&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&lt;rect x=&#x27;86&#x27; y=&#x27;18&#x27; width=&#x27;18&#x27; height=&#x27;18&#x27;/&gt;&quot; +
+    &quot;&lt;/g&gt;&lt;text x=&#x27;52&#x27; y=&#x27;32&#x27; font-size=&#x27;14&#x27; fill=&#x27;#888&#x27;&gt;vs&lt;/text&gt;&lt;/svg&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;same shape, or mirror image?&lt;/div&gt;&quot;;
+
+  // --- anchors: person-free schematics, detailed enough to picture solving ---
+
+  I.spelling = &quot;&lt;div class=&#x27;word&#x27;&gt;Spell aloud:&lt;br&gt;&lt;b&gt;&amp;ldquo;rhythm&amp;rdquo;&lt;/b&gt; &lt;span style=&#x27;color:#147a2b&#x27;&gt;&amp;#10003;&lt;/span&gt;&lt;/div&gt;&quot;;
+
+  I.proofreading =
+    &quot;&lt;div class=&#x27;txt&#x27;&gt;Find the error:&lt;br&gt;&amp;ldquo;The quick brown fox &lt;span style=&#x27;color:#c00&#x27;&gt;jamps&lt;/span&gt; over the lazy dog.&amp;rdquo;&lt;/div&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;jamps &amp;rarr; jumps&lt;/div&gt;&quot;;
+
+  // Digit-symbol coding: a key, then an item to fill in using the key.
+  I.dsst =
+    &quot;&lt;div class=&#x27;cap&#x27; style=&#x27;margin-bottom:4px&#x27;&gt;Key&lt;/div&gt;&quot; +
+    &quot;&lt;table&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;&amp;#9675;&lt;/td&gt;&lt;td&gt;&amp;#9651;&lt;/td&gt;&lt;td&gt;&amp;#9633;&lt;/td&gt;&lt;td&gt;&amp;#10005;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27; style=&#x27;margin:8px 0 4px&#x27;&gt;Fill each box using the key:&lt;/div&gt;&quot; +
+    &quot;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&amp;#9651;&lt;/td&gt;&lt;td&gt;&amp;#10005;&lt;/td&gt;&lt;td&gt;&amp;#9675;&lt;/td&gt;&lt;td&gt;&amp;#9633;&lt;/td&gt;&lt;/tr&gt;&quot; +
+    &quot;&lt;tr&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;;
+
+  I.anagrams =
+    &quot;&lt;div class=&#x27;word&#x27;&gt;Unscramble:&lt;br&gt;&lt;b&gt;P A E L P&lt;/b&gt;&lt;/div&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;P A E L P &amp;rarr; APPLE&lt;/div&gt;&quot;;
+
+  // Stroop: the word&#x27;s meaning conflicts with its ink color (color IS the task).
+  I.stroop =
+    &quot;&lt;div class=&#x27;word&#x27; style=&#x27;font-size:22px;font-weight:700&#x27;&gt;&quot; +
+    &quot;&lt;span style=&#x27;color:#1f6feb&#x27;&gt;RED&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&#x27;color:#147a2b&#x27;&gt;BLUE&lt;/span&gt;&lt;/div&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;Name the ink color (not the word)&lt;/div&gt;&quot;;
+
+  I.arithmetic = &quot;&lt;div class=&#x27;word&#x27; style=&#x27;font-size:22px&#x27;&gt;47 + 38 = ?&lt;/div&gt;&quot;;
+
+  // Raven&#x27;s-style 3x3 matrix: dots increase by row+column; bottom-right missing.
+  I.ravens =
+    &quot;&lt;svg width=&#x27;150&#x27; height=&#x27;150&#x27; viewBox=&#x27;0 0 114 114&#x27;&gt;&quot; +
+    &quot;&lt;rect x=&#x27;0.5&#x27; y=&#x27;0.5&#x27; width=&#x27;113&#x27; height=&#x27;113&#x27; fill=&#x27;#fff&#x27; stroke=&#x27;#bbb&#x27;/&gt;&quot; +
+    &quot;&lt;g stroke=&#x27;#ddd&#x27;&gt;&lt;line x1=&#x27;38&#x27; y1=&#x27;0&#x27; x2=&#x27;38&#x27; y2=&#x27;114&#x27;/&gt;&lt;line x1=&#x27;76&#x27; y1=&#x27;0&#x27; x2=&#x27;76&#x27; y2=&#x27;114&#x27;/&gt;&quot; +
+    &quot;&lt;line x1=&#x27;0&#x27; y1=&#x27;38&#x27; x2=&#x27;114&#x27; y2=&#x27;38&#x27;/&gt;&lt;line x1=&#x27;0&#x27; y1=&#x27;76&#x27; x2=&#x27;114&#x27; y2=&#x27;76&#x27;/&gt;&lt;/g&gt;&quot; +
+    &quot;&lt;g fill=&#x27;#3b6fb0&#x27;&gt;&quot; +
+    &quot;&lt;circle cx=&#x27;19&#x27; cy=&#x27;19&#x27; r=&#x27;3.5&#x27;/&gt;&quot; +                                                   // (0,0)=1
+    &quot;&lt;circle cx=&#x27;49&#x27; cy=&#x27;19&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;65&#x27; cy=&#x27;19&#x27; r=&#x27;3.5&#x27;/&gt;&quot; +                    // (0,1)=2
+    &quot;&lt;circle cx=&#x27;95&#x27; cy=&#x27;10&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;87&#x27; cy=&#x27;27&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;103&#x27; cy=&#x27;27&#x27; r=&#x27;3.5&#x27;/&gt;&quot; + // (0,2)=3
+    &quot;&lt;circle cx=&#x27;11&#x27; cy=&#x27;57&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;27&#x27; cy=&#x27;57&#x27; r=&#x27;3.5&#x27;/&gt;&quot; +                    // (1,0)=2
+    &quot;&lt;circle cx=&#x27;57&#x27; cy=&#x27;48&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;49&#x27; cy=&#x27;65&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;65&#x27; cy=&#x27;65&#x27; r=&#x27;3.5&#x27;/&gt;&quot; + // (1,1)=3
+    &quot;&lt;circle cx=&#x27;87&#x27; cy=&#x27;49&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;103&#x27; cy=&#x27;49&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;87&#x27; cy=&#x27;65&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;103&#x27; cy=&#x27;65&#x27; r=&#x27;3.5&#x27;/&gt;&quot; + // (1,2)=4
+    &quot;&lt;circle cx=&#x27;19&#x27; cy=&#x27;86&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;11&#x27; cy=&#x27;103&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;27&#x27; cy=&#x27;103&#x27; r=&#x27;3.5&#x27;/&gt;&quot; + // (2,0)=3
+    &quot;&lt;circle cx=&#x27;49&#x27; cy=&#x27;87&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;65&#x27; cy=&#x27;87&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;49&#x27; cy=&#x27;103&#x27; r=&#x27;3.5&#x27;/&gt;&lt;circle cx=&#x27;65&#x27; cy=&#x27;103&#x27; r=&#x27;3.5&#x27;/&gt;&quot; + // (2,1)=4
+    &quot;&lt;/g&gt;&lt;text x=&#x27;86&#x27; y=&#x27;104&#x27; font-size=&#x27;26&#x27; fill=&#x27;#999&#x27;&gt;?&lt;/text&gt;&lt;/svg&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;which piece completes the pattern?&lt;/div&gt;&quot;;
+
+  // --- sanity extremes: standalone objects (no person) ---
+  I.applying_makeup =
+    &quot;&lt;svg width=&#x27;52&#x27; height=&#x27;52&#x27; viewBox=&#x27;0 0 24 24&#x27;&gt;&lt;path fill=&#x27;#c24a63&#x27; d=&#x27;M9 23c-.55 0-1-.45-1-1v-9c0-.55.45-1 1-1h6c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1zm1-12c-.55 0-1-.45-1-1V5.25S11 3 11.75 1c1.08.67 2.17 1.33 2.71 2.83S15 7.67 15 10c0 .55-.45 1-1 1z&#x27;/&gt;&lt;/svg&gt;&quot;;
+
+  I.lifting_heavy =
+    &quot;&lt;svg width=&#x27;60&#x27; height=&#x27;60&#x27; viewBox=&#x27;0 0 24 24&#x27;&gt;&lt;path fill=&#x27;#454552&#x27; d=&#x27;M20.57 14.86L22 13.43L20.57 12L17 15.57L8.43 7L12 3.43L10.57 2L9.14 3.43L7.71 2L5.57 4.14L4.14 2.71L2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57L3.43 12L7 8.43L15.57 17L12 20.57L13.43 22l1.43-1.43L16.29 22l2.14-2.14l1.43 1.43l1.43-1.43l-1.43-1.43L22 16.29z&#x27;/&gt;&lt;/svg&gt;&quot;;
+
+  // --- added perception tasks ---
+  I.verbal_fluency =
+    &quot;&lt;div class=&#x27;word&#x27;&gt;Words starting with &lt;b&gt;F&lt;/b&gt;:&lt;/div&gt;&quot; +
+    &quot;&lt;div class=&#x27;txt&#x27; style=&#x27;text-align:center&#x27;&gt;fish, family, forest, funny&amp;hellip;&lt;/div&gt;&quot;;
+
+  I.finger_tapping =
+    &quot;&lt;svg width=&#x27;80&#x27; height=&#x27;80&#x27; viewBox=&#x27;0 0 80 80&#x27;&gt;&quot; +
+    &quot;&lt;circle cx=&#x27;40&#x27; cy=&#x27;40&#x27; r=&#x27;24&#x27; fill=&#x27;#eef4ff&#x27; stroke=&#x27;#1f6feb&#x27; stroke-width=&#x27;3&#x27;/&gt;&quot; +
+    &quot;&lt;text x=&#x27;40&#x27; y=&#x27;45&#x27; text-anchor=&#x27;middle&#x27; font-size=&#x27;13&#x27; font-weight=&#x27;700&#x27; fill=&#x27;#1f6feb&#x27;&gt;TAP&lt;/text&gt;&quot; +
+    &quot;&lt;/svg&gt;&lt;div class=&#x27;cap&#x27;&gt;tap as fast as you can&lt;/div&gt;&quot;;
+
+  // schematic (genderless) faces: one smiling, one frowning, plus a question mark
+  I.emotion_recognition =
+    &quot;&lt;svg width=&#x27;124&#x27; height=&#x27;58&#x27; viewBox=&#x27;0 0 124 58&#x27;&gt;&quot; +
+    &quot;&lt;g fill=&#x27;none&#x27; stroke=&#x27;#333&#x27; stroke-width=&#x27;2&#x27;&gt;&lt;circle cx=&#x27;22&#x27; cy=&#x27;26&#x27; r=&#x27;18&#x27;/&gt;&lt;circle cx=&#x27;92&#x27; cy=&#x27;26&#x27; r=&#x27;18&#x27;/&gt;&lt;/g&gt;&quot; +
+    &quot;&lt;g fill=&#x27;#333&#x27;&gt;&lt;circle cx=&#x27;16&#x27; cy=&#x27;21&#x27; r=&#x27;2&#x27;/&gt;&lt;circle cx=&#x27;28&#x27; cy=&#x27;21&#x27; r=&#x27;2&#x27;/&gt;&quot; +
+    &quot;&lt;circle cx=&#x27;86&#x27; cy=&#x27;21&#x27; r=&#x27;2&#x27;/&gt;&lt;circle cx=&#x27;98&#x27; cy=&#x27;21&#x27; r=&#x27;2&#x27;/&gt;&lt;/g&gt;&quot; +
+    &quot;&lt;path d=&#x27;M13 31 Q22 39 31 31&#x27; fill=&#x27;none&#x27; stroke=&#x27;#333&#x27; stroke-width=&#x27;2&#x27;/&gt;&quot; +
+    &quot;&lt;path d=&#x27;M83 35 Q92 29 101 35&#x27; fill=&#x27;none&#x27; stroke=&#x27;#333&#x27; stroke-width=&#x27;2&#x27;/&gt;&quot; +
+    &quot;&lt;text x=&#x27;57&#x27; y=&#x27;32&#x27; font-size=&#x27;20&#x27; fill=&#x27;#999&#x27;&gt;?&lt;/text&gt;&lt;/svg&gt;&quot; +
+    &quot;&lt;div class=&#x27;cap&#x27;&gt;which emotion?&lt;/div&gt;&quot;;
+
+  // a signal light: press when it turns green
+  I.reaction_time =
+    &quot;&lt;svg width=&#x27;54&#x27; height=&#x27;96&#x27; viewBox=&#x27;0 0 54 96&#x27;&gt;&quot; +
+    &quot;&lt;rect x=&#x27;11&#x27; y=&#x27;4&#x27; width=&#x27;32&#x27; height=&#x27;88&#x27; rx=&#x27;8&#x27; fill=&#x27;#2b2b2b&#x27;/&gt;&quot; +
+    &quot;&lt;circle cx=&#x27;27&#x27; cy=&#x27;26&#x27; r=&#x27;11&#x27; fill=&#x27;#7a2620&#x27;/&gt;&quot; +
+    &quot;&lt;circle cx=&#x27;27&#x27; cy=&#x27;66&#x27; r=&#x27;11&#x27; fill=&#x27;#27ae60&#x27;/&gt;&quot; +
+    &quot;&lt;/svg&gt;&lt;div class=&#x27;cap&#x27;&gt;press the moment it turns green&lt;/div&gt;&quot;;
+
+  root.TASK_ICONS = I;
+})(typeof self !== &quot;undefined&quot; ? self : this);
+
+
+/* ============================================================================
+ * perception.js — task gender-typing perception module.
+ * ----------------------------------------------------------------------------
+ * Every respondent rates each task on TWO items, worded identically to the
+ * synthetic (LLM) study so the human and LLM rankings compare 1:1:
+ *   - Top-decile share (0-100): of the top 10% scorers, how many are men?
+ *   - Performance belief (1-7): on average, who performs better?
+ *
+ * Task order and (within each task) item order are randomized per respondent.
+ * One field is written per task per item: perc_&lt;taskid&gt;_top10, perc_&lt;taskid&gt;_perf.
+ *
+ * Next is hidden until every item is answered (force-response without relying
+ * on Qualtrics validation of custom inputs). The 0-100 item is a number entry
+ * (no slider) to avoid anchoring on a default handle position.
+ * ==========================================================================*/
+(function (root, factory) {
+  if (typeof module === &quot;object&quot; &amp;&amp; module.exports) module.exports = factory();
+  else root.Perception = factory();
+})(typeof self !== &quot;undefined&quot; ? self : this, function () {
+  &quot;use strict&quot;;
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i &gt; 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  var CSS_ID = &quot;perc-style&quot;;
+  var CSS = [
+    &quot;.perc-wrap{font-family:Arial,Helvetica,sans-serif;max-width:720px;margin:0 auto;}&quot;,
+    &quot;.perc-task{border:1px solid #e0e0e0;border-radius:8px;padding:22px 24px;margin:26px 0;background:#fcfcfc;}&quot;,
+    &quot;.perc-task h4{margin:0 0 4px;font-size:18px;color:#1a1a1a;}&quot;,
+    &quot;.perc-task .desc{margin:0;font-size:15px;color:#555;}&quot;,
+    // image sits BELOW the name/description, centered, with room around it
+    &quot;.perc-img{margin:20px 0 8px;display:flex;flex-direction:column;align-items:center;}&quot;,
+    &quot;.perc-img table{border-collapse:collapse;margin:0 auto;}&quot;,
+    &quot;.perc-img td{border:1px solid #ccc;width:26px;height:26px;text-align:center;font:16px Arial;font-weight:600;color:#333;}&quot;,
+    &quot;.perc-img td.n{width:34px;font:14px &#x27;Courier New&#x27;,monospace;}&quot;,
+    &quot;.perc-img td.hl{background:#c9f3cf;color:#147a2b;}&quot;,
+    &quot;.perc-img .cap{font:13px Arial;color:#666;text-align:center;margin-top:8px;}&quot;,
+    &quot;.perc-img .word{font:18px Arial;color:#333;text-align:center;line-height:1.45;}&quot;,
+    &quot;.perc-img .txt{font:14px Arial;color:#333;text-align:left;line-height:1.5;}&quot;,
+    &quot;.perc-item{margin:26px 0 6px;}&quot;,
+    &quot;.perc-item .q{font-size:16px;margin-bottom:14px;line-height:1.4;}&quot;,
+    &quot;.perc-num{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}&quot;,
+    &quot;.perc-num input{width:84px;font-size:16px;padding:7px 8px;text-align:center;border:2px solid #bbb;border-radius:4px;}&quot;,
+    &quot;.perc-num .ends{font-size:13px;color:#888;}&quot;,
+    // Qualtrics-style scale: a row of options; number on top, radio aligned, anchor text BELOW
+    &quot;.perc-likert{display:flex;gap:3px;align-items:flex-start;flex-wrap:wrap;}&quot;,
+    &quot;.perc-likert label{display:flex;flex-direction:column;align-items:center;font-size:11.5px;color:#555;&quot;,
+    &quot;width:78px;text-align:center;cursor:pointer;gap:8px;}&quot;,
+    &quot;.perc-likert input{transform:scale(1.25);cursor:pointer;margin:0;}&quot;,
+    &quot;.perc-likert .num{font-weight:600;color:#222;font-size:15px;}&quot;,
+    &quot;.perc-hint{margin:18px 0;font-size:14px;color:#b00;text-align:center;min-height:20px;}&quot;
+  ].join(&quot;\n&quot;);
+  function ensureCss() {
+    if (document.getElementById(CSS_ID)) return;
+    var st = document.createElement(&quot;style&quot;);
+    st.id = CSS_ID; st.type = &quot;text/css&quot;;
+    st.appendChild(document.createTextNode(CSS));
+    document.head.appendChild(st);
+  }
+
+  // config: { tasks:[{id,name,description}], items:{top10:{...},perf:{...}},
+  //           fieldPrefix:&quot;perc&quot;, randomizeTasks:true, randomizeItems:true }
+  function run(q, container, config) {
+    ensureCss();
+    var prefix = config.fieldPrefix || &quot;perc&quot;;
+    var values = {};                 // &quot;taskid|kind&quot; -&gt; value
+    var requiredKeys = [];
+
+    var mount = (container.querySelector &amp;&amp; container.querySelector(&quot;#perc-mount&quot;)) || container;
+    mount.innerHTML = &quot;&quot;;
+    var wrap = el(&quot;div&quot;, &quot;perc-wrap&quot;);
+
+    var tasks = config.tasks.slice();
+    if (config.randomizeTasks !== false) shuffle(tasks);
+
+    var icons = config.icons || {};
+    tasks.forEach(function (task) {
+      var card = el(&quot;div&quot;, &quot;perc-task&quot;);
+
+      // Task name + description, then the person-free image centered below them.
+      var h = document.createElement(&quot;h4&quot;); h.textContent = task.name; card.appendChild(h);
+      var d = el(&quot;p&quot;, &quot;desc&quot;); d.textContent = task.description; card.appendChild(d);
+      var icon = icons[task.id];
+      if (icon) {
+        var ibox = el(&quot;div&quot;, &quot;perc-img&quot;);
+        ibox.innerHTML = icon;
+        card.appendChild(ibox);
+      }
+
+      // The two items, optionally in randomized order.
+      var kinds = [&quot;top10&quot;, &quot;perf&quot;];
+      if (config.randomizeItems !== false) shuffle(kinds);
+      kinds.forEach(function (kind) {
+        card.appendChild(kind === &quot;top10&quot; ? buildNum(task) : buildLikert(task));
+      });
+      wrap.appendChild(card);
+    });
+
+    var hint = el(&quot;div&quot;, &quot;perc-hint&quot;); hint.id = &quot;perc-hint&quot;; wrap.appendChild(hint);
+    mount.appendChild(wrap);
+
+    function buildNum(task) {
+      var it = config.items.top10;
+      var key = task.id + &quot;|top10&quot;;
+      requiredKeys.push(key);
+      var box = el(&quot;div&quot;, &quot;perc-item&quot;);
+      var qd = el(&quot;div&quot;, &quot;q&quot;); qd.textContent = it.question; box.appendChild(qd);
+      var row = el(&quot;div&quot;, &quot;perc-num&quot;);
+      var inp = document.createElement(&quot;input&quot;);
+      inp.type = &quot;number&quot;; inp.min = it.scaleMin; inp.max = it.scaleMax; inp.step = 1;
+      inp.setAttribute(&quot;inputmode&quot;, &quot;numeric&quot;); inp.setAttribute(&quot;autocomplete&quot;, &quot;off&quot;);
+      var ends = el(&quot;span&quot;, &quot;ends&quot;);
+      ends.textContent = &quot;(0 = all women … 50 = half and half … 100 = all men)&quot;;
+      inp.addEventListener(&quot;input&quot;, function () {
+        var v = inp.value === &quot;&quot; ? null : clamp(parseInt(inp.value, 10), it.scaleMin, it.scaleMax);
+        if (v !== null &amp;&amp; String(v) !== inp.value) inp.value = v;
+        setVal(key, v); refresh();
+      });
+      row.appendChild(inp); row.appendChild(ends);
+      box.appendChild(row);
+      return box;
+    }
+
+    function buildLikert(task) {
+      var it = config.items.perf;
+      var key = task.id + &quot;|perf&quot;;
+      requiredKeys.push(key);
+      var box = el(&quot;div&quot;, &quot;perc-item&quot;);
+      var qd = el(&quot;div&quot;, &quot;q&quot;); qd.textContent = it.question; box.appendChild(qd);
+      var scale = el(&quot;div&quot;, &quot;perc-likert&quot;);
+      var name = prefix + &quot;_&quot; + task.id + &quot;_perf_radio&quot;;
+      for (var v = it.scaleMin; v &lt;= it.scaleMax; v++) {
+        (function (val) {
+          var lab = document.createElement(&quot;label&quot;);
+          var num = el(&quot;span&quot;, &quot;num&quot;); num.textContent = val;
+          var inp = document.createElement(&quot;input&quot;);
+          inp.type = &quot;radio&quot;; inp.name = name; inp.value = val;
+          var txt = document.createElement(&quot;span&quot;);
+          txt.textContent = it.anchors[val] || &quot;&quot;;
+          inp.addEventListener(&quot;change&quot;, function () { setVal(key, val); refresh(); });
+          lab.appendChild(num); lab.appendChild(inp); lab.appendChild(txt);
+          scale.appendChild(lab);
+        })(v);
+      }
+      box.appendChild(scale);
+      return box;
+    }
+
+    function setVal(key, v) {
+      values[key] = v;
+      var parts = key.split(&quot;|&quot;);
+      var field = prefix + &quot;_&quot; + parts[0] + &quot;_&quot; + (parts[1] === &quot;top10&quot; ? &quot;top10&quot; : &quot;perf&quot;);
+      if (v === null || v === undefined) return;
+      q.setJSEmbeddedData(field, v);
+    }
+    function complete() {
+      for (var i = 0; i &lt; requiredKeys.length; i++) {
+        var v = values[requiredKeys[i]];
+        if (v === null || v === undefined) return false;
+      }
+      return true;
+    }
+    function refresh() {
+      if (complete()) { hint.textContent = &quot;&quot;; showNext(); }
+      else { hint.textContent = &quot;Please answer every item to continue.&quot;; hideNext(); }
+    }
+
+    // Flush everything at page submit too (backstop).
+    if (q.addOnPageSubmit) q.addOnPageSubmit(function () {
+      requiredKeys.forEach(function (k) { setVal(k, values[k]); });
+    });
+
+    function hideNext() {
+      if (q.hideNextButton) q.hideNextButton();
+      if (window.jQuery) jQuery(&quot;#NextButton&quot;).hide();
+    }
+    function showNext() {
+      if (q.showNextButton) q.showNextButton();
+      if (window.jQuery) jQuery(&quot;#NextButton&quot;).show();
+    }
+
+    refresh(); // start with Next hidden until all answered
+  }
+
+  function clamp(v, lo, hi) { return isNaN(v) ? null : Math.max(lo, Math.min(hi, v)); }
+  function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+
+  return { run: run };
+})();
+
+/* Perception module — Qualtrics Question JAVASCRIPT (SOURCE; depends on Perception).
+ *
+ * The human gender-typing measure is the primary focus of this study. Task
+ * descriptions and item wording are reused from the synthetic-study instrument
+ * (experiment/60_task_typing_2026/instruments/tasks.yaml and
+ * perception_items.yaml) because the wording is clean and neutral; reusing it
+ * also lets us compare against the LLM arm as a secondary analysis.
+ *
+ * 17 tasks: the 7 measured performance tasks (word search, number-string search,
+ * number-grid counting, mental rotation, digit-symbol coding, verbal fluency /
+ * word generation, finger tapping) + spread anchors + 2 sanity-check extremes.
+ * Add or remove a TASK by editing this array; the engine writes one field per
+ * task per item (perc_&lt;id&gt;_top10, perc_&lt;id&gt;_perf).
+ *
+ * Note: the mental-rotation description says &quot;three-dimensional shapes&quot; to match
+ * the LLM instrument; our human performance task is a 2-D rotation proxy for the
+ * same ability (flagged in the survey-flow / analysis notes). */
+(function () {
+  var TASKS = [
+    // --- the four measured performance tasks ---
+    { id: &quot;word_search&quot;,       name: &quot;Word search&quot;,          description: &quot;Finding hidden words in a grid of letters as quickly as possible.&quot; },
+    { id: &quot;zip_search&quot;,        name: &quot;Number-string search&quot;, description: &quot;Finding a specific string of digits (like a ZIP code) hidden in a grid of digits, as quickly as possible.&quot; },
+    { id: &quot;number_grid_count&quot;, name: &quot;Number-grid counting&quot;, description: &quot;Counting how many numbers in a grid meet a stated condition (for example, greater than 50) and typing the exact count, under time pressure.&quot; },
+    { id: &quot;mental_rotation&quot;,   name: &quot;Mental rotation&quot;,      description: &quot;Deciding whether two three-dimensional shapes are the same object rotated, or mirror images.&quot; },
+    // --- spread anchors (female -&gt; neutral -&gt; male) ---
+    { id: &quot;spelling&quot;,          name: &quot;Spelling test&quot;,        description: &quot;Spelling difficult words correctly.&quot; },
+    { id: &quot;proofreading&quot;,      name: &quot;Proofreading&quot;,         description: &quot;Spotting spelling and grammar errors in a passage of text.&quot; },
+    { id: &quot;dsst&quot;,              name: &quot;Digit-symbol coding&quot;,  description: &quot;Matching symbols to digits using a key, as quickly as possible.&quot; },
+    { id: &quot;anagrams&quot;,          name: &quot;Anagrams&quot;,             description: &quot;Rearranging scrambled letters to form real words.&quot; },
+    { id: &quot;stroop&quot;,            name: &quot;Color-word task&quot;,      description: &quot;Naming the ink color a word is printed in while ignoring what the word says.&quot; },
+    { id: &quot;arithmetic&quot;,        name: &quot;Mental arithmetic&quot;,    description: &quot;Adding pairs of two-digit numbers quickly and accurately.&quot; },
+    { id: &quot;ravens&quot;,            name: &quot;Pattern matrices&quot;,     description: &quot;Solving abstract visual pattern puzzles by choosing the piece that completes the pattern.&quot; },
+    { id: &quot;verbal_fluency&quot;,    name: &quot;Word generation&quot;,      description: &quot;Naming as many words as possible that begin with a given letter, as quickly as possible.&quot; },
+    { id: &quot;finger_tapping&quot;,    name: &quot;Finger tapping&quot;,       description: &quot;Tapping a key as many times as possible in a short period.&quot; },
+    { id: &quot;emotion_recognition&quot;, name: &quot;Emotion recognition&quot;, description: &quot;Identifying the emotion someone is feeling from their facial expression.&quot; },
+    { id: &quot;reaction_time&quot;,     name: &quot;Reaction time&quot;,        description: &quot;Pressing a button as quickly as possible the moment a signal appears.&quot; },
+    // --- sanity-check extremes ---
+    { id: &quot;applying_makeup&quot;,   name: &quot;Applying makeup&quot;,      description: &quot;Applying makeup neatly and skillfully.&quot; },
+    { id: &quot;lifting_heavy&quot;,     name: &quot;Lifting heavy objects&quot;, description: &quot;Lifting and carrying heavy objects.&quot; }
+  ];
+
+  var ITEMS = {
+    top10: {
+      id: &quot;top10_men&quot;, scaleMin: 0, scaleMax: 100,
+      question: &quot;Imagine the 100 people who score in the very top 10% on this task. How many of those 100 people do you think are men?&quot;
+    },
+    perf: {
+      id: &quot;perf_belief&quot;, scaleMin: 1, scaleMax: 7,
+      question: &quot;On average, who do you think performs better on this task?&quot;,
+      anchors: { 1: &quot;women perform much better&quot;, 4: &quot;men and women perform equally well&quot;, 7: &quot;men perform much better&quot; }
+    }
+  };
+
+  Qualtrics.SurveyEngine.addOnload(function () {
+    Perception.run(this, this.getQuestionContainer(), {
+      tasks: TASKS,
+      items: ITEMS,
+      icons: (typeof TASK_ICONS !== &quot;undefined&quot;) ? TASK_ICONS : {},
+      fieldPrefix: &quot;perc&quot;,
+      randomizeTasks: true,
+      randomizeItems: true
+    });
+  });
+})();</code></pre></div></details></div>
+</div>
+</section>
+<section class="block" id="blk-demographics">
+<div class="internal"><div class="ihead"><span class="inum">Block 7</span><span class="iname">demographics</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>demographics</code> holding 6 questions, in the order below.</div><div class="inote">LAST, so nothing raises gender before the tasks or the perception items. Wording and answer choices for gender, age, ethnicity and education are reused VERBATIM from the parent Ambition studies so the samples pool. Income is the one deliberate change — see its note.</div></div>
+<div class="q">
+<div class="screennum">Screen 14 of 20</div>
+<div class="screen"><p>How much do you agree with each of the following?</p>
+<div class="tblwrap"><table class="matrix"><thead><tr><th></th>
+<th>Strongly disagree</th>
+<th>Disagree</th>
+<th>Neither agree nor disagree</th>
+<th>Agree</th>
+<th>Strongly agree</th>
+</tr></thead><tbody>
+<tr><td class="stem">I am willing to try a task even when I might not do well at it.</td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+</tr>
+<tr><td class="stem">I prefer activities where I can see my progress.</td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+</tr>
+<tr><td class="stem">To show you are reading carefully, please select “Disagree” for this item.</td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+</tr>
+<tr><td class="stem">I usually finish what I start.</td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+<td class="cell"><span class="dot"></span></td>
+</tr>
+</tbody></table></div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">attn_grid</span><span class="qtype">Matrix Table (Likert, 5-point)</span><span class="flag">Force Response</span></div>
+<div class="qnote">Instructional manipulation check (Oppenheimer, Meyvis &amp; Davidenko 2009; Berinsky, Margolis &amp; Sances 2014). Record pass/fail with a Survey Flow branch, not JS: put the grid and the branch in separate blocks, and declare attn_imc before the branch. Pre-register the exclusion.<br><b>Records:</b> <code>attn_imc — pass/fail, set by a Survey Flow branch</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">56 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;How much do you agree with each of the following?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screen 15 of 20</div>
+<div class="screen"><p>What is your gender?</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>Male</span></li>
+<li><span class="dot"></span><span>Female</span></li>
+<li><span class="dot"></span><span>Prefer not to say</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">gender</span><span class="qtype">Multiple Choice (MC / SAVR)</span><span class="flag">Force Response</span></div>
+<div class="qnote">Verbatim from the parent studies, including the choice list, so the data pool. If you want a more inclusive item, ADD a separate gender-identity question rather than editing this one — changing it breaks comparability with the Sep 2023 samples.<br><b>Records:</b> <code>gender</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">27 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;What is your gender?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screen 16 of 20</div>
+<div class="screen"><p>What is your age?</p>
+<div class="te"><span class="tebox"></span><span class="teunit">years</span></div><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">age</span><span class="qtype">Text Entry (TE), Content Type = Number</span></div>
+<div class="qnote">Verbatim from the parent studies.<br><b>Records:</b> <code>age</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">24 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;What is your age?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screen 17 of 20</div>
+<div class="screen"><p>What is your ethnicity? Select all that apply.</p>
+<ul class="choices checkbox">
+<li><span class="dot"></span><span>American Indian or Alaska Native</span></li>
+<li><span class="dot"></span><span>Asian</span></li>
+<li><span class="dot"></span><span>Black or African American</span></li>
+<li><span class="dot"></span><span>Hispanic or Latino</span></li>
+<li><span class="dot"></span><span>Native Hawaiian or Pacific Islander</span></li>
+<li><span class="dot"></span><span>White</span></li>
+<li><span class="dot"></span><span>Prefer not to say</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">ethnicity</span><span class="qtype">Multiple Choice (MC / MAVR), multi-select</span></div>
+<div class="qnote">Verbatim from the parent studies, multi-select.<br><b>Records:</b> <code>ethnicity</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">53 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;What is your ethnicity? Select all that apply.&lt;/p&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screen 18 of 20</div>
+<div class="screen"><p>What is your highest degree of education?</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>Less than high school</span></li>
+<li><span class="dot"></span><span>High school graduate</span></li>
+<li><span class="dot"></span><span>Some college</span></li>
+<li><span class="dot"></span><span>2 year college</span></li>
+<li><span class="dot"></span><span>4 year college</span></li>
+<li><span class="dot"></span><span>Professional degree</span></li>
+<li><span class="dot"></span><span>Doctorate</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">education</span><span class="qtype">Multiple Choice (MC / SAVR)</span></div>
+<div class="qnote">Verbatim from the parent studies.<br><b>Records:</b> <code>education</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">48 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;What is your highest degree of education?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+<div class="q">
+<div class="screennum">Screen 19 of 20</div>
+<div class="screen"><p>What was your total household income last year, before taxes?</p>
+<ul class="choices radio">
+<li><span class="dot"></span><span>Less than $25,000</span></li>
+<li><span class="dot"></span><span>$25,000 – $49,999</span></li>
+<li><span class="dot"></span><span>$50,000 – $74,999</span></li>
+<li><span class="dot"></span><span>$75,000 – $99,999</span></li>
+<li><span class="dot"></span><span>$100,000 – $149,999</span></li>
+<li><span class="dot"></span><span>$150,000 or more</span></li>
+<li><span class="dot"></span><span>Prefer not to say</span></li>
+</ul><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">income</span><span class="qtype">Multiple Choice (MC / SAVR)</span></div>
+<div class="qnote">DELIBERATE CHANGE from the parent studies, which asked for a dollar amount as open text. Open-text income produces unusable answers (“50k”, “idk”, blanks) and high refusal. Brackets cost exact comparability on this one variable — if you would rather keep it poolable, swap back to a Text Entry question.<br><b>Records:</b> <code>income</code></div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">68 bytes</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;What was your total household income last year, before taxes?&lt;/p&gt;</code></pre></div></details></div>
+</div>
+</section>
+<section class="block" id="blk-debrief">
+<div class="internal"><div class="ihead"><span class="inum">Block 8</span><span class="iname">debrief</span><span class="ilabel">not shown to participants</span></div><div class="iaction">Create a Qualtrics block named <code>debrief</code> holding 1 question, in the order below.</div><div class="inote">Final screen. The Survey Flow ends with an End of Survey element that redirects to the Prolific completion URL.</div></div>
+<div class="q">
+<div class="screennum">Screen 20 of 20</div>
+<div class="screen"><p><strong>Thank you &mdash; you are finished.</strong></p>
+<p>This study is about how <em>gender-typed</em> everyday thinking tasks are perceived to be: for each
+task, whether people believe men or women tend to perform better. We are comparing those beliefs
+against how people actually perform on a few of the same tasks. Beliefs about who is good at what shape
+the goals people set and the opportunities they pursue, and they are not always accurate &mdash; which is
+what makes the comparison worth measuring.</p>
+<p>There were no trick questions and nothing was misrepresented to you. The tasks were real and your
+scores were real.</p>
+<p><strong>Your bonus.</strong> On each of the two timed tasks, the top 10% of participants earn a $2
+bonus, based on the best of your three attempts. We can only rank scores once everyone has finished, so
+bonuses are paid through Prolific after data collection closes. You do not need to do anything.</p>
+<p>If you have questions about the study, contact Nathan Barrymore at
+universityresearchexperiments@gmail.com.</p>
+<p>Please click Next to register your completion and return to Prolific.</p><div class="nextrow"><span class="nextbtn">→</span></div></div>
+<div class="qmeta"><div class="qstrip"><span class="tag">debrief</span><span class="qtype">Descriptive Text (DB)</span></div>
+<div class="qnote">DEBRIEF — Descriptive Text (DB). Last screen before the Prolific redirect.</div>
+<details class="code"><summary><span class="chev">▸</span>HTML to paste into the question's HTML View<span class="bytes">1.1 KB</span></summary><div class="codewrap"><button class="copy" type="button">Copy</button><pre data-lang="html"><code>&lt;p&gt;&lt;strong&gt;Thank you &amp;mdash; you are finished.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This study is about how &lt;em&gt;gender-typed&lt;/em&gt; everyday thinking tasks are perceived to be: for each
+task, whether people believe men or women tend to perform better. We are comparing those beliefs
+against how people actually perform on a few of the same tasks. Beliefs about who is good at what shape
+the goals people set and the opportunities they pursue, and they are not always accurate &amp;mdash; which is
+what makes the comparison worth measuring.&lt;/p&gt;
+&lt;p&gt;There were no trick questions and nothing was misrepresented to you. The tasks were real and your
+scores were real.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Your bonus.&lt;/strong&gt; On each of the two timed tasks, the top 10% of participants earn a $2
+bonus, based on the best of your three attempts. We can only rank scores once everyone has finished, so
+bonuses are paid through Prolific after data collection closes. You do not need to do anything.&lt;/p&gt;
+&lt;p&gt;If you have questions about the study, contact Nathan Barrymore at
+universityresearchexperiments@gmail.com.&lt;/p&gt;
+&lt;p&gt;Please click Next to register your completion and return to Prolific.&lt;/p&gt;</code></pre></div></details></div>
+</div>
+</section>
+<footer>Generated by <code>build_survey_page.py</code> from the instrument source in <code>experiment/61_task_typing_human_2026/instruments/source/</code>. 8 blocks, 18 questions. The perception task list and item wording are read live from <code>tasks/perception/perception_question.js</code> — edit the source, not this page.</footer>
+</div>
+<script>
+(function(){
+  // ---- view toggle: participant (read for flow) vs code (read for transfer) ----
+  var KEY = "gts-view";
+  var vp = document.getElementById("vp"), vc = document.getElementById("vc");
+  var hint = document.getElementById("vhint");
+  var HINTS = {
+    participant: "Exactly what a respondent sees, in order.",
+    code: "Adds block names, field names and the paste-ready code."
+  };
+  function setView(mode){
+    var participant = (mode !== "code");
+    document.body.className = participant ? "mode-participant" : "mode-code";
+    vp.classList.toggle("on", participant);
+    vc.classList.toggle("on", !participant);
+    hint.textContent = participant ? HINTS.participant : HINTS.code;
+    try { localStorage.setItem(KEY, participant ? "participant" : "code"); } catch (e) {}
+  }
+  vp.addEventListener("click", function(){ setView("participant"); });
+  vc.addEventListener("click", function(){ setView("code"); });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setView(saved === "code" ? "code" : "participant");
+
+  function all(){ return document.querySelectorAll("details.code"); }
+  var ex = document.getElementById("expand"), co = document.getElementById("collapse");
+  ex.addEventListener("click", function(){
+    var d = all(); for (var i=0;i<d.length;i++) d[i].open = true;
+  });
+  co.addEventListener("click", function(){
+    var d = all(); for (var i=0;i<d.length;i++) d[i].open = false;
+  });
+  document.addEventListener("click", function(e){
+    var b = e.target;
+    if (!b || !b.classList || !b.classList.contains("copy")) return;
+    var pre = b.parentNode.querySelector("pre");
+    if (!pre) return;
+    var text = pre.textContent;
+    function done(){
+      var old = b.textContent;
+      b.textContent = "Copied"; b.classList.add("ok");
+      setTimeout(function(){ b.textContent = old; b.classList.remove("ok"); }, 1400);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function(){ fallback(text, done); });
+    } else { fallback(text, done); }
+  });
+  function fallback(text, cb){
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly","");
+    ta.style.position = "fixed"; ta.style.left = "-9999px";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); cb(); } catch (err) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>
