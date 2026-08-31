@@ -625,29 +625,30 @@ neighboring pairs; apply them literally.</p>
       <td>When the writing is graded on analytical quality with essay-like expectations (rubric,
       length, argument), it is <span class="m">paper</span>. The event attended in person plus the
       writeup form ONE component when the syllabus weights them together.</td></tr>
-  <tr><td><span class="m">other</span></td><td>The syllabus says what the student actually does for
+  <tr><td><span class="m">other</span></td><td>The syllabus identifies what the student does for
       this component, and it fits no category above. Always explain in notes.</td>
-      <td>Apply the two-step test below, not your own sense of confidence.</td></tr>
-  <tr><td><span class="m">unknown</span></td><td>The syllabus never says what the student does for
-      this component, so it cannot be classified.</td>
-      <td><b>Two-step test, applied literally:</b>
-      <ol>
-        <li>Does the syllabus say anything about this component beyond its line in the grading
-            breakdown? If no, code <span class="m">unknown</span>.</li>
-        <li>Does that text say what the student WILL do or produce? Three things do not count: a
-            cross-reference ("details on Canvas"), a deadline or grading-mechanics note, and
-            <b>contingent text</b>, where the syllabus lists what the work MIGHT be rather than
-            committing to it ("may also be assigned", "examples would include", "if I choose to").
-            If no, code <span class="m">unknown</span>. If yes, code the category it matches, or
-            <span class="m">other</span> when it matches none.</li>
-      </ol>
-      Do not ask yourself whether you can tell what it is; two coders answer that differently.
-      <span class="ex"><i>Example</i>: "Instructor Discretion 9%", with a later section reading
-      "Other graded work may also be assigned ... Examples would include (but are not limited to)
-      class attendance, quizzes, short papers ... If I choose to make such assignments", is
-      <span class="m">unknown</span>. Step 1 passes, but step 2 fails: the syllabus is not
-      describing an assessment, it is reserving 9% of the grade to be decided during the semester.
-      A list of what the work might be is not a statement of what it is.</span></td></tr>
+      <td>Apply the test below, not your own sense of confidence.</td></tr>
+  <tr><td><span class="m">unknown</span></td><td>Neither the component's name nor anything else the
+      syllabus says identifies what the student does, so it cannot be classified.</td>
+      <td><b>The test, applied literally.</b> Read the component's name in the grading breakdown
+      together with every other passage about it. Does that identify what the student does or
+      produces? If yes, code the category it matches, or <span class="m">other</span> when it
+      matches none. If no, code <span class="m">unknown</span>.
+      <ul>
+        <li>A name is enough when it names the task: "Final Exam", "Attendance", "Term Paper".</li>
+        <li>A name is not enough when it names only the subject or the source material:
+            "Three Case Assessments" says the material is cases, not whether students write,
+            present, or discuss them.</li>
+        <li>Three kinds of text identify nothing: a cross-reference ("details on Canvas"), a
+            deadline or grading-mechanics note, and <b>contingent text</b> listing what the work
+            MIGHT be ("may also be assigned", "examples would include", "if I choose to").</li>
+      </ul>
+      <span class="ex"><i>Examples</i>: "Final Exam 30%" with no other mention is
+      <span class="m">exam_quiz</span>; the name settles it. "Three Case Assessments 6%" with no
+      other mention is <span class="m">unknown</span>. "Instructor Discretion 9%", with a later
+      section saying other graded work "may also be assigned" and listing examples, is
+      <span class="m">unknown</span>: the syllabus is reserving grade weight to be decided during
+      the semester.</span></td></tr>
 </table>
 
 <h2>Decision rules for ambiguous cases</h2>
@@ -662,6 +663,13 @@ neighboring pairs; apply them literally.</p>
       true</span>.</li>
   <li><b>Completion-graded quizzes and syllabus quizzes</b> are
       <span class="m">homework_problem_set</span> (see Category boundary rules).</li>
+  <li><b>Cases.</b> A case is source material, not a task, and gets no category of its own. Code the
+      task performed on it: a submitted written analysis is <span class="m">paper</span>, a live
+      delivery is <span class="m">presentation</span>, exercises built around a case are
+      <span class="m">homework_problem_set</span>, a term-length case build is
+      <span class="m">project_or_artifact</span>, and graded discussion is
+      <span class="m">participation</span>. A case component whose task the syllabus never
+      identifies is <span class="m">unknown</span>.</li>
 </ul>
 </div>
 
@@ -820,6 +828,12 @@ contiguous, keep the pieces in document order and join them with " [...] "; neve
 Assign the ID whose definition matches the graded task. Boundary rules resolve neighboring pairs;
 apply them literally.
 
+Cases: a case is source material, not a task, and has no category of its own. Code the task
+performed on it. A submitted written analysis is paper, a live delivery is presentation, exercises
+built around a case are homework_problem_set, a term-length case build is project_or_artifact, and
+graded discussion is participation. A case component whose task the syllabus never identifies is
+unknown.
+
 | ID | Definition | Boundary rules |
 |---|---|---|
 | exam_quiz | A test of content knowledge taken under assessment conditions and graded on correctness: midterms, finals, tests, quizzes. | A quiz graded for completion rather than correctness, and any quiz over course logistics (a syllabus quiz), is homework_problem_set. Quizzes are exam_quiz by default; move them only when the syllabus states completion grading or the logistics subject. In-class polling (iClicker) graded on correctness is exam_quiz; graded for answering at all it is participation. Lab practicals are lab_or_field. |
@@ -831,8 +845,8 @@ apply them literally.
 | participation | Credit for engaging in class activities: discussion participation, polling graded for responding, in-class exercises graded for engagement. | Credit for presence alone is attendance. |
 | attendance | Credit for being present, with no submitted work beyond a presence check (sign-in sheet, seat check, attendance clicker). | |
 | attendance_writeup | Credit that requires BOTH attending an event and submitting a written account of it, where the writing mainly evidences attendance or engagement (speaker-series writeups, event reflections graded for submission). | When the writing is graded on analytical quality with essay-like expectations (rubric, length, argument), it is paper. The event attended plus the writeup form ONE component when the syllabus weights them together. |
-| other | The syllabus says what the student actually does for this component, and it fits no category above. Always explain in notes. | Apply the two-step test in the unknown row, not a judgment about your own confidence. |
-| unknown | The syllabus never says what the student will do for this component, so it cannot be classified. | Two-step test, applied literally. (1) Does the syllabus say anything about this component beyond its line in the grading breakdown? If no, unknown. (2) Does that text say what the student WILL do or produce? Three things do not count: a cross-reference ("details on Canvas"), a deadline or grading-mechanics note, and contingent text listing what the work MIGHT be rather than committing to it ("may also be assigned", "examples would include", "if I choose to"). If no, unknown. If yes, code the category it matches, or other when it matches none. Example: "Instructor Discretion 9%" plus a later "Other graded work may also be assigned ... Examples would include ... If I choose to make such assignments" is unknown: the syllabus is reserving grade weight to be decided later, not describing an assessment. unknown is missing data; other is a real assessment that fits no category. |
+| other | The syllabus identifies what the student does for this component, and it fits no category above. Always explain in notes. | Apply the test in the unknown row, not a judgment about your own confidence. |
+| unknown | Neither the component's name nor anything else the syllabus says identifies what the student does, so it cannot be classified. | The test, applied literally: read the component's name in the grading breakdown together with every other passage about it, and ask whether that identifies what the student does or produces. If yes, code the category it matches, or other when it matches none. If no, unknown. A name is enough when it names the task ("Final Exam", "Attendance", "Term Paper"); a name is not enough when it names only the subject or source material ("Three Case Assessments" says the material is cases, not whether students write, present, or discuss them). Three kinds of text identify nothing: a cross-reference ("details on Canvas"), a deadline or grading-mechanics note, and contingent text listing what the work MIGHT be ("may also be assigned", "examples would include", "if I choose to"). Examples: "Final Exam 30%" with no other mention is exam_quiz; "Three Case Assessments 6%" with no other mention is unknown; "Instructor Discretion 9%" plus contingent text is unknown. |
 
 ## Modality vocabulary
 
@@ -1370,6 +1384,12 @@ boundary rule when one applied.
 Assign the ID whose definition matches the graded task. Boundary rules resolve neighboring pairs;
 apply them literally.
 
+Cases: a case is source material, not a task, and has no category of its own. Code the task
+performed on it. A submitted written analysis is paper, a live delivery is presentation, exercises
+built around a case are homework_problem_set, a term-length case build is project_or_artifact, and
+graded discussion is participation. A case component whose task the syllabus never identifies is
+unknown.
+
 | ID | Definition | Boundary rules |
 |---|---|---|
 | exam_quiz | A test of content knowledge taken under assessment conditions and graded on correctness: midterms, finals, tests, quizzes. | A quiz graded for completion rather than correctness, and any quiz over course logistics (a syllabus quiz), is homework_problem_set. Quizzes are exam_quiz by default; move them only when the syllabus states completion grading or the logistics subject. In-class polling (iClicker) graded on correctness is exam_quiz; graded for answering at all it is participation. Lab practicals are lab_or_field. |
@@ -1381,8 +1401,8 @@ apply them literally.
 | participation | Credit for engaging in class activities: discussion participation, polling graded for responding, in-class exercises graded for engagement. | Credit for presence alone is attendance. |
 | attendance | Credit for being present, with no submitted work beyond a presence check (sign-in sheet, seat check, attendance clicker). | |
 | attendance_writeup | Credit that requires BOTH attending an event and submitting a written account of it, where the writing mainly evidences attendance or engagement (speaker-series writeups, event reflections graded for submission). | When the writing is graded on analytical quality with essay-like expectations (rubric, length, argument), it is paper. The event attended plus the writeup form ONE component when the syllabus weights them together. |
-| other | The syllabus says what the student actually does for this component, and it fits no category above. Always explain in notes. | Apply the two-step test in the unknown row, not a judgment about your own confidence. |
-| unknown | The syllabus never says what the student will do for this component, so it cannot be classified. | Two-step test, applied literally. (1) Does the syllabus say anything about this component beyond its line in the grading breakdown? If no, unknown. (2) Does that text say what the student WILL do or produce? Three things do not count: a cross-reference ("details on Canvas"), a deadline or grading-mechanics note, and contingent text listing what the work MIGHT be rather than committing to it ("may also be assigned", "examples would include", "if I choose to"). If no, unknown. If yes, code the category it matches, or other when it matches none. Example: "Instructor Discretion 9%" plus a later "Other graded work may also be assigned ... Examples would include ... If I choose to make such assignments" is unknown: the syllabus is reserving grade weight to be decided later, not describing an assessment. unknown is missing data; other is a real assessment that fits no category. |
+| other | The syllabus identifies what the student does for this component, and it fits no category above. Always explain in notes. | Apply the test in the unknown row, not a judgment about your own confidence. |
+| unknown | Neither the component's name nor anything else the syllabus says identifies what the student does, so it cannot be classified. | The test, applied literally: read the component's name in the grading breakdown together with every other passage about it, and ask whether that identifies what the student does or produces. If yes, code the category it matches, or other when it matches none. If no, unknown. A name is enough when it names the task ("Final Exam", "Attendance", "Term Paper"); a name is not enough when it names only the subject or source material ("Three Case Assessments" says the material is cases, not whether students write, present, or discuss them). Three kinds of text identify nothing: a cross-reference ("details on Canvas"), a deadline or grading-mechanics note, and contingent text listing what the work MIGHT be ("may also be assigned", "examples would include", "if I choose to"). Examples: "Final Exam 30%" with no other mention is exam_quiz; "Three Case Assessments 6%" with no other mention is unknown; "Instructor Discretion 9%" plus contingent text is unknown. |
 
 ## Modality vocabulary
 
