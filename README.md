@@ -30,6 +30,13 @@ One folder per project, one subfolder per preview. Example:
 - `revelio-pdw/roundtable-matching/` — AOM 2026 Revelio PDW roundtable matching review
   (source of truth: `c:\repos\revelio-pdw\matching\review.html`; republish with that
   repo's `publish-preview.ps1`).
+- `directors-as-teams/literature-coding/` — board-composition coding codebook.
+- `directors-as-teams/bespoke-measurement/` — measurement dispersion memo
+  (source of truth: `c:\repos\directors-as-teams\scratch\bespoke_measurement_response.html`).
+
+When a project has more than one preview, group them in `index.html` with
+`<li class="group"><details>` so the landing page stays scannable; see the
+Ambition and Directors-as-teams entries.
 
 ## Publishing a new preview
 
