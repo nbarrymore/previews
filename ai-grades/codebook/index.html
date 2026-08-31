@@ -121,7 +121,9 @@ rule. Its filter matches the workbook: syllabus-level fields are the
       block on the Components sheet, where blank is allowed.</li>
   <li>Fields ending in <span class="m">_verbatim</span>, and every evidence quote, copy the syllabus
       exactly. Never paraphrase, and never tidy a component's name: if the breakdown reads "Lower
-      midterm grade", that is what goes in <span class="m">component_name_raw</span>.</li>
+      midterm grade", that is what goes in <span class="m">component_name_raw</span>.
+      When the passage you need is not contiguous, keep the pieces in document order and join them
+      with <span class="m"> [...] </span>. Never cut silently.</li>
   <li>Write notes in the row's <span class="m">notes</span> column and set
       <span class="m">flag_for_discussion = YES</span> for anything genuinely ambiguous.</li>
   <li>Fill <span class="m">coder_initials</span> and <span class="m">coded_date</span> (YYYY-MM-DD)
@@ -227,8 +229,8 @@ component on the <span class="m">Components</span> sheet.</p>
         <li><span class="m">no_ai_mention</span>: No language naming generative AI anywhere.<br><span class="nb"><i>Boundary:</i> Honor-code boilerplate without tool language ("no cheating", "your own work") stays here, and so does a syllabus whose only tool language names an excluded pre-LLM tool.</span></li>
         <li><span class="m">academic_integrity_only</span>: The syllabus never names AI, but has integrity language broad enough to cover AI use ("use of any tool or aid not explicitly authorized is prohibited").<br><span class="nb"><i>Boundary:</i> NOT <span class="m">blanket_ban</span> unless AI tools are specifically named. <span class="m">ai_mentioned</span> is always false here, since the category requires that no AI tool is named.</span></li>
         <li><span class="m">blanket_ban</span>: AI is named and prohibited for all coursework.<br><span class="nb"><i>Boundary:</i> Sets every <span class="m">permits_*</span> field no, both <span class="m">prohibits_*</span> fields yes, and <span class="m">encouraged_or_integrated</span> / <span class="m">ai_required</span> no.</span></li>
-        <li><span class="m">partial_ban</span>: AI is prohibited for some tasks and allowed, explicitly or by clear implication, for others ("allowed for brainstorming, banned for final writing").<br><span class="nb"><i>Boundary:</i> Covers the enumerated-permission case too ("AI may be used only to check grammar"): allowing AI for a closed list of tasks prohibits it for the rest, the same fact from the other end. There is no separate allowed-for-specific-tasks ID.</span></li>
-        <li><span class="m">fully_allowed</span>: AI is allowed for all tasks. Conditions on HOW it is used do not narrow this: a syllabus that permits AI everywhere but requires disclosure or citation is still fully_allowed, and the condition is recorded in <span class="m">requires_disclosure</span> / <span class="m">requires_citation</span>.<br><span class="nb"><i>Boundary:</i> Sets every <span class="m">permits_*</span> field yes, the mirror of <span class="m">blanket_ban</span>, but entails nothing about the two promotion fields. If any task is carved out, it is <span class="m">partial_ban</span>.</span></li>
+        <li><span class="m">partial_ban</span>: AI is prohibited for some tasks and allowed, explicitly or by clear implication, for others ("allowed for brainstorming, banned for final writing").<br><span class="nb"><i>Boundary:</i> Covers the enumerated-permission case too ("AI may be used only to check grammar"): allowing AI for a closed list of tasks prohibits it for the rest.</span></li>
+        <li><span class="m">fully_allowed</span>: AI is allowed for all tasks. Conditions on HOW it is used do not narrow this: a syllabus that permits AI everywhere but requires disclosure or citation is still fully_allowed, and the condition is recorded in <span class="m">requires_disclosure</span> / <span class="m">requires_citation</span>.<br><span class="nb"><i>Boundary:</i> Sets every <span class="m">permits_*</span> field yes. Leaves <span class="m">encouraged_or_integrated</span> and <span class="m">ai_required</span> to the syllabus. If any task is carved out, it is <span class="m">partial_ban</span>.</span></li>
         <li><span class="m">vague_or_ambiguous</span>: AI is addressed but the rule is indeterminate ("discuss with the instructor before using AI").<br><span class="nb"><i>Boundary:</i> Institutional boilerplate that defers to the instructor without stating the instructor's rule lands here.</span></li>
         <li><span class="m">other</span>: A policy exists but fits none of the above. Explain in notes.</li>
       </ul>
@@ -271,15 +273,16 @@ component on the <span class="m">Components</span> sheet.</p>
       field true and leaves the others null. With exclusivity ("AI may be used only for
       brainstorming"), the unlisted permits_* fields are false. A blanket ban sets every
       <span class="m">permits_*</span> field no and both <span class="m">prohibits_*</span> fields
-      yes, and because a course cannot encourage or require what it forbids, it also sets
-      <span class="m">encouraged_or_integrated</span> and <span class="m">ai_required</span> no.
-      A <span class="m">fully_allowed</span> policy is the mirror for permissions and sets every
-      <span class="m">permits_*</span> field yes, but it entails NOTHING about the two promotion
-      fields: allowing AI everywhere is not the same as encouraging it, so a permissive syllabus
-      silent on posture leaves them null.<br>
+      yes, and sets <span class="m">encouraged_or_integrated</span> and
+      <span class="m">ai_required</span> no. A <span class="m">fully_allowed</span> policy sets
+      every <span class="m">permits_*</span> field yes, and leaves
+      <span class="m">encouraged_or_integrated</span> and <span class="m">ai_required</span> to the
+      syllabus.<br>
       Every detail field is null when <span class="m">ai_mentioned</span> is false.</span></th></tr>
   <tr><td><span class="m">requires_disclosure</span></td><td>Yes when students must state that AI was
-      used. Disclosure is telling the instructor AI was used; formal source-style attribution is
+      used. Null when the syllabus is silent, as for
+      <span class="m">requires_citation</span> and
+      <span class="m">requires_prompt_appendix</span>. Disclosure is telling the instructor AI was used; formal source-style attribution is
       <span class="m">requires_citation</span>.
       <span class="ex"><i>Example</i>: "Include a note describing any AI assistance you used" is
       yes.</span></td></tr>
@@ -291,8 +294,12 @@ component on the <span class="m">Components</span> sheet.</p>
       prompts or the AI transcript.
       <span class="ex"><i>Example</i>: "Attach the full chat log as an appendix" is
       yes.</span></td></tr>
-  <tr><td><span class="m">permits_brainstorming</span></td><td>Yes when AI may be used for idea
-      generation or outlining.
+  <tr><td><span class="m">permits_brainstorming</span></td><td>Yes when AI may be used for the
+      thinking that precedes the graded work. Counts: brainstorming, generating or exploring ideas,
+      outlining, prewriting, planning, studying, and research or preparation for an assignment.
+      Does not count: producing text that will be submitted
+      (<span class="m">permits_final_text_generation</span>) or improving text the student already
+      wrote (<span class="m">permits_editing</span>).
       <span class="ex"><i>Example</i>: "You may use AI to brainstorm paper topics" is yes. Under "AI
       may be used only to check grammar" it is no, because that exclusive list omits
       brainstorming.</span></td></tr>
@@ -515,17 +522,18 @@ syllabus contains, whoever wrote it.
       Three rules decide the hard cases:
       <ul>
         <li><b>Calculators are not material.</b> An exam that is closed book and notes stays
-            <span class="m">closed</span> when a calculator is permitted or required, whatever kind
-            it is. The field measures access to course CONTENT, and a calculator carries none. What
-            makes an exam <span class="m">restricted</span> is permitted access to content: notes, a
-            formula sheet, a note card, a textbook, the internet.</li>
-        <li><b>Silence is never <span class="m">open</span>.</b> An unsupervised or take-home
-            component whose resource rule the syllabus never states is
-            <span class="m">not_stated</span>, not <span class="m">open</span>. That a student
-            COULD consult anything is not the syllabus permitting it.</li>
+            <span class="m">closed</span> when a calculator is permitted or required, of any kind.
+            <span class="m">restricted</span> means permitted access to content: notes, a formula
+            sheet, a note card, a textbook, the internet.</li>
+        <li><b>Silence is never <span class="m">open</span>.</b> A component whose resource rule the
+            syllabus never states is <span class="m">not_stated</span>, including take-home and
+            unsupervised work.</li>
         <li><b>The AI policy is not a resource rule.</b> A syllabus that permits or bans AI on an
             assignment has said nothing about <span class="m">open_book</span>. AI use lives in the
             AI-policy fields alone.</li>
+        <li><b>Collaboration is not reference material.</b> "You may work with classmates" leaves
+            <span class="m">open_book</span> <span class="m">not_stated</span>; the collaboration
+            goes in <span class="m">group</span>.</li>
       </ul>
       <span class="ex"><i>Examples</i>: "closed-book. No notes or calculators are permitted" is
       <span class="m">closed</span>. "Midterm exams will be closed book/notes", with a hand-held
@@ -548,8 +556,7 @@ syllabus contains, whoever wrote it.
       submission must be your own" is no. "Teams of four submit one report" is yes.</span></td></tr>
   <tr><td><span class="m">timed</span></td><td>Yes when the syllabus states a duration shorter than
       the availability window. No when the syllabus states there is no time limit. Null when
-      duration is not addressed. A due date or deadline alone is not a time limit. This field is
-      provisional and may be dropped if it turns out to be unstated on nearly every component.
+      duration is not addressed. A due date or deadline alone is not a time limit.
       <span class="ex"><i>Example</i>: "60 minutes once opened" and "you will have 50 minutes" are
       yes. "Due Sunday at 11:59pm" is null. "Take as long as you need" is no.</span></td></tr>
   <tr><td><span class="m">attribute_evidence</span></td><td>A verbatim quote for any attribute coded
@@ -640,13 +647,7 @@ neighboring pairs; apply them literally.</p>
       class attendance, quizzes, short papers ... If I choose to make such assignments", is
       <span class="m">unknown</span>. Step 1 passes, but step 2 fails: the syllabus is not
       describing an assessment, it is reserving 9% of the grade to be decided during the semester.
-      A list of what the work might be is not a statement of what it is.
-      <br>The two stay separate because <span class="m">unknown</span> is missing data and
-      <span class="m">other</span> is a real assessment. Read that way,
-      <span class="m">unknown</span> marks exactly the components that cannot be assigned an
-      exposure value, whether because the syllabus is thin or because the instructor has not yet
-      decided. A rise in it across the corpus means the text is thinning, not that teaching is
-      changing.</span></td></tr>
+      A list of what the work might be is not a statement of what it is.</span></td></tr>
 </table>
 
 <h2>Decision rules for ambiguous cases</h2>
@@ -747,13 +748,14 @@ when the syllabus explicitly allows none; "restricted" when material is allowed 
 (one page of notes, a cheat sheet, a formula sheet, "notes but no internet"); "open" when it is
 unrestricted; null when the syllabus does not address it. Three rules for the hard cases:
 - Calculators are not material. An exam that is closed book and notes stays "closed" when a
-  calculator is permitted or required, whatever kind it is. The field measures access to course
-  CONTENT, and a calculator carries none.
-- Silence is never "open". A take-home or unsupervised component whose resource rule the syllabus
-  never states is null, not "open". That a student COULD consult anything is not the syllabus
-  permitting it.
+  calculator is permitted or required, of any kind. "restricted" means permitted access to
+  content: notes, a formula sheet, a note card, a textbook, the internet.
+- Silence is never "open". A component whose resource rule the syllabus never states is null,
+  including take-home and unsupervised work.
 - The AI policy is not a resource rule. A syllabus that permits or bans AI on an assignment has
   said nothing about open_book; AI use lives in the AI-policy fields alone.
+- Collaboration is not reference material. "You may work with classmates" leaves open_book null;
+  the collaboration goes in group.
 
 **allowed_resources_verbatim**: the syllabus sentence(s) stating the resource rule, verbatim; ""
 when no rule is stated.
@@ -810,7 +812,8 @@ weight sums here; they are checked by a program.
 
 Quote policy for grading_scheme_verbatim, allowed_resources_verbatim, and attribute_evidence:
 verbatim in wording and word order; you may repair spacing lost in OCR; you may not change, add,
-or delete a word or number. Never paraphrase into these fields.
+or delete a word or number. Never paraphrase into these fields. When the passage you need is not
+contiguous, keep the pieces in document order and join them with " [...] "; never cut silently.
 
 ## Category vocabulary
 
@@ -1037,11 +1040,9 @@ is no_ai_mention.
 - true: the syllabus explicitly allows / requires / prohibits the thing.
 - false: the syllabus explicitly rules it out, OR states an exclusive allowed list ("only",
   "limited to", a ban with named carve-outs) that omits it, OR a blanket ban covers it. A blanket
-  ban sets every permits_* field false and both prohibits_* fields true, and also sets
-  encouraged_or_integrated and ai_required false, because a course cannot encourage or require what
-  it forbids. A fully_allowed policy is the mirror for permissions and sets every permits_* field
-  true, but entails NOTHING about the two promotion fields: allowing AI everywhere is not
-  encouraging it, so leave them null when the syllabus is silent on posture.
+  ban sets every permits_* field false, both prohibits_* fields true, and
+  encouraged_or_integrated and ai_required false. A fully_allowed policy sets every permits_*
+  field true, and leaves encouraged_or_integrated and ai_required to the syllabus.
 - null: the syllabus does not address it. When ai_mentioned is false, every detail field is null.
 - A permissive mention WITHOUT exclusivity ("you may use AI for brainstorming") sets that one
   field true and leaves the others null. With exclusivity ("AI may be used only for
@@ -1066,10 +1067,14 @@ spacing; you may not change, add, or delete a word. Never paraphrase.
 address AI carry more than one. Order does not matter.
 
 **requires_disclosure**: students must state that AI was used. Disclosure is telling the instructor
-AI was used; formal source-style attribution is requires_citation.
+AI was used; formal source-style attribution is requires_citation. Null when the syllabus is
+silent, as for requires_citation and requires_prompt_appendix.
 **requires_citation**: AI output must be cited or attributed the way other sources are cited.
 **requires_prompt_appendix**: students must submit their prompts or the AI transcript.
-**permits_brainstorming**: AI may be used for idea generation or outlining.
+**permits_brainstorming**: AI may be used for the thinking that precedes the graded work. Counts:
+brainstorming, generating or exploring ideas, outlining, prewriting, planning, studying, and
+research or preparation for an assignment. Does not count: producing text that will be submitted
+(permits_final_text_generation) or improving text the student already wrote (permits_editing).
 **permits_editing**: AI may be used to edit or polish text the student wrote, for grammar or
 style.
 **permits_coding_help**: AI assistance on code is allowed.
@@ -1107,8 +1112,8 @@ AI-requiring at once.
 | no_ai_mention | No language naming generative AI anywhere. | Honor-code boilerplate without tool language stays here, and so does a syllabus whose only tool language names an excluded pre-LLM tool. |
 | academic_integrity_only | The syllabus never names AI, but has integrity language broad enough to cover AI use ("use of any tool or aid not explicitly authorized is prohibited"). | NOT blanket_ban unless AI tools are specifically named. ai_mentioned is always false here, since the category requires that no AI tool is named. |
 | blanket_ban | AI is named and prohibited for all coursework. | Sets every permits_* field false and both prohibits_* fields true. |
-| partial_ban | AI is prohibited for some tasks and allowed, explicitly or by clear implication, for others ("allowed for brainstorming, banned for final writing"). | Covers the enumerated-permission case too ("AI may be used only to check grammar"): allowing AI for a closed list of tasks prohibits it for the rest, the same fact from the other end. There is no separate allowed-for-specific-tasks ID. The enumeration triggers the exclusive-list rule for the permits_* fields. |
-| fully_allowed | AI is allowed for all tasks. Conditions on HOW it is used do not narrow this: a syllabus permitting AI everywhere but requiring disclosure or citation is still fully_allowed, and the condition is recorded in requires_disclosure / requires_citation. | Sets every permits_* field true, the mirror of blanket_ban. If any task is carved out, it is partial_ban. |
+| partial_ban | AI is prohibited for some tasks and allowed, explicitly or by clear implication, for others ("allowed for brainstorming, banned for final writing"). | Covers the enumerated-permission case too ("AI may be used only to check grammar"): allowing AI for a closed list of tasks prohibits it for the rest. The enumeration triggers the exclusive-list rule for the permits_* fields. |
+| fully_allowed | AI is allowed for all tasks. Conditions on HOW it is used do not narrow this: a syllabus permitting AI everywhere but requiring disclosure or citation is still fully_allowed, and the condition is recorded in requires_disclosure / requires_citation. | Sets every permits_* field true. Leaves encouraged_or_integrated and ai_required to the syllabus. If any task is carved out, it is partial_ban. |
 | vague_or_ambiguous | AI is addressed but the rule is indeterminate ("discuss with the instructor before using AI"). | Institutional boilerplate that defers to the instructor without stating the instructor's rule lands here. |
 | other | A policy exists but fits none of the above. Explain in notes. | |
 
@@ -1333,13 +1338,14 @@ when the syllabus explicitly allows none; "restricted" when material is allowed 
 (one page of notes, a cheat sheet, a formula sheet, "notes but no internet"); "open" when it is
 unrestricted; null when the syllabus does not address it. Three rules for the hard cases:
 - Calculators are not material. An exam that is closed book and notes stays "closed" when a
-  calculator is permitted or required, whatever kind it is. The field measures access to course
-  CONTENT, and a calculator carries none.
-- Silence is never "open". A take-home or unsupervised component whose resource rule the syllabus
-  never states is null, not "open". That a student COULD consult anything is not the syllabus
-  permitting it.
+  calculator is permitted or required, of any kind. "restricted" means permitted access to
+  content: notes, a formula sheet, a note card, a textbook, the internet.
+- Silence is never "open". A component whose resource rule the syllabus never states is null,
+  including take-home and unsupervised work.
 - The AI policy is not a resource rule. A syllabus that permits or bans AI on an assignment has
   said nothing about open_book; AI use lives in the AI-policy fields alone.
+- Collaboration is not reference material. "You may work with classmates" leaves open_book null;
+  the collaboration goes in group.
 
 **group**: true when the graded submission is joint or the grade is shared, including anything the
 syllabus calls a group project; false when the syllabus states the submission is individual; null
